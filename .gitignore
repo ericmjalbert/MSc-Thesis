@@ -1,0 +1,10 @@
+# Ignore Extra .tex junk
+*.aux
+*.lof
+*.log
+*.maf
+*.mlf*
+*.mtc
+*.mtc0
+*.out
+

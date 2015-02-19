@@ -1,0 +1,165 @@
+\documentclass[12pt]{report}
+\usepackage[top=23mm,bottom=23mm,left=23mm,right=23mm]{geometry}
+\usepackage{fancyhdr, lastpage}
+\usepackage{times}
+\usepackage{cite}
+\usepackage{chapterbib}
+\usepackage[sectionbib]{natbib}
+\bibpunct{(}{)}{;}{a}{,}{,}
+\usepackage[pdftex]{graphicx}
+\usepackage{epstopdf}
+\usepackage{subfigure}
+\usepackage[footnotesize, bf]{caption}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{setspace}
+\usepackage[small,compact]{titlesec}
+\usepackage{multicol}
+\usepackage{multirow}
+\usepackage{wrapfig}
+\usepackage{minitoc}
+\usepackage{array}
+\usepackage{tikz}
+\usepackage{enumerate}  % for enumerating with a), b) etc...
+\usepackage{caption}    % for having enumertion in a caption 
+\usepackage{cleveref}   % So multiple references will auto format themself
+\usepackage[]{algorithm2e}
+
+
+%Folder paths that contain graphics
+\graphicspath{{./}
+{Chapters/ConvergenceFigures/}
+{Chapters/IterationsFigures/}
+{Chapters/MethodFigures/}
+{Chapters/ModelFigures/}
+{Chapters/Show1DFigures/}
+{Chapters/Typical_SimulationFigures/}}
+
+
+% PDF hyper-linking (set colors to black for printing)
+%\usepackage[ps2pdf=true,colorlinks]{hyperref}
+%\usepackage[figure,table]{hypcap}
+%\hypersetup{
+%	bookmarksnumbered,
+%	pdfstartview={FitH},
+%	citecolor={black},
+%	linkcolor={black},
+%	urlcolor={black},
+%	pdfpagemode={UseOutlines}
+%}
+
+\pdfinfo{
+/Author (Eric M. Jalbert, 2014)
+/Title (Numerical Analysis of Methods for Simulating Clostridium Thermocellum)
+/Subject (Numerical Analysis of Methods for Simulating Clostridium Thermocellum)
+}
+
+%Paragraph symmetries...
+\setlength{\parskip}{10pt}
+\setlength{\parindent}{0pt}
+\setlength{\parsep}{0pt}
+
+
+\setcounter{secnumdepth}{5}
+\setcounter{tocdepth}{1}
+\renewcommand{\mtctitle}{ }
+\renewcommand{\mlftitle}{ List of Figures in Chapter }
+\setcounter{minitocdepth}{1}
+%\setcounter{minilofdepth}{2}
+\renewcommand{\abstractname}{\Large ABSTRACT}
+\renewcommand{\bibname}{References}
+%\renewcommand\bibsection{}
+%\renewcommand{\bibsep}{0pt}
+
+\fancypagestyle{custom}{
+\lhead{\textit{E.Jalbert, 2014}}
+\rhead{\textit{NUMERICAL ANALYSIS SIMULATING C.THERMOCELLUM}}
+}
+
+\fancypagestyle{References}{
+\lhead{}
+\rhead{\textit{REFERENCES}}
+}
+
+%%%%%%%%% If I have appendies, add the fancy page styles 
+%%%%%%%%% like the example below
+%\fancypagestyle{AppendixA}{
+%\lhead{}
+%\rhead{\textit{APPENDIX A: Default Simulation Parameters}}
+%}
+
+\begin{document}
+
+%PreliminarySections
+\pagenumbering{roman}
+\input{Prelims/TitlePage}
+%\input{Prelims/Abstract}
+
+\setcounter{page}{3}
+%\input{Prelims/Dedication}
+%\input{Prelims/Acknowledgements}
+%%\dominitoc
+\dominilof
+\setlength{\parskip}{0ex plus 0.5ex minus 0.2ex}
+
+\tableofcontents
+\pagebreak
+\addcontentsline{toc}{section}{List of Figures}
+\listoffigures
+%\listoftables
+\setlength{\parskip}{10pt}
+
+
+%%%Main Texts
+\pagebreak
+\pagestyle{fancy}
+\pagenumbering{arabic}
+\doublespacing
+%\onehalfspacing
+
+\chapter{Introductions}
+\input{Chapters/Introduction}
+\chapter{Numerics}
+\input{Chapters/Model}
+\input{Chapters/Method}
+\input{Chapters/Show1D}
+\input{Chapters/Convergence}
+%\input{Chapters/Typical_Simulation}
+\input{Chapters/Iterations}
+\chapter{Simulation Results}
+\input{Chapters/Typical_Simulation}
+\chapter{Discussions}
+\input{Chapters/Discussions}
+\chapter{Conclusions}
+\input{Chapters/Conclusions}
+
+\newpage
+\pagestyle{References}
+\chapter*{References}
+\addcontentsline{toc}{chapter}{\hspace{16pt} Complete Bibliography}
+\titlespacing{\section}{0pt}{*0}{*0}
+\renewcommand{\bibname}{}
+\renewcommand\bibsection{}
+\titlespacing{\chapter}{0pt}{*0}{*0}
+\titlespacing{\section}{0pt}{*0}{*0}
+\setlength{\parskip}{0pt}
+\setlength{\parsep}{0pt}
+\nocite*
+\bibliographystyle{plainnat}
+\bibliography{ThesisReferences}
+
+
+
+\newpage
+\pagestyle{fancy}
+
+%%Appendix A Behavioural Plots Simulation Study
+%\input{BackMatter/AppendixA}
+
+
+\newpage
+\thispagestyle{custom}
+\mbox{}
+
+
+\end{document}

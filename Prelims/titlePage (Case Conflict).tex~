@@ -1,0 +1,33 @@
+%----------------------------------------------------------
+% Title Page
+%   The first page of the thesis, contains 
+%   author/university/title and other info
+%----------------------------------------------------------
+\begin{titlepage}
+  \begin{center}
+    \vspace*{4cm}
+    \LARGE{Numerical Analysis of Methods for \\Simulating Clostridium Thermocellum}
+    \vspace*{0.5cm}
+    
+    \small{by}
+    \vspace*{0.5cm}
+    
+    \large{Eric M. Jalbert}
+    \vspace*{3.5cm}
+    
+    A Thesis\\presented to\\The University of Guelph
+    \vspace*{1.5cm}
+    
+    In partial fulfilment of requirements\\for the degree of\\Master of Science\\in\\Applied Mathematics
+    \vfill
+
+    Guelph, Ontario, Canada
+    
+    $\copyright$ E.M. Jalbert, September, 2014
+  \end{center}
+\end{titlepage}
+
+
+
+
+

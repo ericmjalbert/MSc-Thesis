@@ -1,0 +1,17 @@
+%----------------------------------------------------------
+% Title Page
+%   The first page of the thesis, contains 
+%   author/university/title and other info
+%----------------------------------------------------------
+\begin{titlepage}
+  \begin{center}
+    \vspace*{4cm}
+    
+    \LARGE{Numerical Analysis of Methods for \\Simulating Clostridium Thermocellum}
+  \end{center}
+\end{titlepage}
+
+
+
+
+
