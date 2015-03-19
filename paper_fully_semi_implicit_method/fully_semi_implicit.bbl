@@ -1,0 +1,15 @@
+\begin{thebibliography}{1}
+
+\bibitem{eberl2007finite}
+H.J. Eberl and L.~Demaret.
+\newblock A finite difference scheme for a doubly degenerate
+  diffusion–reaction equation arising in microbial ecology.
+\newblock {\em Electron. J. Differential Equations}, page 77–95, 2007.
+
+\bibitem{eberl2001deterministic}
+H.J. Eberl, D.F. Parker, and van Loosdrecht~M.C.M.
+\newblock A new deterministic spatio-temporal continuum model for biofilm
+  development.
+\newblock {\em Journal of Theoretical Medicine}, pages 161--175, 2001.
+
+\end{thebibliography}
