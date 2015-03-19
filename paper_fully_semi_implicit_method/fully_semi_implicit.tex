@@ -17,60 +17,66 @@
 \end{abstract}
 
 \section{Intro}
-  This is the intro, it'll go something like:
+  Bacterial biofilms are communities of microorganisms that adhere on immersed aquaeous surfaces that can support microbial growth based on the environmental conditions. 
+  Biofilms are prevalent on both organic or inorganic surfaces in natural, industrial, or hospital settings.
+  When attached to a surface, these bacterias embed themselves in a self-produced extracellular polymeric substance (EPS).
+  The EPS provides a layer of protection against washout and biocides, making harmful biofilms difficult to remove.
+  This attribute of biofilms is a problem since they are associated with medical issues in the form of, bacterial infections, dental plaque, and other diseases and industrial issues, such as biocorrosion of water pipes. 
+  They also contribute positivly to wastewater treatment, groundwater protection, soil remediation, and other environmental engineering technologies.
   
-  Paragraph introducing and defining what a biofilm is, include some applications and such.
   
-  Describe the history of modelling these systems.
-  Talk about how to solve these systems.
-
-  Mention that some methods are semi-implicit.
-  Define semi-implicit (with a reference).
-  Mention that others are fully-implicit.
-  Define fully-implicit.
-  Have a little bit on the difference between semi-implicit methods and fully-implicit (which should be relativly clear from the definitions).
-
-  Talk about the difference in what I'm doing here (i.e. that using a fully-implicit method won't add too much time but still be accurate, or that it doesn't matter which you use since there isn't a difference in accuracy). 
+  % Describe the history of modelling these systems.
+  To further the understanding of biofilms, a diffusion-reaction model for biofilm growth was proposed in \cite{eberl2001deterministic}.
+  This model is based 
+  
+  % Talk about how to solve these systems.
+ 
+   
+  % Mention that some methods are semi-implicit.
+  % Define semi-implicit (with a reference).
+  % Mention that others are fully-implicit.
+  % Define fully-implicit.
+  % Have a little bit on the difference between semi-implicit methods and fully-implicit (which should be relativly clear from the definitions).
+ 
+  % Talk about the difference in what I'm doing here (i.e. that using a fully-implicit method won't add too much time but still be accurate, or that it doesn't matter which you use since there isn't a difference in accuracy). 
 
 \section{Model}
-  Talk about the biology of the system (alex paper).
-
-  Describe the system mathematically (what I've been doing all along)
-  Talk about what each function represents, and what each equation is. 
-  Also mention the significance of each parameter  if possible.
-  Mention the initial conditions and the region that is solved on (square?)
-  With the region, mention the boundary conditions (Neumann)
+  % Talk about the biology of the system (alex paper).
+ 
+  % Describe the system mathematically (what I've been doing all along)
+  % Talk about what each function represents, and what each equation is. 
+  % Also mention the significance of each parameter  if possible.
+  % Mention the initial conditions and the region that is solved on (square?)
+  % With the region, mention the boundary conditions (Neumann)
 
 \section{Method}
-  Talk about the numerical methods used (trapezidral rule, finite difference method, and Conjugate Gradiant method). 
-  Probably mention that it's stored in a diagonal format.
-  Talk about the grid division and ordering.
-
-  Actually list the discretized system, with the grid ordering (report 02)
-
-  Find some way to prove that the discretized system is positive definite, symmetric, and diagonally dominent (have a Propsition with proof?)
-  Proposition \cite{eberl2007finite}  \cite{eberl2001deterministic}
-  Now with theses characteristics we can sove it using the Conjugate Gradiant method (according the the Y Saad Iterative methods for sparse linear systems).
+  % Talk about the numerical methods used (trapezidral rule, finite difference method, and Conjugate Gradiant method). 
+  % Probably mention that it's stored in a diagonal format.
+  % Talk about the grid division and ordering.
+  % 
+  % Actually list the discretized system, with the grid ordering (report 02)
+  % 
+  % Find some way to prove that the discretized system is positive definite, symmetric, and diagonally dominent (have a Propsition with proof?)
+  % Now with theses characteristics we can sove it using the Conjugate Gradiant method (according the the Y Saad Iterative methods for sparse linear systems).
 
 \section{Results}
   \subsection{Simulation Setup}
-    Mention region, grid size, number of grids (i.e 1024 x 1024 or something).
-    Mentions what language the code is written in
-    " any libraries used.... (none, openMP?
-    " the platform used (Reckoning2!, altixuv?, Dell-T-1600?)
+    % Mention region, grid size, number of grids (i.e 1024 x 1024 or something).
+    % Mentions what language the code is written in
+    % " any libraries used.... (none, openMP?  " the platform used (Reckoning2!, altixuv?, Dell-T-1600?)
 
   \subsection{Results}
-    Mention the parameter values used (or reference the appendix that holds them)
-    Show a few snap shots of the map view?
-    Describe, biologically, what the soltion shows?
+    % Mention the parameter values used (or reference the appendix that holds them)
+    % Show a few snap shots of the map view?
+    % Describe, biologically, what the soltion shows?
 
   \subsection{Comparisons}
-    Here, report the computation time, max/average num. of iterations for the linear solver AND the fully implicit iteration.
-    Also mention the Accuracy of the solutions by using the norm of each solution compared to the  most accurate one.... (Maybe take a solution at a higher grid resolution?, not sure what to do here)
-    Take differen solutions with different level of accuracry for the fully-implicit iterations (i.e. change eSoln)
+    % Here, report the computation time, max/average num. of iterations for the linear solver AND the fully implicit iteration.
+    % Also mention the Accuracy of the solutions by using the norm of each solution compared to the  most accurate one.... (Maybe take a solution at a higher grid resolution?, not sure what to do here)
+    % Take differen solutions with different level of accuracry for the fully-implicit iterations (i.e. change eSoln)
 
 \section{Conclusions}
-  Make conclusions....
+  %Make conclusions....
   
 
 

@@ -1,13 +1,13 @@
 # Fdb version 3
-["bibtex fully_semi_implicit"] 1426699457 "fully_semi_implicit.aux" "fully_semi_implicit.bbl" "fully_semi_implicit" 1426699458
+["bibtex fully_semi_implicit"] 1426790622 "fully_semi_implicit.aux" "fully_semi_implicit.bbl" "fully_semi_implicit" 1426790622
   "/usr/share/texlive/texmf-dist/bibtex/bst/base/plain.bst" 1292289607 20613 bd3fbfa9f64872b81ac57a0dd2ed855f ""
-  "References.bib" 1426699427 559 961ca492ecb64becba566117e8dddd4c ""
-  "fully_semi_implicit.aux" 1426699458 751 d53ff87ccbaae39779616921d9772833 ""
+  "References.bib" 1426786206 558 d8ff739db66c0318aaa8c93f8fc19ea0 ""
+  "fully_semi_implicit.aux" 1426790622 695 c0554951432aedb0a3990cde8eddda34 ""
   "fully_semi_implicit.bcf" 0 -1 0 ""
   (generated)
-  "fully_semi_implicit.bbl"
   "fully_semi_implicit.blg"
-["pdflatex"] 1426699457 "fully_semi_implicit.tex" "fully_semi_implicit.pdf" "fully_semi_implicit" 1426699458
+  "fully_semi_implicit.bbl"
+["pdflatex"] 1426790622 "fully_semi_implicit.tex" "fully_semi_implicit.pdf" "fully_semi_implicit" 1426790622
   "/etc/texmf/web2c/texmf.cnf" 1426539912 1288 5654dd6a8c230ff93414ab4187a699c9 ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1272929888 3287 e6b82fe08f5336d4d5ebc73fb1152e87 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmbx12.tfm" 1136768653 1324 c910af8c371558dc20f2d7822f66fe64 ""
@@ -42,10 +42,10 @@
   "/usr/share/texmf/web2c/texmf.cnf" 1392645748 31083 1dfd8bf685ce0009c40532fedf8a7c53 ""
   "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1426539917 128148 b9af2db83509ae8b5c8397a9118433d7 ""
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1423493054 855949 2527c2467e4baffa2a127f72a218dce7 ""
-  "fully_semi_implicit.aux" 1426699458 751 d53ff87ccbaae39779616921d9772833 ""
-  "fully_semi_implicit.bbl" 1426699457 545 553a6348c72ef4a59bd5b579ad6bce9f "bibtex fully_semi_implicit"
-  "fully_semi_implicit.tex" 1426699456 3569 2e2d5a6fd659972794b6b2e1aace2def ""
+  "fully_semi_implicit.aux" 1426790622 695 c0554951432aedb0a3990cde8eddda34 ""
+  "fully_semi_implicit.bbl" 1426790622 295 35973d7fd835e4b7d19be1382eed4433 "bibtex fully_semi_implicit"
+  "fully_semi_implicit.tex" 1426790621 4487 6da0d57543c39ad74b6f15d3bd692b16 ""
   (generated)
-  "fully_semi_implicit.aux"
   "fully_semi_implicit.pdf"
   "fully_semi_implicit.log"
+  "fully_semi_implicit.aux"
