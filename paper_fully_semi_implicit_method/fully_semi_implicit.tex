@@ -34,6 +34,7 @@
    
   % Mention that some methods are semi-implicit.
   % Define semi-implicit (with a reference).
+  It's kinda like the semi-implicit euler method. Where you solve two equations, one uses the previous time step and the other (solved afterwards) uses the current timestep.
   % Mention that others are fully-implicit.
   % Define fully-implicit.
   % Have a little bit on the difference between semi-implicit methods and fully-implicit (which should be relativly clear from the definitions).
@@ -64,21 +65,59 @@
     % Mention region, grid size, number of grids (i.e 1024 x 1024 or something).
     % Mentions what language the code is written in
     % " any libraries used.... (none, openMP?  " the platform used (Reckoning2!, altixuv?, Dell-T-1600?)
+    % If it's completed and works, talk about the openACC use here.
 
   \subsection{Results}
     % Mention the parameter values used (or reference the appendix that holds them)
     % Show a few snap shots of the map view?
+    \begin{figure}[h!tb]
+      \begin{center}
+      \begin{tabular}{c c}
+%        \insert[scale = 0.8]{typicalSim1.eps}&
+%        \insert[scale = 0.8]{typicalSim2.eps}\\
+        (a) & (b) \\
+%       \insert[scale = 0.8]{typicalSim3.eps}&
+%       \insert[scale = 0.8]{typicalSim4.eps}\\
+        (c) & (d) \\
+      \end{tabular}
+      \caption{Typical simulation using parameters from $appendix A or something$ at (a) $t = 0$, (b) $t = 10$, (c) $t = 20$, (d) $t = 30$}
+      \label{fig:typical_simulation_results}
+      \end{center}
+    \end{figure}
     % Describe, biologically, what the soltion shows?
 
   \subsection{Comparisons}
-    % Here, report the computation time, max/average num. of iterations for the linear solver AND the fully implicit iteration.
     % Also mention the Accuracy of the solutions by using the norm of each solution compared to the  most accurate one.... (Maybe take a solution at a higher grid resolution?, not sure what to do here)
+    Define what $\epsilon_{sol}$ is here.
+    Use something like the sum of the norm:
+    \begin{equation}
+      \epsilon_{sol} = \frac{||u_1 - u_2||}{||u_1||}
+    \end{equation}
+
+    % Here, report the computation time, max/average num. of iterations for the linear solver AND the fully implicit iteration.
+    \begin{table}[h!tb]
+      \begin{center}
+      \begin{tabular}{|c|c|c|c|c|c|c|}
+        \hline
+        Tol. 1 & Computation Time & $\epsilon_{sol}$ & Avg. Iter. 1 & Max Iter. 1 & Avg. Iter. 2 & Max Iter. 2 \\
+        \hline
+        0 & ---- & ---- & ---- & ---- & ---- & ---- \\
+        $10^{-2}$ & ---- & ---- & ---- & ---- & ---- & ---- \\
+        $10^{-4}$ & ---- & ---- & ---- & ---- & ---- & ---- \\
+        $10^{-8}$ & ---- & ---- & ---- & ---- & ---- & ---- \\
+        \hline
+      \end{tabular}
+      \caption{Results from running simulation with different Tolerance 1 values. Note, Tolerance 1 of 0 is the semi-implicit method.}
+      \label{tab:tolerance_comparison}
+      \end{center}
+    \end{table}
+
     % Take differen solutions with different level of accuracry for the fully-implicit iterations (i.e. change eSoln)
 
 \section{Conclusions}
   %Make conclusions....
   
-
+\newpage
 
 \bibliographystyle{plain}
 \bibliography{References}
