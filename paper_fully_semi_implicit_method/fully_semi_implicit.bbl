@@ -1,9 +1,39 @@
 \begin{thebibliography}{1}
 
+\bibitem{barret1987templates}
+R.~Barrett, M.~Berry, Chan T.F., J.~Demmel, J.~Donato, J.~Dongarra,
+  V.~Eijkhout, R.~Pozo, C.~Romine, and H.~van~der Vorst.
+\newblock {\em Templates for the Solution of Linear Systems: Building Blocks
+  for Iterative Methods}.
+\newblock Society for Industrial and Applied Mathematics, 1st edition, 1987.
+
+\bibitem{butcher2008methods}
+J.C. Butcher.
+\newblock {\em Numerical Methods for Ordinary Differential Equations}.
+\newblock Wiley, 2nd edition, June 2008.
+
+\bibitem{dumitrache2014understanding}
+A.~Dumitrache.
+\newblock {\em Understanding Biofilms of Anaerobic, Thermophilic and
+  Cellulolytic Bacteria: A Study towards the Advancement of Consolidated
+  Bioprocessing Strategies}.
+\newblock PhD thesis, University of Toronto, 2014.
+
 \bibitem{eberl2001deterministic}
 H.J. Eberl, D.F. Parker, and van Loosdrecht~M.C.M.
 \newblock A new deterministic spatio-temporal continuum model for biofilm
   development.
 \newblock {\em Journal of Theoretical Medicine}, pages 161--175, 2001.
+
+\bibitem{gerschgorin1931uber_die_abgrenzung}
+Ger{\v s}gorin S.
+\newblock \"uber die abgrenzung der eigenwerte einer matrix.
+\newblock {\em Bulletin de l'Acad\'emie des Sciences de l'URSS. Classe des
+  sciences math\'ematiques et na}, pages 749--754, 1931.
+
+\bibitem{saad2003iterativeMethod}
+Y.~Saad.
+\newblock {\em Iterative Methods for Sparse Linear Systems}.
+\newblock Society for Industrial and Applied Mathematic, 2nd edition, 2003.
 
 \end{thebibliography}
