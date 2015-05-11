@@ -1,0 +1,123 @@
+\documentclass[12pt]{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{tikz}
+\usepackage{mathrsfs}
+\usepackage{graphicx}
+\usepackage{multirow}
+\usepackage{epstopdf}
+\usepackage{graphicx}
+\usepackage[margin=2cm]{geometry}
+\usepackage{pgfplots} % for the gnuplot in tikz
+\pgfplotsset{compat=1.9}
+
+\begin{document}
+
+
+  The model used is the standard biofilm model.
+
+  \begin{align}
+     M_t &= \nabla_x \left(  {D}(M) \nabla_x M \right) + {f}({C})M \\
+     {C}_t &= -{g}({C})M
+  \end{align}
+  
+  \begin{equation}
+    {D}(M) = {\delta} \frac{M^\alpha}{(1-M)^\beta}
+  \end{equation}
+  
+  \begin{equation}
+    f(C) = \mu \frac{C}{k + C} - \nu
+  \end{equation}
+  
+  \begin{equation}
+    {g}({C},M) = y\frac{C}{k + C} \\
+  \end{equation}
+  
+  The dimensions of the parameters and variables are in Tabel \ref{tab:varDimensions}.
+  
+  \begin{table}[!hbt]
+    \centering
+    \begin{tabular}{|c | l | l|}
+      \hline 
+      Variable/Parameter & Dimensions & Parameter Value\\
+      \hline 
+      $ t  $ & [$days$] & $-$ \\
+      $ x  $ & [$meters$] & $-$ \\
+      $ M  $ & [$-$] & $-$\\
+      $ C  $ & [$\frac{grams}{meters^3}$]  & $-$\\
+      $ {\delta} $ & [$\frac{meters^2}{days}$] & $10^{-12}$ \\
+      $ \alpha $ & [$-$] & $4$\\
+      $ \beta  $ & [$-$] & $4$\\
+      $ {\mu}$ & [$days^{-1} $] & $6$ \\
+      $ {k}  $ & [$\frac{grams}{meters^3}$] & $4$ \\
+      $ \nu $ & [$days^{-1}$] & $\frac{1}{10} \mu $ \\
+      $ y   $ & [$\frac{grams}{meters^3 \cdot days}$] & $\frac{\mu M_0}{0.63}$ \\
+      $ M_0 $ & [$-$] & $10000$ \\
+      $ C_0 $ & [$\frac{grams}{meters^3}$]  & $30$ \\
+      $ L   $ & [$meters$] & $0.01 $ \\
+      \hline
+    \end{tabular}
+    \caption{List of parameters and their dimensions}
+        \label{tab:varDimensions}
+  \end{table}
+  
+  For this system, it is better to nondimensionalize. To do this, the following variable changes are used:
+  \begin{align}
+    x =& \chi L \implies \partial x = \partial \chi L\\
+    t =& \frac{\tau}{\mu} \implies \partial t = \frac{1}{\mu} \partial \tau \\
+    C =& \mathscr{C} C_0 \\
+    \delta =& d \mu L^2 \\
+    k =& \kappa C_0 \\
+    \nu =& n\mu \\
+    y =& \gamma \mu C_0.
+  \end{align}
+
+  This gives the system
+  \begin{align}
+    \mu \cdot M_{\tau} &= \frac{1}{L^2} \nabla_\chi \left(\hat{D}(M) \nabla_\chi M \right) + \hat{f}(\mathscr{C})M \\
+    C_0 \mu \cdot \mathscr{C}_{\tau} &= -\hat{g}(\mathscr{C}) M
+  \end{align}
+  where 
+  \begin{equation}
+    \hat{D}(M) = {\mu L^2 d} \frac{M^\alpha}{(1-M)^\beta}
+  \end{equation}
+  \begin{equation}
+    \hat{f}(\mathscr{C}) = \mu \frac{\mathscr{C} C_0}{\kappa C_0 + \mathscr{C} C_0} - n \mu
+  \end{equation}
+  \begin{equation}
+    \hat{g}(\mathscr{C}) = \gamma \mu C_0 \frac{\mathscr{C} C_0}{\kappa C_0 + \mathscr{C} C_0} 
+  \end{equation}
+  
+  This can be greatly simplified by cancelling out parameters when pluggin the functions into the system. This gives,
+  \begin{align}
+    M_\tau &= \nabla_\chi \left( d \frac{M^\alpha}{(1-M)^{\beta}} \nabla_\chi M \right) + \left( \frac{\mathscr{C}}{\kappa+\mathscr{C}} - n \right) M \\
+    C_\tau &= -\gamma \frac{\mathscr{C}}{\kappa+\mathscr{C}} M
+  \end{align}
+  
+  Now we can group together functions and get the non-dimensionalized system:
+  \begin{align}
+    M_\tau &= \nabla_\chi \left( D(M) \nabla_\chi M \right) + f(\mathscr{C})M \\
+    \mathscr{C}_\tau &= - g(\mathscr{C})M 
+  \end{align}
+  where
+  \begin{align}
+    D(M) &= d \frac{M^\alpha}{(1 - M)^\beta} \\
+    f(\mathscr{C}) &= \frac{ \mathscr{C} }{\kappa  + \mathscr{C}} - n\\
+    g(\mathscr{C}) &= \gamma \frac{ \mathscr{C}}{\kappa +\mathscr{C}}
+  \end{align}
+  with parameter values
+  \begin{equation}
+    \begin{aligned}
+      d =& \frac{\delta}{\mu L^2} \approx 1.667 \times 10^{-9} \\
+      \kappa =& \frac{k}{C_0} \approx 1.333 \times 10^{-1} \\
+      n =& \frac{ \nu }{\mu} = 10^{-1} \\
+      \gamma =& \frac{y}{\mu C_0} = \frac{M_0}{0.63 \times C_0}\approx 529.1
+    \end{aligned}
+  \end{equation}
+  
+
+\end{document}
+
+
+
