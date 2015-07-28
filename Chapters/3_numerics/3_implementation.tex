@@ -1,0 +1,19 @@
+\section{Implementation}
+
+The implementation of Algorithm \ref{alg:iterateCM} was done with Fortran. The matrix system was converted into a 1D array by use of a bijective mapping defined as:
+\begin{equation}
+\begin{aligned}
+  \pi : \{ 0, \ldots, n\} \times \{0, \ldots, m\} &\to \{1, \ldots, (n+1)(m+1) \}
+  (i,j) & \to \pi(i,j)
+\end{aligned}
+\end{equation}
+
+% I have a figure for this?!?!?!?
+
+The matrix was stored in diagonal format since $A$ is a five-diagonal matrix.
+
+All the computations were run on a custom built workstation with an Intel Xeon CPU E5-2650 (1.2 GHz, 20MB cache size) and 32 GB RAM under Red Hat Enterprise Linux Server release 6.5 (Santiago). 
+Running the computations with OpenMP, took advantage of 6 out of the 16 processors of the Intel Xeon CPU, each with 2 threads.
+The GNU Fortran compiler, version 4.4.7, was used for all computations; the compiler arguments were
+\begin{verbatim} -03 -fdefault-real-8 -fopenmp \end{verbatim}
+

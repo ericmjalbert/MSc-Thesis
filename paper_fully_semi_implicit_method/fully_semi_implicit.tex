@@ -1,6 +1,6 @@
-\RequirePackage{amsmath}
-\documentclass{llncs}
+\documentclass{article}
 
+\usepackage{amsthm}
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{graphicx}
@@ -9,6 +9,9 @@
 \usepackage{lineno}
 
 \linenumbers
+\theoremstyle{plain}
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{prop}[thm]{Proposition}
 
 \graphicspath{{./}{Figures}}
 
@@ -162,7 +165,7 @@
   For the solution of $C$, since it has no spatial diffusion, a simple application of the Trapezidral rule can be used.
   The idea is to integrate both sides of (\ref{equ:model_C}) to get,
   \begin{equation} \label{equ:ctrapizodal}
-    C^{t_{n+1}} - C^{t_n} = \frac{t_{n+1} - t_{n}}{2} \left( g(C^{t_{n+1}}, M^{t_{n+1}}) + g(C^{t_n}, M^{t_n}) \right).
+    C^{n+1} - C^{t_n} = \frac{t_{n+1} - t_{n}}{2} \left( g(C^{n+1}, M^{t_{n+1}}) + g(C^{t_n}, M^{t_n}) \right).
   \end{equation}
   By rearranging (\ref{equ:ctrapizodal}) and subbing in (\ref{equ:model_g}) an equation explicitly for $C_{t_{n+1}}$ is found.
   This solution gives two values for $C_{t_{n+1}}$ since it is solved using the quadratic formula.
@@ -218,9 +221,9 @@
  
   The solving of (\ref{equ:five_diagonal_matrix_M}) can be completed through use of a linear solver. 
   According to \cite{barret1987templates}, if (\ref{equ:five_diagonal_matrix_M}) is positive definite and symmetric then it can be solved using the Conjugate Gradiant method.
-  \begin{proposition}
+  \begin{prop}
     The matrix $A$, defined in (\ref{equ:five_diagonal_matrix_M}), is positive definite and symmetric.
-  \end{proposition}
+  \end{prop}
   \begin{proof}
     Matrix $A$ is positive definite if all the eigenvalues are positive. 
     Using Ger{\v s}gorin's circle theorem, see \cite{gerschgorin1931uber_die_abgrenzung}, the eigenvalues can be shown to be positive if, on all rows independently, the sum of the off-diagonals values are less then the diagonal value.
@@ -249,7 +252,7 @@
   However the Conjugate Gradient method has a faster computation time then Bi-Conjugate Gradiant method for this problem and is used for this reason \cite{barret1987templates}.
 
   Now that the method for solving $C$ and $M$ have been discussed, the method for solving the system as a whole can be investigated. 
-  Since $M^{t_{n+1}}$ only depends on $C^{t_n}$ and $M^{t_n}$ while $C^{t_{n+1}}$ depends on $C^{t_n}, M^{t_n},$ and $M^{t_{n+1}}$ the solution for $M$ should be computed first and then it can be used to compute $C$. 
+  Since $M^{t_{n+1}}$ only depends on $C^{t_n}$ and $M^{t_n}$ while $C^{n+1}$ depends on $C^{t_n}, M^{t_n},$ and $M^{t_{n+1}}$ the solution for $M$ should be computed first and then it can be used to compute $C$. 
   This idea is translated into Algorithm \ref{alg:iterateCM} to be the fully-implicit method for solving the system.
   The semi-implicit method for solving the system is the same as Algorithm \ref{alg:iterateCM} but with $eSoln = 0$, forcing only a single iteration of the loop.
 

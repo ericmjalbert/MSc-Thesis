@@ -1,0 +1,63 @@
+\section{Nondimensionalization}
+ 
+To help facilitate the analyses of this system, the full removal of all physical units is preferred. 
+This process of nondimensionalization involves using known parameters to create substitutions with physical units cancelling.
+Here the parameters used are: the biomass growth rate, $u$; the length of the region, $L$; and the maximum density for biomass and substrait, $M_\infty$ and $C_\infty$.
+From using the following parameter changes, the system can be made unitless.
+\begin{align}
+  \chi &= \frac{x}{L} \implies L d\chi= dx \\
+  \tau &= u t \implies \frac{1}{u} d\tau= dt \\
+  \mathcal{M} &= \frac{M}{M_{\infty}} \\
+  \mathcal{C} &= \frac{C}{C_{\infty}} \\
+  \delta &= \frac{1}{u L^2} d \\
+  \kappa &= \frac{k}{C_\infty} \\
+  \nu &= \frac{n}{u C_\infty} \\
+  \gamma &= \frac{M_\infty}{C_\infty} y
+\end{align}
+
+%%%%%%%% This section seems a little too pedantic for a thesis, Also it needs notations change and probably has errors....
+% This gives the system
+% \begin{align}
+%   \mathcal{M}_\tau &= \frac{1}{u L^2} \nabla_\chi \left(D(m) \nabla_\chi M \right) + \frac{1}{u} F(\mathcal{C}) \mathcal{M} \\ 
+%   \mathcal{C}_\tau &= \frac{ -1}{\mathcal{C}_\infty u} G(\mathcal{C}) \mathcal{M}
+% \end{align}
+% 
+% where 
+% \begin{equation}
+%   D(M) = {u L^2 \delta} \frac{M^\alpha}{(1-M)^\beta}
+% \end{equation}
+% 
+% \begin{equation}
+%   F({\mathcal{C}}) = \frac{{u} {\mathcal{C} \mathcal{C}_0}}{{\kappa \mathcal{C}_0} + {\mathcal{C} \mathcal{C}_0}} M \left(1 - \left( \frac{M}{{\mathcal{C}}} \frac{M_0}{\mathcal{C}_0} \right)^\gamma \right) \\
+% \end{equation}
+% 
+% \begin{equation}
+%   G({\mathcal{C}}) = -\frac{{u \mathcal{C}_0 \nu} {\mathcal{C} \mathcal{C}_0}}{{\kappa \mathcal{C}_0} + {\mathcal{C} \mathcal{C}_0}} M \\
+% \end{equation}
+% 
+% This can be greatly simplified by cancelling out parameters.
+% 
+% \begin{align}
+%   M_\tau &= \nabla_\chi \left( {\delta} \frac{M^\alpha}{(1-M)^\beta} \nabla_\chi M\right) + \frac{ \mathcal{C} }{{\kappa } + {\mathcal{C}}} M \left(1 - \left( \frac{M}{{\mathcal{C}}} \frac{M_0}{\mathcal{C}_0} \right)^\gamma \right) \\
+%   \mathcal{C}_\tau &= - \frac{\nu \mathcal{C}}{\kappa + \mathcal{C}} M
+% \end{align}
+% 
+% Now we can name functions and get the final nondimensionalized system.
+
+Using these, (\ref{equ:model_M}) and (\ref{equ:model_C}) can be simplified and nondimensionalized into, 
+\begin{align} \label{equ:model_system}
+  \mathcal{M}_\tau &= \nabla_\chi \left( D(\mathcal{M}) \nabla_\chi \mathcal{M} \right) + F(\mathcal{C}) \mathcal{M} \\
+  \mathcal{C}_\tau &= - G(\mathcal{C}) \mathcal{M}, 
+\end{align}
+
+where,
+
+\begin{equation}
+\begin{aligned} \label{equ:model_functions}
+  D(\mathcal{M}) &= \delta \frac{\mathcal{M}^\alpha}{(1 - \mathcal{M})^\beta} \\
+  F(\mathcal{C}) &= \frac{ \mathcal{C}} {\kappa + \mathcal{C}} - \nu \\
+  G(\mathcal{C}) &= \gamma \frac{\mathcal{C}}{\kappa +\mathcal{C}}.
+\end{aligned}
+\end{equation}
+with only $\delta, \kappa, \nu, \gamma$ as model parameters. 
+

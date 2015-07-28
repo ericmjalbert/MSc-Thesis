@@ -1,17 +1,10 @@
-\contentsline {section}{List of Figures}{iv}
-\contentsline {chapter}{\numberline {1}Introductions}{1}
-\contentsline {chapter}{\numberline {2}Numerics}{2}
-\contentsline {section}{\numberline {2.1}Model}{2}
-\contentsline {section}{\numberline {2.2}Nondimensionalization}{4}
-\contentsline {section}{\numberline {2.3}Methods}{6}
-\contentsline {subsection}{\numberline {2.3.1}Substrate Concentration}{6}
-\contentsline {subsection}{\numberline {2.3.2}Biomass Density}{8}
-\contentsline {subsection}{\numberline {2.3.3}Finite Difference Method}{10}
-\contentsline {section}{\numberline {2.4}Reduce to 1D problem}{12}
-\contentsline {section}{\numberline {2.5}Convergence Results}{14}
-\contentsline {section}{\numberline {2.6}Iterations}{15}
-\contentsline {chapter}{\numberline {3}Simulation Results}{21}
-\contentsline {section}{\numberline {3.1}Typical Simulation}{21}
-\contentsline {chapter}{\numberline {4}Discussions}{25}
-\contentsline {chapter}{\numberline {5}Conclusions}{26}
-\contentsline {chapter}{\hspace {16pt} Complete Bibliography}{27}
+\contentsline {chapter}{\numberline {1}Model}{1}
+\contentsline {section}{\numberline {1.1}History}{1}
+\contentsline {section}{\numberline {1.2}Model Description}{2}
+\contentsline {section}{\numberline {1.3}Nondimensionalization}{3}
+\contentsline {section}{\numberline {1.4}Parameters}{5}
+\contentsline {chapter}{\numberline {2}Numerics}{6}
+\contentsline {section}{\numberline {2.1}Discritization}{6}
+\contentsline {section}{\numberline {2.2}Solving Method}{7}
+\contentsline {section}{\numberline {2.3}Implementation}{11}
+\contentsline {chapter}{\hspace {16pt} Complete Bibliography}{12}

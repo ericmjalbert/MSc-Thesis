@@ -1,0 +1,135 @@
+\section{Solving Method}
+
+The basic idea to get a solution for (\ref{equ:model_system}) is to solve (\ref{equ:M_fixed_point} - \ref{equ:C_fixed_point}) as a fixed-point-iteration at each time step.
+In the current form, the equations can be rearrange and solved by conventional methods.
+
+For (\ref{equ:M_fixed_point}), a linear system of equations can be created following \cite{saad2003iterativeMethod}.
+For each grid point $(i,j)$ a linear system exists, defined as:
+\begin{equation} \label{equ:M_linear_equation}
+\begin{aligned}
+  \frac{M^{k}_{i,j}}{\Delta t} &= 
+    \sum_{(i,j) \in \mathbb{A}} \left( \frac{D( M^{p}_{i+\frac{s}{2}, j+\frac{r}{2}} )}{\Delta x^2} \cdot M^{p+1}_{i+s, j+r} \right) \\
+  & +\left( \sum_{(i,j) \in \mathbb{A}} \left( \frac{D( M^{p}_{i+\frac{s}{2}, j+\frac{r}{2}} )}{\Delta x^2} \right) 
+    - F(C^{p}_{i,j}) + \frac{1}{\Delta t} \right) M^{p+1}_{i,j}.
+\end{aligned}
+\end{equation} 
+
+From (\ref{equ:M_linear_equation}), a five-diagonal matrix can be created defined as,
+\begin{equation} \label{equ:M_matrix_form}
+  A = 
+    \left( 
+      \begin{array}{c c c c c c c c c c}
+        M_{i,j} & M_{i+1,j} &  & M_{i,j+1} &   \\
+        M_{i-1,j} & \ddots & \ddots &   &  \ddots &   \\
+        & \ddots & \ddots & \ddots & & \ddots & \\
+        M_{i,j-1} &  & M_{i-1,j} & M_{i,j} & M_{i+1,j} &   &  M_{i,j+1} &   \\
+        & \ddots & & \ddots & \ddots & \ddots & & \ddots\\
+        & & M_{i,j-1} &  & M_{i-1,j} & M_{i,j} & M_{i+1,j} &  & M_{i,j+1} \\
+        & & & \ddots & & \ddots & \ddots & \ddots & \\
+        & & & & \ddots & & \ddots & \ddots & M_{i+1,j} \\
+        & & & & & M_{i,j-1} & & M_{i-1,j} & M_{i,j}
+      \end{array}
+    \right)
+\end{equation}
+where each $M_{i,j}$ is the coefficient based on (\ref{equ:M_linear_equation}). 
+
+Solving (\ref{equ:M_matrix_form}) can be done by use of a linear solver. 
+According to \cite{barret1987templates}, if $A$ is positive definite and symmetric then it is best solved using the Conjugate Gradient method.
+
+\begin{prop}
+  The matrix $A$, defined in (\ref{equ:M_matrix_form}) is positive definite and symmetric.
+\end{prop}
+\begin{proof}
+  Matrix $A$ is positive definite if all the eigenvalues are positive. 
+  Using the Circle theorem described by \cite{gerschgorin1931uber_die_abgrenzung}, the eigenvalues can be shown to be positive if, independently on all rows, the sum of the off-diagonals values is less then the diagonal value.
+  This can be verified. We have,
+  \begin{equation}
+    \sum_{(i,j) \in \mathbb{A}} \left( \frac{D( M^{p}_{i+\frac{s}{2}, j+\frac{r}{2}} )}{\Delta x^2} \right)
+     < \left( \sum_{(i,j) \in \mathbb{A}} \left( \frac{D( M^{p}_{i+\frac{s}{2}, j+\frac{r}{2}} )}{\Delta x^2} \right) 
+    - F(C^{p}_{i,j}) + \frac{1}{\Delta t} \right) 
+  \end{equation}
+  which simplifies to,
+  \begin{equation}
+    F(C^{p}_{i,j}) < \frac{1}{\Delta t}
+  \end{equation}
+  which is true given the values of $\Delta t$ that are used. Therefore we have that $A$ is positive definite.
+
+  The symmetry of $A$ can be trivially shown if one considers the formation of the diagonals.
+  On a single row, each element corresponds to the adjacent grid points of grid $i,j$.
+  As the grid ordering counts along, the elements that are equidistance from the diagonal are actually reference to the same grid point. 
+  Therefore we have symmetry. 
+\end{proof} 
+
+Given that $A$ is positive definite and symmetric, the conjugate gradiant method can be used to compute the solution.
+As an added property, $A$ also happens to be diagonally dominate.
+This means that it could be solved using Bi-Conjugate Gradient Method.
+However the Conjugate Gradient method has a faster computation time then Bi-Conjugate Gradiant method for this problem and is used for this reason \cite{barret1987templates}.
+
+
+
+For solving (\ref{equ:C_fixed_point}), the equation can be rearranged into a quadratic form, substituting in $G(C)$ from (\ref{equ:model_functions})
+\begin{equation}
+  \left(C^{p+1}\right)^2 + \left( \kappa - C^k + \frac{h}{2} \gamma M^{p+1} + \frac{h}{2} \frac{ \gamma C^k M^k}{\kappa + C^k} \right) C^{p+1} + \left( -\kappa C^k + \frac{h}{2} \frac{\gamma \kappa C^k M^k}{\kappa + C^k} \right) = 0.
+\end{equation}
+
+Using the quadratic equation results in, 
+  \begin{equation} \label{eq:Cquad}
+    C^{p+1} = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}
+  \end{equation}  
+  for which, 
+  \begin{equation} \begin{aligned} \label{para:abc}
+    a &= 1\\
+    b &= \kappa - C^k + \frac{h}{2} \gamma M^{p+1} + \frac{h}{2} \frac{\gamma C^k M^k}{\kappa + C^k} \\
+    c &= -\kappa C^k + \frac{h}{2} \frac{\gamma \kappa C^k M^k}{\kappa + C^k}
+  \end{aligned}  \end{equation}
+  
+  To determine which branch of (\ref{eq:Cquad}) to use, a physical situation is used. 
+  Specifically the case where there exist no biomass, $M = 0$. 
+  The expected outcome is that no substrate is consumed and thus the substrait concentration will remain constant as a function of $\tau$. 
+  When the equations in (\ref{para:abc}) are evaluated at $M = 0$, the result it,
+  \begin{equation}
+    a = 1, \quad b = \kappa - C^k, \quad c = -\kappa C^k,
+  \end{equation} 
+  which can be used to evaluate (\ref{eq:Cquad}) as,
+  \begin{equation} \begin{aligned}
+    C^{p+1} &= \frac{- (\kappa - C^k) \pm \sqrt{(\kappa - C^k)^2 - 4 (-\kappa C^k)}}{2} \\
+      &= \frac{1}{2} \left( C^k - \kappa \pm \sqrt{\kappa^2 + 2 \kappa C^k + \left(C^k \right) ^2}\right) \\
+      &= \frac{1}{2} \left( C^k - \kappa \pm (\kappa+C^k) \right). \\
+  \end{aligned} \end{equation}
+  Now, if the positive branch is used the above equation evaluates to $C^{p+1} = C^k$. 
+  This means that between any two distinct times, the substrait concentration will remain constants, which was expected. 
+  To further this confirmation, the negative branch results in $C^{p+1} = -\kappa $, a non-postive substrate concentration, which is not physically relavent. 
+  \begin{equation}
+    C^{p+1} = \frac{-b + \sqrt{b^2 - 4ac}}{2a}
+  \end{equation} 
+  where $a,b$, and $c$ are defined in (\ref{para:abc}).
+
+
+Now that computable solutions for $M$ and $C$ at a single time step have been found, an algorithm to solve for the next time step can be esstablished.
+Algorithm \ref{alg:iterateCM} shows the organizations of solving (\ref{equ:C_fixed_point} - \ref{equ:M_fixed_point}). 
+\begin{algorithm}
+  \KwData{$M^{k}$ and $C^{k}$ is previous timestep solutions.
+    \\$\quad$ $M^{p}$ and $C^p$ are temporary solutions defined such that 
+    \\$\quad$ $M^p \to M^{k+1}$ and $C^p \to C^{k+1}$ as $p \to P$.
+    \\$\quad$ $\epsilon_{sol}$ is a tolerance set for a desired accuracy.}
+  \Begin
+  {
+    \While{ $C_{diff} + M_{diff} > \epsilon_{sol}$}
+    {
+        Solve for $M^{p+1}$ using $C^{p}$ and $M^{k}$\;
+        Solve for $C^{p+1}$ using $M^{p+1}$, $C^{k}$, and $M^{k}$\;
+        Let $C_{diff} = (C^{p+1} - C^p)$\;
+        Let $M_{diff} = (M^{p+1} - M^p)$\;
+        Let $C^{p} = C_{p+1}$\;
+        Let $M^{p} = M_{p+1}$\;
+        Let $p = p + 1 $\;
+    }
+  }
+  \caption{Algorithm for the fully-implicit solving of (\ref{equ:model_system}) }
+  \label{alg:iterateCM}
+\end{algorithm}
+Note that Algorithm \ref{alg:iterateCM} actually describes both a fully- and semi- implicite method for solving (\ref{equ:model_system}). 
+If $P = 1$ then only a single iteration of the algorithm is applied.
+This would result in a change similar to how the Gauss-Seidal method changes the Jacobi method; the values used would no longer be updated in a single timestep when $P = 1$.
+
+

@@ -1,0 +1,20 @@
+\section{Simulation Description}
+
+This will be a short section describing what the region/xgridsize/parameters etc. will be for the following simulations.
+The main idea here is so that the results can be appropiatly reproduced. 
+Also include a section on the machine run (so this will be reckoning2 I think....)
+
+This will list, in depth, the programs that I use, ie. R, python, Fortran, BASH, and what versions of each.
+Should probably also list hat each parameters that isn't method specific ($\alpha, \beta ,\gamma, \delta, \nu, \mu, \kappa$), so mainly the region, gridsize, and t stuff.
+
+\subsection{$CO_2$ Production}
+
+I think describing what the CO2 production equation stuff is here would be best. The idea would be to source the origins of this idea (Alex paper?) and then have the equations and calcuations to figuring it out listed here. Finishing this off with the actual third equation:
+\begin{equation}
+ \mathcal{P}(t) = \int^t_0 \mathcal{R}(s) dt
+\end{equation}
+\begin{equation}
+ \mathcal{R}(t) = \int_\Omega p_t dx = \int_\Omega G(C) M dx
+\end{equation}
+
+A few things that would needed to be added would be to firstly, reverse the order of the introduction of that. Ie. $p_t = G(C) M$ first, then $\mathcal{R}(t) = \ldots$, lastly $\mathcal{P}(t) =\ldots$. Also should have a quick blerb that mentions that $\mathcal{R}(t)$ is the rate of CO2 being produced at the point in time and $\mathcal{P}(t)$ is the cumulative amount of CO2 produced.

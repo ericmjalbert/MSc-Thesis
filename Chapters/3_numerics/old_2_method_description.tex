@@ -1,0 +1,323 @@
+
+%  This will be where the fully-implicit method is described.
+%  Specifically, the algorithm for it will be listed here.
+%  I guess in this section we can also talk about the way the problem itself is solved?
+%  not sure about that....
+
+%%%%%% THIS IS WHAT I WANT TO USE
+\section{Method Description}
+
+  There are three main aspects to the numerical method of solving this system.
+  The system must be temporally discritized, spatially discritized, and then a solution for $C$ and $M$ can be computed using numerical methods.
+ 
+ %% For the solution of $C$, since it has no spatial diffusion, a simple application of the Trapezidral rule can be used.
+ %% The idea is to integrate both sides of (\ref{equ:model_C}) to get,
+ %% \begin{equation} \label{equ:ctrapizodal}
+ %%   C^{n+1} - C^{t_n} = \frac{t_{n+1} - t_{n}}{2} \left( g(C^{n+1}, M^{t_{n+1}}) + g(C^{t_n}, M^{t_n}) \right).
+ %% \end{equation}
+ %% By rearranging (\ref{equ:ctrapizodal}) and subbing in (\ref{equ:model_g}) an equation explicitly for $C_{t_{n+1}}$ is found.
+ %% This solution gives two values for $C_{t_{n+1}}$ since it is solved using the quadratic formula.
+ %% Only the positive branch of the quadratic formula is relavent to this problem, since the negative branch behaves unrealisticly.
+
+  \subsection{Substrait Concentration Spatial Discritization}
+
+  To solve for C we first apply the Fundemental Theorem of Calculus and the Trapizoidal Rule to the equation for substrait concentration defined in (\ref{equ:model_system}).
+  \begin{equation}
+  \begin{aligned}
+    \int^{t_{n+1}}_{t_n} C_s ds &= \int^{t_{n+1}}_{t_n} G(C)M ds \\
+    C^{n+1} - C^n &= \frac{h}{2} \left[ -G(C^{n+1}) M^{n+1} - G(C^n) M^n \right]
+  \end{aligned}
+  \end{equation}
+  Note here, $C^n = C(t_n)$, $M^n = M(t_n)$, and $h = t_{n+1} - t_n$.
+  Now $G(C)$ from (\ref{equ:model_functions}) is substituted and the equation is solved explicitly for $C^{n+1}$, giving the following quadratic equation
+  \begin{equation}  
+    \left(C^{n+1}\right)^2 + \left( \kappa - C^n + \frac{h}{2} \gamma M^{n+1} + \frac{h}{2} \frac{ \gamma C^n M^n}{\kappa + C^n} \right) C^{n+1} + \left( -\kappa C^n + \frac{h}{2} \frac{\gamma \kappa C^n M^n}{\kappa + C^n} \right) = 0.
+  \end{equation}
+  Using the quadratic equation results in, 
+  \begin{equation} \label{eq:Cquad}
+    C_{n+1} = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}
+  \end{equation}  
+  for which, 
+  \begin{equation} \begin{aligned} \label{para:abc}
+    a &= 1\\
+    b &= \kappa - C^n + \frac{h}{2} \gamma M^{n+1} + \frac{h}{2} \frac{\gamma C^n M^n}{\kappa + C^n} \\
+    c &= -\kappa C^n + \frac{h}{2} \frac{\gamma \kappa C^n M^n}{\kappa + C^n}
+  \end{aligned}  \end{equation}
+  
+  To determine which branch of (\ref{eq:Cquad}) to use, a physical situation is used. 
+  Specifically the case where there exist no biomass, $M = 0$. 
+  The expected outcome is that no substrate is consumed and thus the substrait concentration will remain constant as a function of $\tau$. 
+  When the equations in (\ref{para:abc}) are evaluated at $M = 0$, the result it,
+  \begin{equation}
+    a = 1, \quad b = \kappa - C^n, \quad c = -\kappa C^n,
+  \end{equation} 
+  which can be used to evaluate (\ref{eq:Cquad}) as,
+  \begin{equation} \begin{aligned}
+    C^{n+1} &= \frac{- (\kappa - C^n) \pm \sqrt{(\kappa - C^n)^2 - 4 (-\kappa C^n)}}{2} \\
+      &= \frac{1}{2} \left( C^n - \kappa \pm \sqrt{\kappa^2 + 2 \kappa C^n + \left(C^n \right) ^2}\right) \\
+      &= \frac{1}{2} \left( C^n - \kappa \pm (\kappa+C^n) \right). \\
+  \end{aligned} \end{equation}
+  Now, if the positive branch is used the above equation evaluates to $C^{n+1} = C^n$. 
+  This means that between any two distinct times, the substrait concentration will remain constants, which was expected. 
+  To further this confirmation, the negative branch results in $C^{n+1} = -\kappa $, a non-postive substrate concentration, which is not physically relavent. 
+  \begin{equation}
+    C^{n+1} = \frac{-b + \sqrt{b^2 - 4ac}}{2a}
+  \end{equation} 
+  where $a,b$, and $c$ are defined in (\ref{para:abc}).
+
+
+  \subsection{Biomass Density Spatial Discritization}
+  
+  The solution of $M$ is more involved, because of the density-dependent diffusion term.
+  This means that it must be spatially discritized as well as temporally discritized. 
+  The spatial discritization of the system is a simple application of the finite difference method.
+  Following the example of finite differences for 2-D problems as described in \cite{saad2003iterativeMethod} a grid is created to approximate each point using a five-point stencil.
+  Here, the values at the boundaries are unknown and defined as second-type Neumann boundary conditions, $\frac{\partial M(x)}{\partial n} = 0 \quad \forall x \in \partial \Omega$.
+  To consider these points, they are also included in the five-point stencil as the region boundary grid points.
+  These boundary points are computed using a second order appoximation.
+  The temporal discritization is a forward difference between the current and next time step.
+  Applying these discritizations to $M$ in (\ref{equ:model_system}) and rearranging gives a system of linear equation defined by,
+  \begin{equation} \label{equ:discritizeM}
+  \begin{aligned}
+    \frac{M^n_{i,j}}{\Delta t} &= \frac{-D^n_{i,j-\frac{1}{2}}}{\Delta y ^2} \cdot M^{n+1}_{i,j-1} + \frac{-D^n_{i-\frac{1}{2},j}}{\Delta x ^2} \cdot M^{n+1}_{i-1,j}  \\
+    &  +  \left[ \frac{D^n_{i,j-\frac{1}{2}}}{\Delta y ^2} + \frac{D^n_{i-\frac{1}{2},j}}{\Delta x ^2} + \frac{D^n_{i+\frac{1}{2},j}}{\Delta x ^2} + \frac{D^n_{i,j+\frac{1}{2}}}{\Delta y ^2} - f(C^n, M^n) + \frac{1}{\Delta t} \right] \cdot M^{n+1}_{i,j}  \\
+    &  + \frac{-D^n_{i+\frac{1}{2},j}}{\Delta x ^2} \cdot M^{n+1}_{i+1,j} + \frac{-D^n_{i,j+\frac{1}{2}}}{\Delta y ^2} \cdot M^{n+1}_{i,j+1},
+  \end{aligned}
+  \end{equation} 
+  where $M^n_{i,j} = M^n(x_i,y_j)$, $D^n_{i,j} = D(M^n(x_i, y_j))$, and $(x_i,y_j)$ is the ordered pair at grid point $i,j$.
+  
+  Using (\ref{equ:discritizeM}) a five-diagonal block matrix can be created, defined as,
+  \begin{equation} \label{equ:five_diagonal_matrix_M}
+    A = 
+    \left( 
+      \begin{array}{c c c c c c c c c c}
+        M_{i,j} & M_{i+1,j} &  & M_{i,j+1} &   \\
+        M_{i-1,j} & \ddots & \ddots &   &  \ddots &   \\
+        & \ddots & \ddots & \ddots & & \ddots & \\
+        M_{i,j-1} &  & M_{i-1,j} & M_{i,j} & M_{i+1,j} &   &  M_{i,j+1} &   \\
+        & \ddots & & \ddots & \ddots & \ddots & & \ddots\\
+        & & M_{i,j-1} &  & M_{i-1,j} & M_{i,j} & M_{i+1,j} &  & M_{i,j+1} \\
+        & & & \ddots & & \ddots & \ddots & \ddots & \\
+        & & & & \ddots & & \ddots & \ddots & M_{i+1,j} \\
+        & & & & & M_{i,j-1} & & M_{i-1,j} & M_{i,j}
+      \end{array}
+  %      \begin{array}{c c c c c c c c c c}
+  %        M_{i,j} & M_{i+1,j} & \cdots & M_{i,j+1} &  \cdots \\
+  %        M_{i-1,j} & M_{i,j} & M_{i+1,j} &  \cdots &  M_{i,j+1} &  \cdots \\
+  %        \cdots &  M_{i-1,j} & M_{i,j} & M_{i+1,j} &  \cdots &  M_{i,j+1} &  \cdots \\
+  %        & & \ddots & \ddots & \ddots & & \ddots & \\
+  %        M_{i,j-1} &\cdots & \cdots & M_{i-1,j} & M_{i,j} & M_{i+1,j} &  \cdots &  M_{i,j+1} &  \cdots \\
+  %        & \ddots & & & \ddots & \ddots & \ddots & & \ddots\\
+  %        & \cdots &M_{i,j-1} & \cdots& \cdots & M_{i-1,j} & M_{i,j} & M_{i+1,j} & \cdots & M_{i,j+1} \\
+  %        & & \cdots & M_{i,j-1} &  \cdots &\cdots & M_{i-1,j} & M_{i,j} & M_{i+1,j} & \cdots\\
+  %        & & & \cdots & M_{i,j-1} &  \cdots &\cdots & M_{i-1,j} & M_{i,j} & M_{i+1,j} \\
+  %        & & & & \cdots& M_{i,j-1} &  \cdots &\cdots & M_{i-1,j} & M_{i,j}\\
+  %      \end{array}
+    \right),
+  \end{equation}
+  where each $M_{i,j}$ is the coefficient based on (\ref{equ:discritizeM}).
+ 
+  The solving of (\ref{equ:five_diagonal_matrix_M}) can be completed through use of a linear solver. 
+  According to \cite{barret1987templates}, if (\ref{equ:five_diagonal_matrix_M}) is positive definite and symmetric then it can be solved using the Conjugate Gradiant method.
+  \begin{prop}
+    The matrix $A$, defined in (\ref{equ:five_diagonal_matrix_M}), is positive definite and symmetric.
+  \end{prop}
+  \begin{proof}
+    Matrix $A$ is positive definite if all the eigenvalues are positive. 
+    Using Ger{\v s}gorin's circle theorem, see \cite{gerschgorin1931uber_die_abgrenzung}, the eigenvalues can be shown to be positive if, on all rows independently, the sum of the off-diagonals values are less then the diagonal value.
+    Mathematically we have,
+    \begin{equation}
+      \begin{aligned}
+      & \left| \frac{-D^n_{i,j-\frac{1}{2}}}{\Delta y ^2} + \frac{-D^n_{i-\frac{1}{2},j}}{\Delta x ^2} + \frac{-D^n_{i+\frac{1}{2},j}}{\Delta x ^2} + \frac{-D^n_{i,j+\frac{1}{2}}}{\Delta y ^2} \right| \\
+      &\quad < \left| \frac{D^n_{i,j-\frac{1}{2}}}{\Delta y ^2} + \frac{D^n_{i-\frac{1}{2},j}}{\Delta x ^2} + \frac{D^n_{i+\frac{1}{2},j}}{\Delta x ^2} + \frac{D^n_{i,j+\frac{1}{2}}}{\Delta y ^2} - f(C^n, M^n) + \frac{1}{\Delta t} \right|, 
+      \end{aligned}
+    \end{equation}
+    which simplifies to,
+    \begin{equation}
+      f(C^n_{i,j}, M^n_{i,j}) < \frac{1}{\Delta t},
+    \end{equation}
+    which is true give the values of $\Delta t$ that are used. Therefore we have that $A$ is positive definite.
+
+    The symmetry of $A$ can be trivially shown if one considers the formation of the diagonals.
+    On a single row, each element corresponds to the adjacent grid points of grid $i,j$.
+    As the grid ordering counts along, the elements that are equidistance from the diagonal are actually reference to the same grid point. 
+    Therefore we have symmetry. 
+
+  \end{proof} 
+
+  Given that $A$ is positive definite and symmetric, the conjugate gradiant method can be used to compute the solution.
+  As an added property, $A$ also happens to be diagonally dominate.
+  This means that it could be solved using Bi-Conjugate Gradient Method.
+  However the Conjugate Gradient method has a faster computation time then Bi-Conjugate Gradiant method for this problem and is used for this reason (\cite{barret1987templates}).
+
+  \subsection{Fully-implicit Method}
+  Now that the method for solving $C$ and $M$ have been discussed, the solving the system as a whole can be investigated. 
+  Since $M^{n+1}$ only depends on $C^n$ and $M^{n}$ while $C^{n+1}$ depends on $C^{n}, M^{n},$ and $M^{n+1}$ the solution for $M$ should be computed first and then it can be used to compute $C$. 
+  This idea is translated into Algorithm \ref{alg:iterateCM} to be the fully-implicit method for solving the system.
+  The semi-implicit method for solving the system is the same as Algorithm \ref{alg:iterateCM} but with $eSoln = 1$, forcing only a single iteration of the loop.
+
+  \begin{algorithm}[h!tb]
+    \KwData{$M^{n}$ and $C^{n}$ is previous timestep solutions.
+      \\$\quad$ $M_{i}$ and $C_i$ are temporary solutions defined such that 
+      \\ $\quad$ $M_i \to M^n$ and $C_i \to C^{n+1}$ as $i \to \infty$}
+    \Begin
+    {
+      \While{diffC +  diffM  $>$ eSoln}
+      {
+          Solve for $M_{i+1}$ using $C_{i}$ and $M^{n}$\;
+          Solve for $C_{i+1}$ using $C^{n}$, $M_{i+1}$, and $M^{n}$\;
+          Let diffC $=  (C_{i+1} - C_i)$\;
+          Let diffM $= (M_{i+1} - M_i)$\;
+          Let $C_{i} = C_{i+1}$\;
+          Let $M_{i} = M_{i+1}$\;
+          Let $i = i + 1 $\;
+      }
+    }
+    \caption{Algorithm for the fully-implicit solving of (\ref{equ:model_system}) }
+    \label{alg:iterateCM}
+  \end{algorithm}
+
+
+  Using (\ref{alg:iterateCM}), an analysis can be completed comparing the semi-implicit and fully-implicit method to solving this system. 
+
+
+%%%%%%%%% MAYBE ADD LATER? ITS LOTS OF GOOD WORK SO IT"S A SHAME NOT TO USE IT 
+%%
+%% \subsection{Finite Difference Method}
+%% 
+%% To discretize equation (\ref{equ:model_system}) we first need to create our grid. For this problem we use an orthogonal uniform grid for simplicity. From this we get that our grid points are $(x_i, y_j)$, with $x_i = \frac{i}{n},\ i = 0,1,\ldots, n$ and  $y_j = \frac{j}{m},\ j = 0,1,\ldots, m$. We can approximate (\ref{equ:model_system}) at a grid point $(i,j)$ as
+%% \begin{equation} \label{equ:intPoint}
+%% \begin{aligned}
+%%     \frac{1}{\Delta t^2} &\left[ k_{i,j-1/2} p_{i,j-1} + k_{i-1/2,j}  p_{i-1,j} \right. \\
+%%     &- \left( k_{i,j-1/2} +k_{i-1/2,j} + k_{i+1/2,j} + k_{i,j+1/2} \right)  p_{i,j} \\
+%%     &\left.+ k_{i+1/2,j} p_{i+1,j}  + k_{i,j+1/2} p_{i,j+1}  \right] = k_{i,j} p_{i,j},
+%% \end{aligned}
+%% \end{equation}
+%% where $k_{i\pm1/2,j\pm1/2} = k(x_i\pm \frac{h}{2},y_j\pm \frac{h}{2})$.
+%% 
+%% This means that at each grid point $(i,j)$, we have dependency on $p_{i,j}, p_{i\pm1,j}$, and $p_{i,j\pm1}$. This results in a system of $N = nm$ linear equations for $N$ unknown $p_{i,j}$.
+%% 
+%% Each interior point can be computed using (\ref{equ:intPoint}). For the Boundary points we take special considerations. At $x = 0$ and $x = 1$ we have Dirichlet Boundary Conditions. These grid points are excluded from the matrix computations since their values are known. At $y=0$ and $y=1$ we have Neumann Boundary Conditions. For these a second order approximation of the derivative is used. 
+%% 
+%% \begin{figure}[htb]
+%%   \centering
+%%     \begin{tikzpicture}[scale = 1.00]
+%%         \draw (1,0) grid  (5,3);
+%%         \draw [dashed] (0,0) grid (1,3);
+%%         \draw [dashed] (5,0) grid (6,3);
+%%         
+%%         \draw (0,1.5) ellipse (.5cm and 2cm);
+%%         \draw (6,1.5) ellipse (.5cm and 2cm);
+%%         
+%%         
+%%         \draw [fill=white] (0,0) circle [radius = 5pt];
+%%         \node     at (0,0) {\footnotesize{1}};
+%%         \draw [fill=white] (1,0) circle [radius = 5pt];
+%%         \node     at (1,0) {\footnotesize{2}};
+%%         \draw [fill=white] (2,0) circle [radius = 5pt];
+%%         \node     at (2,0) {\footnotesize{3}};
+%%         \draw [fill=white] (3,0) circle [radius = 5pt];
+%%         \node     at (3,0) {\footnotesize{4}};
+%%         \draw [fill=white] (4,0) circle [radius = 5pt];
+%%         \node     at (4,0) {\footnotesize{5}};
+%%         \draw [fill=white] (5,0) circle [radius = 5pt];
+%%         \node     at (5,0) {\footnotesize{6}};
+%%         \draw [fill=white] (6,0) circle [radius = 5pt];
+%%         \node     at (6,0) {\footnotesize{7}};
+%% 
+%%         \draw [fill=white] (0,1) circle [radius = 5pt];
+%%         \node     at (0,1) {\footnotesize{8}};
+%%         \draw [fill=white] (1,1) circle [radius = 5pt];
+%%         \node     at (1,1) {\footnotesize{9}};
+%%         \draw [fill=white] (2,1) circle [radius = 5pt];
+%%         \node     at (2,1) {\footnotesize{10}};
+%%         \draw [fill=white] (3,1) circle [radius = 5pt];
+%%         \node     at (3,1) {\footnotesize{11}};
+%%         \draw [fill=white] (4,1) circle [radius = 5pt];
+%%         \node     at (4,1) {\footnotesize{12}};
+%%         \draw [fill=white] (5,1) circle [radius = 5pt];
+%%         \node     at (5,1) {\footnotesize{13}};
+%%         \draw [fill=white] (6,1) circle [radius = 5pt];
+%%         \node     at (6,1) {\footnotesize{14}};
+%%         
+%%         \draw [fill=white] (0,2) circle [radius = 5pt];
+%%         \node     at (0,2) {\footnotesize{15}};
+%%         \draw [fill=white] (1,2) circle [radius = 5pt];
+%%         \node     at (1,2) {\footnotesize{16}};
+%%         \draw [fill=white] (2,2) circle [radius = 5pt];
+%%         \node     at (2,2) {\footnotesize{17}};
+%%         \draw [fill=white] (3,2) circle [radius = 5pt];
+%%         \node     at (3,2) {\footnotesize{18}};
+%%         \draw [fill=white] (4,2) circle [radius = 5pt];
+%%         \node     at (4,2) {\footnotesize{19}};
+%%         \draw [fill=white] (5,2) circle [radius = 5pt];
+%%         \node     at (5,2) {\footnotesize{20}};
+%%         \draw [fill=white] (6,2) circle [radius = 5pt];
+%%         \node     at (6,2) {\footnotesize{21}};
+%%         
+%%         \draw [fill=white] (0,3) circle [radius = 5pt];
+%%         \node     at (0,3) {\footnotesize{22}};
+%%         \draw [fill=white] (1,3) circle [radius = 5pt];
+%%         \node     at (1,3) {\footnotesize{23}};
+%%         \draw [fill=white] (2,3) circle [radius = 5pt];
+%%         \node     at (2,3) {\footnotesize{24}};
+%%         \draw [fill=white] (3,3) circle [radius = 5pt];
+%%         \node     at (3,3) {\footnotesize{25}};
+%%         \draw [fill=white] (4,3) circle [radius = 5pt];
+%%         \node     at (4,3) {\footnotesize{26}};
+%%         \draw [fill=white] (5,3) circle [radius = 5pt];
+%%         \node     at (5,3) {\footnotesize{27}};
+%%         \draw [fill=white] (6,3) circle [radius = 5pt];
+%%         \node     at (6,3) {\footnotesize{28}};
+%%         
+%%         
+%%     \end{tikzpicture}
+%%     \caption{An example of the grid ordering on an 7 x 4 grid.}
+%%     \label{graph:gridordering}
+%% \end{figure}
+%% 
+%% 
+%% To solve this system, the problem is converted into the form
+%% \begin{equation}
+%%   \mathcal{A} p = b
+%% \end{equation}
+%% where $\mathcal{A}$ is the coefficents for each grid point, $p$ is the solution vector, and $b$ is the boundary conditions. To compute this a bijective mapping to convert the 2D grid into a 1D array is required, the following mapping is used here,
+%% \begin{equation}
+%%   \begin{aligned}
+%%     \pi : \{0,\ldots, n\} \times \{0, \ldots, m \} &\to \{ 1, \ldots, (n+1)(m+1) \} \\
+%%           (i,j) \qquad \qquad &\mapsto  \quad \qquad \pi(i,j)
+%%   \end{aligned}
+%% \end{equation}
+%% An example of this grid ordering can be seen in Figure \ref{graph:gridordering}.
+%% 
+%% \begin{figure}[h!tb]
+%%   \centering
+%%     \begin{tikzpicture}[scale = 1.00]
+%%         \draw (-1,-1) grid (1,2.5);
+%%         \draw (1,-1) grid (2.5,2.5);
+%%         
+%%         \node [below left] at (-1,-1) {\footnotesize{0}};
+%%         \node [right] at (2.5,-1) {$x$};
+%%         \node [above] at (-1,2.5) {$y$};
+%%         
+%%         \draw [fill=white] (1,1) circle [radius = 5pt];
+%%         \node at (1,1) {\footnotesize{$a_3$}};
+%%         \draw [fill=white] (0,1) circle [radius = 5pt];
+%%         \node at (0,1) {\footnotesize{$a_2$}};
+%%         \draw [fill=white] (1,0) circle [radius = 5pt];
+%%         \node at (1,0) {\footnotesize{$a_1$}};
+%%         \draw [fill=white] (2,1) circle [radius = 5pt];
+%%         \node at (2,1) {\footnotesize{$a_4$}};
+%%         \draw [fill=white] (1,2) circle [radius = 5pt];
+%%         \node at (1,2) {\footnotesize{$a_5$}};
+%%         
+%%     \end{tikzpicture}
+%%     \caption{A visual of the grid point dependency and their numbering for the diagonally formatted matrix}
+%%     \label{graph:numbering}
+%% \end{figure}
+%% 
+%% The matrix is stored in diagonal format and since there are five unknowns for each linear equation the matrix will be banded with five diagonals. The numbering of these diagonals in the matrix can be seen in Figure \ref{graph:numbering} 
+%% 
+%% 
+%% 
+%% 

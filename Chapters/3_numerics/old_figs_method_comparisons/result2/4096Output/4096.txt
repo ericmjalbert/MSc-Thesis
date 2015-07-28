@@ -1,0 +1,123 @@
+!----------------------------------------------------------------------
+! Parameters
+!----------------------------------------------------------------------
+  pSize     =   4096                  ! Set number of grid lines
+  length    =   0.01                  ! length of region, refered to as "len"
+  lambda    =   0.0078125             ! lambda = 1.0/128.0 ; width = lamb*len
+  depth     =   0.0390625             ! depth of innoculation site
+  height    =   0.10                  ! height of innoculation site
+  m0        =   30.                   ! I.C. for biomass
+  c0        =   30.                   ! I.C. for substrait 
+  alpha     =   4                     ! exponent in D(M)
+  beta      =   4                     ! exponent in D(M)
+  gam       =   0.5                   ! exponent in f(C,M)
+  mu        =   6.0                   ! Growth rate of bac
+  y         =   1                     ! Multiplicative constant for f(C,M)
+  kBar      =   4.0                   ! Half-Sat point
+  nuBar     =   mu*m0/0.63            ! Yield rate 
+  delBar    =   0.0000001             ! diffusion parameter
+  k         =   kBar/c0               ! Non-dim kBar
+  delta     =   delBar/(mu*length^2)  ! Non-dim delBar
+  nu        =   nuBar/mu/c0           ! Non-dim nuBar
+  nOuts     =   20                    ! Num. of solutions written to file
+  tEnd      =   40.                  ! The time at which computations stop
+  yLen      =   1.                    ! Length of each x2 grid
+  xLen      =   yLen*lambda
+  tDel      =   0.01                 ! Change in time
+  yDel      =   yLen/real(row)        ! Change in x2
+  xDel      =   yDel                  ! Change in x1 
+  e1        =   1.0e-12               ! Error 1 tolerence (linear solver)
+  e2        =   1.0e-12               ! Error 2 tolerence (linear solver)
+  esoln     =   1.e-12                 ! Error between soln in single timestep
+  nit       =   n*100                 ! Max number of iterations (lin. sol.)
+!----------------------------------------------------------------------
+!   Function Selections
+!----------------------------------------------------------------------
+  fSelect   = 12
+  dSelect   = 3
+  gSelect   = 1
+  MinitialCond = 1
+
+=======================================================================
+=======================================================================
+
+!----------------------------------------------------------------------
+!   Function f(C,M)
+!   fSelect == 7 should be used with gSelect == 2
+!   fSelect == 8 should be used with gSelect == 3
+!   fSelect == 12-15 should be used with gSelect == 5 or 6
+!   otherwise gSelect == 1
+!----------------------------------------------------------------------
+! fSelect = 1 --> f = 10*C/ (k + C) * (1 - (M*m0/(C*c0+0.00000001))**gam)
+! fSelect = 2 --> f = 1.
+! fSelect = 3 --> f = (1 - M)
+! fSelect = 4 --> f = (1 - C) * (C/(M+epsilon))  ! Independent of M
+! fSelect = 5 --> f = y*nu*C/(k+C)*(1 - (M/(C+eps))**gam)
+! fSelect = 6 --> f = y*nu*C/(k+C)*(1 - (M*(k+C)/(nu*C+eps))**gam)
+! fSelect = 7 --> f = y*nu/k*C*(1 - (M*k/(nu*C+eps))**gam)
+! fSelect = 8 --> f = y*nu*C/(k*M+C)*(1 -(M*(k*M+C)/(nu*C+eps))**gam)
+! fSelect = 9 --> f = y*nu*(C**gam - M**gam)* C**gam/(K+C)
+! fSelect =10 --> f = y*nu*(C/(k+C))**gam - M**gam)*(C/(k+C))**gam
+! fSelect =11 --> f = y*nu*(C**gam - M**gam)*C/(k+C)/k**gam
+! fSelect =12 --> f = C/(k+C)*M-0.1*nu*M
+! fSelect =13 --> f = C/(k+C)*M
+! fSelect =14 --> f = C/(k*M+C)*M-0.1*nu*M
+! fSelect =15 --> f = C/(k*M+C)*M
+!----------------------------------------------------------------------
+  
+!----------------------------------------------------------------------
+!   Function d(M)
+!----------------------------------------------------------------------
+! dSelect = 1 --> d = delta
+! dSelect = 2 --> d = delta * M** alpha
+! dSelect = 3 --> d = delta * M**alpha / ((1 - M)**beta)
+!----------------------------------------------------------------------
+
+!----------------------------------------------------------------------
+!   Function g(C,M)
+!----------------------------------------------------------------------
+! gSelect = 1 --> g = nu*C/(k+C)
+! gSelect = 2 --> g = nu*C/k
+! gSelect = 3 --> g = nu*C/(k*M+C)
+! gSelect = 4 --> C_t is (r+s)*blahblahblah
+! gSelect = 5 --> C_t = -kC
+! gSelect = 6 --> C_t = -C/(k+C)*M/nu
+!----------------------------------------------------------------------
+
+!----------------------------------------------------------------------
+!   Sets the initial conditions for the system
+!----------------------------------------------------------------------
+! Substrait Concentration
+!  C = 1.
+! 
+! MinitialCond = 1:     (Non-homogenous Biomass)
+!------------------------------
+! M = 0
+! j = 0
+! b = height
+! a = -b/(depth)**4
+! f = a*j*yDel + height
+! do while(f > 0)
+!   do i = 1,col!col/5,col/5*2
+!     M(i+j*col) = f
+!   enddo
+!   j = j+1
+!   f = a*(j*yDel)**4 + height
+! enddo
+!
+! MinitialCond = 2:     (Homogenous Biomass)
+!------------------------------
+! M = height
+!----------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,8 @@
+ Statsitcs:
+ -------------------------------------------------------------
+ Time to compute =    1.45777900000000     
+ 
+ Avg Iters for iterating betn. soln. =   3.95376155961010     
+ Max Iters for iterating betn. soln. =   4.00000000000000     
+ Avg Iters for linear solver =   4.17396801314875     
+ Max Iters for linear solver =   11.0000000000000     
