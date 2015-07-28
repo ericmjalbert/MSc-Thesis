@@ -42,17 +42,17 @@ According to \cite{barret1987templates}, if $A$ is positive definite and symmetr
 \begin{proof}
   Matrix $A$ is positive definite if all the eigenvalues are positive. 
   Using the Circle theorem described by \cite{gerschgorin1931uber_die_abgrenzung}, the eigenvalues can be shown to be positive if, independently on all rows, the sum of the off-diagonals values is less then the diagonal value.
-  This can be verified. We have,
+  This can be verified. From (\ref{equ:M_linear_equation}) it can be said that,
   \begin{equation}
     \sum_{(i,j) \in \mathbb{A}} \left( \frac{D( M^{p}_{i+\frac{s}{2}, j+\frac{r}{2}} )}{\Delta x^2} \right)
      < \left( \sum_{(i,j) \in \mathbb{A}} \left( \frac{D( M^{p}_{i+\frac{s}{2}, j+\frac{r}{2}} )}{\Delta x^2} \right) 
-    - F(C^{p}_{i,j}) + \frac{1}{\Delta t} \right) 
+    - F(C^{p}_{i,j}) + \frac{1}{\Delta t} \right). 
   \end{equation}
-  which simplifies to,
+  This simplifies to,
   \begin{equation}
     F(C^{p}_{i,j}) < \frac{1}{\Delta t}
   \end{equation}
-  which is true given the values of $\Delta t$ that are used. Therefore we have that $A$ is positive definite.
+  which is trivially true given that typically $\Delta t < 10^{-2}$ and $F(C^{p}_{i,j}) < 1$. Therefore we have that $A$ is positive definite.
 
   The symmetry of $A$ can be trivially shown if one considers the formation of the diagonals.
   On a single row, each element corresponds to the adjacent grid points of grid $i,j$.
@@ -63,7 +63,7 @@ According to \cite{barret1987templates}, if $A$ is positive definite and symmetr
 Given that $A$ is positive definite and symmetric, the conjugate gradiant method can be used to compute the solution.
 As an added property, $A$ also happens to be diagonally dominate.
 This means that it could be solved using Bi-Conjugate Gradient Method.
-However the Conjugate Gradient method has a faster computation time then Bi-Conjugate Gradiant method for this problem and is used for this reason \cite{barret1987templates}.
+However the Conjugate Gradient method has a faster computation time then Bi-Conjugate Gradiant method for this problem and is used for this reason (\cite{barret1987templates}).
 
 
 

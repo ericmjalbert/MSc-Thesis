@@ -2,10 +2,10 @@
 
 The implementation of Algorithm \ref{alg:iterateCM} was done with Fortran. The matrix system was converted into a 1D array by use of a bijective mapping defined as:
 \begin{equation}
-\begin{aligned}
-  \pi : \{ 0, \ldots, n\} \times \{0, \ldots, m\} &\to \{1, \ldots, (n+1)(m+1) \}
-  (i,j) & \to \pi(i,j)
-\end{aligned}
+\begin{array}{clcl}
+  \pi :& \{ 0, \ldots, n\} \times \{0, \ldots, m\} &\to& \{1, \ldots, (n+1)(m+1) \}\\
+       & (i,j)                                     &\to& \pi(i,j)
+\end{array}
 \end{equation}
 
 % I have a figure for this?!?!?!?
