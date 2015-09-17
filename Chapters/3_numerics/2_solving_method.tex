@@ -139,8 +139,7 @@ Using the quadratic equation results in,
 Now that computable solutions for $M$ and $C$ at a single time step have been found, an algorithm to solve for the next time step can be esstablished.
 Algorithm \ref{alg:iterateCM} shows the organizations of solving (\ref{equ:C_fixed_point} - \ref{equ:M_fixed_point}). 
 \begin{algorithm}
-  \KwData{$M^{k}$ and $C^{k}$ is previous timestep solutions.
-    \\$\quad$ $M^{p}$ and $C^p$ are temporary solutions defined such that 
+  \KwData{$M^{p}$ and $C^p$ are temporary solutions defined such that 
     \\$\quad$ $M^p \to M^{k+1}$ and $C^p \to C^{k+1}$ as $p \to P$.
     \\$\quad$ $\epsilon_{sol}$ is a tolerance set for a desired accuracy.}
   \Begin
@@ -148,11 +147,11 @@ Algorithm \ref{alg:iterateCM} shows the organizations of solving (\ref{equ:C_fix
     \While{convergence is not acheived } 
     {
         %!% Did I ever define b^p ?? If not I should either rewrite this or introduce b^p....
-        Solve $A^{(p)} M^{(p+1)} = b^{(p)}$;
+        Solve $A^{(p)} M^{(p+1)} = b^{(p)}$\;
         %!% old....Solve for $M^{p+1}$ using $C^{p}$ and $M^{k}$\;
-        Solve $C^{(p+1)} = \frac{1}{2} \left( 2b \pm \sqrt{b^2 - 4c} \right)$;
+        Solve $C^{(p+1)} = \frac{1}{2} \left( 2b \pm \sqrt{b^2 - 4c} \right)$\;
         %!% old....Solve for $C^{p+1}$ using $M^{p+1}$, $C^{k}$, and $M^{k}$\;
-        Check convergence; 
+        Check convergence\; 
         %!% Here I should have (maybe?) M^{k+1} := M^{(p+1)} etc...
         Let $C^{p} = C_{p+1}$\;
         Let $M^{p} = M_{p+1}$\;
