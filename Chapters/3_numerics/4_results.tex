@@ -29,6 +29,9 @@
   %  \label{fig:basic_homo}
   %\end{figure}
   
+
+  %!% These show that the spatial discretization didn't introduce andy sink/sources of biomass.
+  %!% add to this the spherica IC, one that hits the boundaries but only show the output that doesn't hit boundary
   A simple test would test if the diffusion reaction model works for the propagation of the biomass.
   Having, all of the biomass on one boundary of $\Omega$ would show the spatial diffusion across the region.
   With the initial conditions,
@@ -53,13 +56,17 @@
       \includegraphics[scale = 0.5, angle = 270]{basic_trav_t40}\\
       (b) 
     \end{tabular}
-    \caption{Solutions for system with initial conditions given in (\ref{equ:basic_init_trav_wave}) at (a) $t = 0$ and (b) $t = 40$.}
+    %!% Maybe in here try having a 2x2 grid; (M, C) as columns, and (t = 0, t = 40) as rows
+    \caption{Solutions for $M$ with initial conditions given in (\ref{equ:basic_init_trav_wave}) at (a) $t = 0$ and (b) $t = 40$.}
     \label{fig:basic_trav}
   \end{figure}
 
-  %!% Try letting F = constant, and see if the growth-rate of total biomass is exponential
-  The growth-rate of the biomass is difficult to show proper functionality, due to the unknown exact amount.
-  The amount of total biomass can be predicted to grow exponentially if the growth rate function, $F(C)$ from (\ref{equ:model_functions}), was replaced with a constant.
+  %!% Mention here that the testcase is the spherical IC.
+  %!% Show what happens when it hits the boundary (should mess with total biomass a bit)
+  %!% If its bad enough, show that making the grid more refined reduces this (or time step maybe?)
+  %!% This shows that the newmann BC doesn't destroy mass (or produce)
+  The total amount of biomass has no known exact value, given the choice of growth rate function.
+  However, the amount of total biomass can be predicted to grow exponentially if the growth rate function, $F(C)$ from (\ref{equ:model_functions}), was replaced with a constant.
   This can be checked by tracking the total biomass, called $T_{M}(t)$, with the changed growth rate function:
   \begin{equation} \label{equ:F_constant}
     F(C) = a
@@ -72,39 +79,68 @@
   \begin{equation}
     T_{M}(t^k) \approx T_{M}^{k} = \frac{ \sum^n_i \sum^m_j M^{k}_{i,j} }{nm}
   \end{equation}
-  Figure \ref{fig:basic_growth} shows that the total biomass is as expected, since it matchs the curve of $\frac{1}{3812.5}*\exp^{k}$, an exponential function.
+  %!% Why is this next line have \frac{1}{3812}... should maybe show the calculations that made that values'; i.e. solve y = y0*\exp^{k}
+  Figure \ref{fig:basic_growth} shows that the total biomass is as expected, since it matchs the curve of $\frac{1}{3812.5}*e^{k}$, an exponential function.
 
   \begin{figure}
     \centering
     \includegraphics[scale = 0.9]{basic_growth}
-    \caption{Plot of $T_{M}^{k}$ for $k = 0,1,...,20$. Here, $F(C) = 1$ results in an exponential growth that follows $\exp^k$.}
+    \caption{Plot of total biomass, $T_{M}^{k}$, for $k = 0,1,...,20$.}
     \label{fig:basic_growth}
   \end{figure}
   
-  %!% Try trivial circular IC, and see if the spherical nature of solution is preserved as it grows
+  %!% add mass -conseration between M and C by checking that $M' + \gamma C' = 0$; ie total mass is constant
+  %!% Show here the pre-work of integrating over the domain and that the spatial term dissapers and all thats left is the growth terms in both M and C.
+  %!% If its interesting, show a graph of M'+gama C vs. t, and try to explain/justify the changes it makes (unless its 0, then just report that its zero and say DATA NOT SHOWN.
 
 \subsection{Convergence Analysis}
   %!%To validate the accuracy of the method, convergence analyses on the spatial and temporal discretizations will need to be made. 
   To validate the accuracy of the method, convergence analyses on the spatial discretizations will need to be made. 
   Then the comparison between the semi- and fully-implicit method established in Algorithm \ref{alg:iterateCM} can investigated.
   First, a metric must be formed to enable consistent comparisons between different simulation solutions. 
-  This metric will be refered to as the error.
+  This metric will be referred to as the error. %!% Find a better name fore the norm...
 
 \subsubsection{Error Computations}
 
   The error is computed by taking the relative normed-difference between two solution in the following fashion:
   \begin{equation} \label{equ:error_comp}
+    %!% Maybe at some point try \frac{||u_1 - u_2||}{||u_1|| + ||u_2||}
     \epsilon_{sol} = \frac{||u_1 - u_2||}{||u_2||}
   \end{equation}
   where $u_1$ represents one simulation solution and $u_2$ represents the solution that is theoretically more accurate.
   The theoretical accuracy of $u_2$ derives from the fact that most comparisons will be done between solutions that vary in only $\Delta x$ or between semi- and fully- implicit.
   These are understood to have the relation that a smaller $\Delta x$, and that the fully-implicit method is to be more accurate.
+  There is an assumption that both $u_1$ and $u_2$ have the same number of grid points, so that the difference can be taken grid-wise.
 %!%The theoretical accuracy of $u_2$ derives from the fact that most comparisons will be done between solutions that vary in only $\Delta x$, $\Delta t$, or between semi- and fully- implicit.
 %!%  These are understood to have the relation that a smaller $\Delta x$ and $\Delta t$ will be more accurate, and that the fully-implicit method is to be more accurate.
 
 
-  The subtraction between solutions is done grid-wise.
-  In the case where there are more grid-points in $u_2$ then in $u_1$, only the grid-points in $u_1$ will be used.
+  The results of the error computations, named $\epsilon_{sol}$, is a numerical value for the difference between two solutions.
+  This depends on the normed used during the computations.
+  Here three norms will be used:
+  \begin{equation}  \label{equ:norm_l1}
+    \ell_1: ||u||_1 = \sum_{\pi(i,j)}^{nm} |u_{i,j}|
+  \end{equation}
+  \begin{equation}  \label{equ:norm_l2}
+    \ell_2: ||u||_2 = \sqrt{\sum_{\pi(i,j)}^{nm} (u_{i,j})^2}
+  \end{equation}
+  \begin{equation}  \label{equ:norm_linf}
+    \ell_\infty: ||u||_\infty = \max_{\substack{i=1,\ldots,n \\j=1,\ldots,m}} |u_{i,j}|
+  \end{equation}
+  These different norms will all be used to create a broader understanding of the error.
+  This creates three distinct values for $\epsilon_{sol}$, named $\epsilon_{\ell_1}$, $\epsilon_{\ell_2}$, and $\epsilon_{\ell_\infty}$; each named for the norm used during the computation.
+  
+ %!% \item What program did I use? (R probably....)
+ %!% \item Maybe run though a trivial Fisher equation problem to confirm that it works ?
+  % Also mention the Accuracy of the solutions by using the norm of each solution compared to the  most accurate one.... (Maybe take a solution at a higher grid resolution?, not sure what to do here)
+
+\subsubsection{Grid Size Convergence}
+%!% Just show the results and state it is slow to converge when F(C) is dependent on C (double check with the older versions of code)
+  To observe the validity of the method, a test on the convergence of solutions based on the spatial discritization is done.
+  This will involve using the same simulation described in (\ref{equ:basic_init_trav_wave}) due to the simplicity. 
+  The convergence will be tracked with all three forms of $\epsilon_{sol}$
+%!% Fix flow of this section
+  Since there exist a difference in the number of grid points between the different solutions, $u_1$ and $u_2$, only the grid points in the more coarse refinement will be used.
   This places a limitation on the selection of grid-sizes and so they will follow the series $s(n) = 2^{n-1}+1$ for $n \in \mathbb{Z}$.
   So that the grid points can line up, without any use of linear interpolation, grid refine must be using $s(n)$ instead of the typical grid doubling of $2^{n}$. 
   This is illustrated in Figure \ref{fig:grid_point_lineup}.
@@ -177,31 +213,11 @@
     \label{fig:grid_point_lineup}
   \end{figure}
 
-  The results of the error computations, named $\epsilon_{sol}$, is a numerical value for the difference between two solutions.
-  This depends on the normed used during the computations.
-  Here three norms will be used:
-  \begin{equation}  \label{equ:norm_l1}
-    \ell_1: ||u||_1 = \sum_{i,j}^{n,m} |u_{i,j}|
-  \end{equation}
-  \begin{equation}  \label{equ:norm_l2}
-    \ell_2: ||u||_2 = \sqrt{\sum_{i,j}^{n,m} (u_{i,j})^2}
-  \end{equation}
-  \begin{equation}  \label{equ:norm_linf}
-    \ell_\infty: ||u||_\infty = \max_{\substack{i=1,\ldots,n \\j=1,\ldots,m}} |u_{i,j}|
-  \end{equation}
-  These different norms will all be used to create a broader understanding of the error.
-  This creates three distinct values for $\epsilon_{sol}$, named $\epsilon_{\ell_1}$, $\epsilon_{\ell_2}$, and $\epsilon_{\ell_\infty}$; each named for the norm used during the computation.
   
- %!% \item What program did I use? (R probably....)
- %!% \item Maybe run though a trivial Fisher equation problem to confirm that it works ?
-  % Also mention the Accuracy of the solutions by using the norm of each solution compared to the  most accurate one.... (Maybe take a solution at a higher grid resolution?, not sure what to do here)
-
-\subsubsection{Grid Size Convergence}
-%!% Just show the results and state it is slow to converge when F(C) is dependent on C (double check with the older versions of code)
-  To observe the validity of the method, a test on the convergence of solutions based on the spatial discritization is done.
-  This will involve using the same simulation described in (\ref{equ:basic_init_trav_wave}) due to the simplicity. 
-  The convergence will be tracked with all three forms of $\epsilon_{sol}$
-  
+  %!% Makes this use log graph and maybe its a stragith line.
+  %!% Also have graphs of how the quatilites of interest change with grid-size (and with t?)
+  %!% Maybe have a 2D plot of x = \delta x, y = \delta t, z = \epsilon. showing how it (should) decrease with \delta x and \t.
+      %!% to the above graph, can later add computation time to it to justify the choice in \delta t and \delta x for the later simulations
   \begin{figure}
     \centering
     \includegraphics{converge_spatial}
@@ -253,6 +269,9 @@
   %!% The fully-implicit method should have less iterations of the linear solver.
   
   The results of the method comparison can be seen in Table \ref{tab:tolerance_comparison}.
+
+  %!% Have a table:
+  %!%   tol. | avg iters | epsilon's | computer time| quantities of interest.... | (maybe avg iters of linear solver?)
   
   \begin{table}[h!tb]
     \centering
