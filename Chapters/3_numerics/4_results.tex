@@ -30,46 +30,72 @@
   %\end{figure}
   
 
-  %!% These show that the spatial discretization didn't introduce andy sink/sources of biomass.
-  %!% add to this the spherica IC, one that hits the boundaries but only show the output that doesn't hit boundary
-  A simple test would test if the diffusion reaction model works for the propagation of the biomass.
-  Having, all of the biomass on one boundary of $\Omega$ would show the spatial diffusion across the region.
-  With the initial conditions,
+  A simple test would be to check if the spatial discretization can preserve specific characteristics of the solutions.
+  One example of this would be seeing if a 1D initial condition could be preserved as time progresses.
+  Having all of the biomass on one boundary of $\Omega$, even across the y-axis, would qualify as a 1D intial condition.
+  These initial conditions will be defined as:
   \begin{equation} \label{equ:basic_init_trav_wave}
     \begin{aligned}
     M &= \begin{cases}
-      -\left( \frac{h}{d^4} \right) x^4 + h & \text{if } y \le d \\
-      0 & \text{otherwise}
+      -\left( \frac{h}{d^4} \right) x^4 + h & \text{, if } y \le d \\
+      0 & \text{, otherwise}
     \end{cases} \\
     C &= 1
     \end{aligned}
   \end{equation}
   where $h = 0.1$ and $d = \frac{5}{128}$.
   Here, $h$ and $d$ represent the height and depth of the innoculation site. 
-  The solution in Figure \ref{fig:basic_trav} show that, with initial conditions given in (\ref{equ:basic_init_trav_wave}), the solution propagate consistently with time.
-  
+
+  The solution shown in Figure \ref{fig:basic_trav} shows that the 1D characteristic of the biomass stays at a later time. 
+
   \begin{figure}
     \centering
-    \begin{tabular}{c}
-      \includegraphics[scale = 0.5, angle = 270]{basic_trav_t0} \\
-      (a) \\
-      \includegraphics[scale = 0.5, angle = 270]{basic_trav_t40}\\
-      (b) 
+    \begin{tabular}{c c}
+      \includegraphics[scale = 0.7]{basic_trav_wave_M_t0} & 
+      \includegraphics[scale = 0.7]{basic_trav_wave_C_t0} \\
+      (a) & (b) \\
+      \includegraphics[scale = 0.7]{basic_trav_wave_M_t40} &
+      \includegraphics[scale = 0.7]{basic_trav_wave_C_t40}\\
+      (c) & (d)
     \end{tabular}
-    %!% Maybe in here try having a 2x2 grid; (M, C) as columns, and (t = 0, t = 40) as rows
-    \caption{Solutions for $M$ with initial conditions given in (\ref{equ:basic_init_trav_wave}) at (a) $t = 0$ and (b) $t = 40$.}
+    \caption{Solutions for (ac) $M$ and (bd) $C$ with 1D initial conditions defined in (\ref{equ:basic_init_trav_wave}) at (ab) $t = 0$ and (cd) $t = 40$. Computed with a $1025 \times 1025$ grid and a timestep of $\Delta t = 10^-3$.}
     \label{fig:basic_trav}
   \end{figure}
 
-  %!% Mention here that the testcase is the spherical IC.
+  Another characteristic to observe would be if a spherical initial condition stays spherical.
+  Using intial conditions for the biomass,
+  \begin{equation} \label{equ:basic_spherical}
+    M = \begin{cases}
+      - \frac{h}{d^2} \left( x - 0.5)^2 + (y - 0.5)^2 \right) + h  & \text{, if } (x - 0.5)^2 + (y - 0.5)^2 < d^2 \\
+      0 & \text{, otherwise}
+    \end{cases},
+  \end{equation}
+  a test can be tried to see if the spherical nature of the solution is kept as time progresses.
+  This can be seen in Figure \ref{fig:basic_spherical}.
+
+  \begin{figure}
+    \centering
+    \begin{tabular}{c c}
+      \includegraphics[scale = 0.7]{basic_spherical_M_t0} & 
+      \includegraphics[scale = 0.7]{basic_spherical_M_t40} \\
+      (a) & (b)
+    \end{tabular}
+    \caption{Solutions for $M$ with spherical initial conditions defined by (\ref{equ:basic_spherical}) at (a) $t = 0$ and (b) $t = 40$. Computed with a $1025 \times 1025$ grid and a timestep of $\Delta t = 10^-3$.}
+    \label{fig:basic_spherical}
+  \end{figure}
+ 
+    
   %!% Show what happens when it hits the boundary (should mess with total biomass a bit)
   %!% If its bad enough, show that making the grid more refined reduces this (or time step maybe?)
   %!% This shows that the newmann BC doesn't destroy mass (or produce)
-  The total amount of biomass has no known exact value, given the choice of growth rate function.
-  However, the amount of total biomass can be predicted to grow exponentially if the growth rate function, $F(C)$ from (\ref{equ:model_functions}), was replaced with a constant.
-  This can be checked by tracking the total biomass, called $T_{M}(t)$, with the changed growth rate function:
+  The given boundary conditions and spatial discretization could be a possible source or sink of biomass.
+  To ensure this is not the case, the total amount of biomass can be tracked.
+  The total biomass cannot be exactly determined with the given growth rate function.
+  This means that there will not be anything to measure the validity of the simulation solution against.
+  However, if the growth rate were constant, the total biomass would be expected to grow exponentially.
+  This can be checked by tracking the total biomass, now called $T_{M}(t)$, with the changed growth rate function:
   \begin{equation} \label{equ:F_constant}
-    F(C) = a
+    F(C) = 1
   \end{equation}
   Tracking $T_{M}(t)$ can be done by,
   \begin{equation} \label{equ:total_biomass}
@@ -81,11 +107,14 @@
   \end{equation}
   %!% Why is this next line have \frac{1}{3812}... should maybe show the calculations that made that values'; i.e. solve y = y0*\exp^{k}
   Figure \ref{fig:basic_growth} shows that the total biomass is as expected, since it matchs the curve of $\frac{1}{3812.5}*e^{k}$, an exponential function.
+  The simulation results in Figure \ref{fig:basic_growth} are from the same as Figure \ref{fig:basic_spherical} but at later times so that the boundary effects can be observed.
 
   \begin{figure}
     \centering
     \includegraphics[scale = 0.9]{basic_growth}
-    \caption{Plot of total biomass, $T_{M}^{k}$, for $k = 0,1,...,20$.}
+    \caption{Plot of the relative error between the computed total biomass, $T_{M}(t)$, and the theoretical total biomass, $y_0 e^x$. 
+      The changes after $t = 8$ are from the biomass having completely filled the region $\Omega$.
+      This means that there is no physical space for the biomass to occupy and thus the growth slows down to a stop.}
     \label{fig:basic_growth}
   \end{figure}
   
@@ -205,6 +234,10 @@
       \node [above] at (3.000, 1.2) {8};
 
       %!% Maybe try doing a 2D explaination. Showing the grids in an isometric plane in a - b - c format on one row. Then have horizontal dashed lines showing the matching (and not matching) grid-points ??
+      %!%     _ _  
+      %!%    /| _
+      %!%   |x/__  etc....
+      %!%   |/___
   
     \end{tikzpicture}
     \caption{Visualization in 1D explaining the use of $s(n) = 2^{n} + 1$ instead of $2^{n+1}$ to control the grid size selection. 

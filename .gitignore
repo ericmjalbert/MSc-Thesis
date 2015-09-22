@@ -1,5 +1,4 @@
 # Ignore Extra .tex junk
-*.aux
 *.lof
 *.log
 *.maf
@@ -9,5 +8,3 @@
 *.out
 *.dat
 *.tar
-*.fls
-*.fdb_latexmk
