@@ -2,13 +2,13 @@
 
 Now there exist equations for which $C$ and $M$ can be solved, (\ref{equ:C_time_discret}) and (\ref{equ:M_space_discret} - \ref{equ:M_space_discret_boundary}) respectivly.
 Using $C^{k}$ and $M^{k}_{i,j}$ as approximations of the solutions for (\ref{equ:model_system}) will allow the system to be solved by computing $C^{k+1}$ and $M^{k+1}_{i,j}$.
-However, there are complications with trying to get an explicit formula for $M^{k+1}_{i,j}$ from (\ref{equ:M_space_discret} - \ref{equ:M_space_discret_boundary}) because of the dependency in $D(M)$ and $F(C)$.
+However, there are complications with trying to get an explicit formula for $M^{k+1}_{i,j}$ from (\ref{equ:M_space_discret} - \ref{equ:M_space_discret_boundary}) because of the dependency on $M$ in $D(M)$. 
 To remedy this, a fixed point iteration is introduced.
 In a single time step, the solutions for $M$ and $C$ can be solved using the previous time step solution in the follow manner:
 \begin{equation} \label{equ:M_fixed_point}
   \frac{M^{(p+1)}_{i,j} - M^{k}_{i,j}}{\Delta t} = 
     \frac{1}{\Delta x^2} \sum_{(s,r) \in \mathbb{A}}
-    \left( \frac{D(M^{p}_{i+s,j+r}) + D(M^{p}_{i,j})}{2} \cdot
+    \left( \frac{D(M^{(p)}_{i+s,j+r}) + D(M^{(p)}_{i,j})}{2} \cdot
     ( M^{(p+1)}_{i+s, j+r} - M^{(p+1)}_{i,j}) \right) 
     + F(C^{(p)}_{i,j}) M^{(p+1)}_{i,j}
 \end{equation}
@@ -16,8 +16,10 @@ In a single time step, the solutions for $M$ and $C$ can be solved using the pre
   \frac{C^{(p+1)} - C^{k}}{\Delta t} = \frac{-1}{2} ( G(C^{(p+1)}) M^{(p+1)} + G(C^{k}) M^{k} )
 \end{equation}
 %!% does p need to be (p) when not in an equation?
-where $p \in (0,1,\ldots,P)$.
-It is important to show explicitly the the purpose of the fixed point iteration is to link two distinct times with $P$ solutions in between them, such that:
+where $(p) \in (0,1,\ldots,P)$.
+Note, that the equation for $M^{(p+1)}_{i,j}$ shown in (\ref{equ:M_fixed_point}) refers to the interior points only.
+A similar change is done for the boundary points but is not shown due to its complexity.
+It is important to show explicitly that the purpose of the fixed point iteration is to link two distinct times with $P$ solutions in between them, such that:
 \begin{equation}
   \begin{aligned}
   M^{(p=0)} &= M^{k}, \quad M^{(p=P)} = M^{k+1}, \\
@@ -25,7 +27,7 @@ It is important to show explicitly the the purpose of the fixed point iteration 
   \end{aligned}
 \end{equation}
 
-In this fixed point formate, given by (\ref{equ:M_fixed_point} - \ref{equ:C_fixed_point}), the equations can be rearrange and solved by conventional methods.
+In this fixed point format, given by (\ref{equ:M_fixed_point} - \ref{equ:C_fixed_point}), the equations can be rearrange and solved by conventional methods.
 
 For (\ref{equ:M_fixed_point}), a linear system of equations can be created following \cite{saad2003iterativeMethod}.
 For each grid point $(i,j)$ a linear system exists, defined as:
@@ -33,10 +35,10 @@ For each grid point $(i,j)$ a linear system exists, defined as:
 \begin{equation} \label{equ:M_linear_equation}
 \begin{aligned}
   \frac{M^{k}_{i,j}}{\Delta t} &= 
-  \sum_{(i,j) \in \mathbb{A}} \left( \frac{D(M^{p+1}_{i+s,j+r}) + D(M^{p+1}_{i,j})} 
-    {2\Delta x^2} \cdot M^{p+1}_{i+s, j+r} \right) \\
-  & +\left( \sum_{(i,j) \in \mathbb{A}} \left( \frac{ D(M^{p+1}_{i+s,j+r}) + D(M^{p+1}_{i,j})} 
-    {2\Delta x^2} \right) - F(C^{p}_{i,j}) + \frac{0}{\Delta t} \right) M^{p+1}_{i,j}.
+  \sum_{(i,j) \in \mathbb{A}} \left( \frac{D(M^{(p+1)}_{i+s,j+r}) + D(M^{(p+1)}_{i,j})} 
+    {2\Delta x^2} \cdot M^{(p+1)}_{i+s, j+r} \right) \\
+  & +\left( \sum_{(i,j) \in \mathbb{A}} \left( \frac{ D(M^{(p+1)}_{i+s,j+r}) + D(M^{(p+1)}_{i,j})} 
+    {2\Delta x^2} \right) - F(C^{(p)}_{i,j}) + \frac{1}{\Delta t} \right) M^{(p+1)}_{i,j}.
 \end{aligned}
 \end{equation} 
 
@@ -63,20 +65,20 @@ where each $a_{i,j}$ is the coefficient based on (\ref{equ:M_linear_equation}).
 Solving (\ref{equ:M_matrix_form}) can be done by use of the Conjugate Gradient method provided that certain conditions are satisfied.
 
 \begin{prop}
-  The matrix $A$, defined in (\ref{equ:M_matrix_form}) is positive definite and symmetric when $\frac{1}{ F(C^{(p)}_{i,j}) } < \Delta t$.
+  The matrix $A$, (\ref{equ:M_matrix_form}), is positive definite and symmetric when $\frac{1}{ F(C^{(p)}_{i,j}) } < \Delta t$.
 \end{prop}
 \begin{proof}
   Matrix $A$ is positive definite if all the eigenvalues are positive. 
   Using the Circle theorem described by \cite{gerschgorin1931uber_die_abgrenzung}, the eigenvalues can be shown to be positive if, independently on all rows, the sum of the off-diagonals values is less then the diagonal value.
   This can be verified. From (\ref{equ:M_linear_equation}) it can be said that,
   \begin{equation}
-    \sum_{(i,j) \in \mathbb{A}} \left( \frac{D( M^{p}_{i+\frac{s}{2}, j+\frac{r}{2}} )}{\Delta x^2} \right)
-     < \left( \sum_{(i,j) \in \mathbb{A}} \left( \frac{D( M^{p}_{i+\frac{s}{2}, j+\frac{r}{2}} )}{\Delta x^2} \right) 
-    - F(C^{p}_{i,j}) + \frac{1}{\Delta t} \right). 
+    \sum_{(i,j) \in \mathbb{A}} \left( \frac{D( M^{(p)}_{i+\frac{s}{2}, j+\frac{r}{2}} )}{\Delta x^2} \right)
+     < \left( \sum_{(i,j) \in \mathbb{A}} \left( \frac{D( M^{(p)}_{i+\frac{s}{2}, j+\frac{r}{2}} )}{\Delta x^2} \right) 
+    - F(C^{(p)}_{i,j}) + \frac{1}{\Delta t} \right). 
   \end{equation}
   This simplifies to,
   \begin{equation}
-    F(C^{p}_{i,j}) < \frac{1}{\Delta t}
+    F(C^{(p)}_{i,j}) < \frac{1}{\Delta t}
   \end{equation}
 
   The symmetry of $A$ can be trivially shown if one considers the formation of the diagonals.
@@ -89,7 +91,7 @@ It is important to remark that even though there is a condition for which matrix
 The condition, $\frac{1}{F(C)} < \Delta t$, relates the growth of the biomass to the size of timestep selected.
 Specifically, if a large enough time step is choosen, then $A$ is not guarenteed to converge.
 When this occurs, it means that a time step, larger then the characteristic growth rate of the biomass, has been incorrectly choosen.
-This means that the there would be no relavent results since all the growth, and subsequentally reactions, would have occured in a single timestep.
+This means that the there would be no relavent results since all the growth, and subsequent reactions, would have occured in a single timestep.
 
 Given that $A$ is positive definite and symmetric, the conjugate gradiant method can be used to compute the solution.
 As an added property, $A$ also happens to be diagonally dominate.
@@ -99,17 +101,17 @@ However the Conjugate Gradient method has a faster computation time then Bi-Conj
 
 For solving (\ref{equ:C_fixed_point}), the equation can be rearranged into a quadratic form, substituting in $G(C)$ from (\ref{equ:model_functions})
 \begin{equation}
-  \left(C^{p+1}\right)^2 + \left( \kappa - C^k + \frac{h}{2} \gamma M^{p+1} + \frac{h}{2} \frac{ \gamma C^k M^k}{\kappa + C^k} \right) C^{p+1} + \left( -\kappa C^k + \frac{h}{2} \frac{\gamma \kappa C^k M^k}{\kappa + C^k} \right) = 0.
+  \left(C^{(p+1)}\right)^2 + \left( \kappa - C^k + \frac{h}{2} \gamma M^{(p+1)} + \frac{h}{2} \frac{ \gamma C^k M^k}{\kappa + C^k} \right) C^{(p+1)} + \left( -\kappa C^k + \frac{h}{2} \frac{\gamma \kappa C^k M^k}{\kappa + C^k} \right) = 0.
 \end{equation}
 
 Using the quadratic equation results in, 
   \begin{equation} \label{eq:Cquad}
-    C^{p+1} = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}
+    C^{(p+1)} = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}
   \end{equation}  
   for which, 
   \begin{equation} \begin{aligned} \label{para:abc}
     a &= 1\\
-    b &= \kappa - C^k + \frac{h}{2} \gamma M^{p+1} + \frac{h}{2} \frac{\gamma C^k M^k}{\kappa + C^k} \\
+    b &= \kappa - C^k + \frac{h}{2} \gamma M^{(p+1)} + \frac{h}{2} \frac{\gamma C^k M^k}{\kappa + C^k} \\
     c &= -\kappa C^k + \frac{h}{2} \frac{\gamma \kappa C^k M^k}{\kappa + C^k}
   \end{aligned}  \end{equation}
   
@@ -123,24 +125,24 @@ Using the quadratic equation results in,
   \end{equation} 
   which can be used to evaluate (\ref{eq:Cquad}) as,
   \begin{equation} \begin{aligned}
-    C^{p+1} &= \frac{- (\kappa - C^k) \pm \sqrt{(\kappa - C^k)^2 - 4 (-\kappa C^k)}}{2} \\
+    C^{(p+1)} &= \frac{- (\kappa - C^k) \pm \sqrt{(\kappa - C^k)^2 - 4 (-\kappa C^k)}}{2} \\
       &= \frac{1}{2} \left( C^k - \kappa \pm \sqrt{\kappa^2 + 2 \kappa C^k + \left(C^k \right) ^2}\right) \\
       &= \frac{1}{2} \left( C^k - \kappa \pm (\kappa+C^k) \right). \\
   \end{aligned} \end{equation}
-  Now, if the positive branch is used the above equation evaluates to $C^{p+1} = C^k$. 
+  Now, if the positive branch is used the above equation evaluates to $C^{(p+1)} = C^k$. 
   This means that between any two distinct times, the substrait concentration will remain constants, which was expected. 
-  To further this confirmation, the negative branch results in $C^{p+1} = -\kappa $, a non-postive substrate concentration, which is not physically relavent. 
+  To further this confirmation, the negative branch results in $C^{(p+1)} = -\kappa $, a non-postive substrate concentration, which is not physically relavent. 
   \begin{equation}
-    C^{p+1} = \frac{-b + \sqrt{b^2 - 4ac}}{2a}
+    C^{(p+1)} = \frac{-b + \sqrt{b^2 - 4ac}}{2a}
   \end{equation} 
   where $a,b$, and $c$ are defined in (\ref{para:abc}).
 
 
-Now that computable solutions for $M$ and $C$ at a single time step have been found, an algorithm to solve for the next time step can be esstablished.
-Algorithm \ref{alg:iterateCM} shows the organizations of solving (\ref{equ:C_fixed_point} - \ref{equ:M_fixed_point}). 
+Now that computable solutions for $M$ and $C$ at a single time step have been found, an algorithm to solve for the next time step can be established.
+Algorithm \ref{alg:iterateCM} shows the organization of solving (\ref{equ:C_fixed_point} - \ref{equ:M_fixed_point}). 
 \begin{algorithm}
-  \KwData{$M^{p}$ and $C^p$ are temporary solutions defined such that 
-    \\$\quad$ $M^p \to M^{k+1}$ and $C^p \to C^{k+1}$ as $p \to P$.
+  \KwData{$M^{(p)}$ and $C^{(p)}$ are temporary solutions defined such that 
+    \\$\quad$ $M^{(p)} \to M^{k+1}$ and $C^{(p)} \to C^{k+1}$ as $(p) \to P$.
     \\$\quad$ $\epsilon_{sol}$ is a tolerance set for a desired accuracy.}
   \Begin
   {
@@ -148,21 +150,21 @@ Algorithm \ref{alg:iterateCM} shows the organizations of solving (\ref{equ:C_fix
     {
         %!% Did I ever define b^p ?? If not I should either rewrite this or introduce b^p....
         Solve $A^{(p)} M^{(p+1)} = b^{(p)}$\;
-        %!% old....Solve for $M^{p+1}$ using $C^{p}$ and $M^{k}$\;
+        %!% old....Solve for $M^{(p+1)}$ using $C^{(p)}$ and $M^{k}$\;
         Solve $C^{(p+1)} = \frac{1}{2} \left( 2b \pm \sqrt{b^2 - 4c} \right)$\;
-        %!% old....Solve for $C^{p+1}$ using $M^{p+1}$, $C^{k}$, and $M^{k}$\;
+        %!% old....Solve for $C^{(p+1)}$ using $M^{(p+1)}$, $C^{k}$, and $M^{k}$\;
         Check convergence\; 
         %!% Here I should have (maybe?) M^{k+1} := M^{(p+1)} etc...
-        Let $C^{p} = C_{p+1}$\;
-        Let $M^{p} = M_{p+1}$\;
+        Let $C^{(p)} = C_{(p+1)}$\;
+        Let $M^{(p)} = M_{(p+1)}$\;
         Let $p = p + 1 $\;
     }
   }
   \caption{Algorithm for the fully-implicit solving of (\ref{equ:model_system}) }
   \label{alg:iterateCM}
 \end{algorithm}
-Note that Algorithm \ref{alg:iterateCM} actually describes both a fully- and semi- implicite method for solving (\ref{equ:model_system}). 
-If $P = 1$ then only a single iteration of the algorithm is applied.
+Note that Algorithm \ref{alg:iterateCM} actually describes both a fully- and semi- implicit method for solving (\ref{equ:model_system}). 
+If $P = 1$ then only a single iteration of the algorithm is applied, which correlates to a semi-implicit method would behave.
 This would result in a change similar to how the Gauss-Seidal method changes the Jacobi method; the values used would no longer be updated in a single timestep when $P = 1$.
 
 To use the algorithm, the matrix system was converted into a 1D array by use of a bijective mapping defined as:

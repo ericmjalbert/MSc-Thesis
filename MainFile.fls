@@ -274,12 +274,6 @@ INPUT /usr/share/texlive/texmf-dist/fonts/vf/adobe/times/ptmb7t.vf
 INPUT /usr/share/texlive/texmf-dist/fonts/tfm/adobe/times/ptmb8r.tfm
 INPUT /usr/share/texlive/texmf-dist/fonts/vf/adobe/times/ptmr7t.vf
 INPUT /usr/share/texlive/texmf-dist/fonts/tfm/adobe/times/ptmr8r.tfm
-INPUT MainFile.lof
-INPUT MainFile.lof
-OUTPUT MainFile.lof
-INPUT MainFile.lot
-INPUT MainFile.lot
-OUTPUT MainFile.lot
 INPUT /usr/share/texlive/texmf-dist/fonts/tfm/adobe/times/ptmr7t.tfm
 INPUT Chapters/2_model/1_history.tex
 INPUT Chapters/2_model/1_history.tex
@@ -394,6 +388,8 @@ INPUT ./Chapters/3_numerics/Figures/converge_spatial.eps
 INPUT ./Chapters/3_numerics/Figures/converge_spatial-eps-converted-to.pdf
 INPUT ./Chapters/3_numerics/Figures/converge_spatial-eps-converted-to.pdf
 INPUT ./Chapters/3_numerics/Figures/converge_spatial-eps-converted-to.pdf
+INPUT ./Chapters/3_numerics/Figures/results_table.tex
+INPUT ./Chapters/3_numerics/Figures/results_table.tex
 INPUT MainFile.bbl
 INPUT MainFile.bbl
 INPUT MainFile.aux
@@ -411,7 +407,6 @@ INPUT /usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb
 INPUT /usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb
 INPUT /usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb
 INPUT /usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb
-INPUT /usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb
 INPUT /usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb
 INPUT /usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb
 INPUT /usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb

@@ -1,8 +1,8 @@
 \section{Numerical Results}
 
   With a defined method and computational setup a varaity of simulations can be run to observe the accuracy and behaviour of the method.
-  An examination a typical simulation will show if the expected behaviour is observed, validating the method as functioning.
-  A convergence analysis for the method can be done to confirm that solutions from different grid sizes approche a single solution as they become more precise.
+  An examination of a typical simulation will show if the expected behaviour is observed, validating the method as functioning.
+  A convergence analysis for the method can be done to confirm that solutions from different grid sizes approach a single solution as they become more precise.
   This convergence test will also show the thresholds for an accurate simulation result, to help reduce the computiation times.
   With a well-established method, the comparison between semi- and fully-implicit methods can be done.
 
@@ -32,7 +32,7 @@
 
   A simple test would be to check if the spatial discretization can preserve specific characteristics of the solutions.
   One example of this would be seeing if a 1D initial condition could be preserved as time progresses.
-  Having all of the biomass on one boundary of $\Omega$, even across the y-axis, would qualify as a 1D intial condition.
+  Having all of the biomass on one boundary of $\Omega$, for example across the $y$-axis, would qualify as a 1D intial condition.
   These initial conditions will be defined as:
   \begin{equation} \label{equ:basic_init_trav_wave}
     \begin{aligned}
@@ -58,11 +58,11 @@
       \includegraphics[scale = 0.7]{basic_trav_wave_C_t40}\\
       (c) & (d)
     \end{tabular}
-    \caption{Solutions for (ac) $M$ and (bd) $C$ with 1D initial conditions defined in (\ref{equ:basic_init_trav_wave}) at (ab) $t = 0$ and (cd) $t = 40$. Computed with a $1025 \times 1025$ grid and a timestep of $\Delta t = 10^-3$.}
+    \caption{Solutions for (ac) $M$ and (bd) $C$ with 1D initial conditions defined in (\ref{equ:basic_init_trav_wave}) at (ab) $t = 0$ and (cd) $t = 40$. Computed with a $1025 \times 1025$ grid and a timestep of $\Delta t = 10^{-3}$.}
     \label{fig:basic_trav}
   \end{figure}
 
-  Another characteristic to observe would be if a spherical initial condition stays spherical.
+  Another characteristic to observe would be if a spherical initial condition remains spherical.
   Using intial conditions for the biomass,
   \begin{equation} \label{equ:basic_spherical}
     M = \begin{cases}
@@ -71,7 +71,7 @@
     \end{cases},
   \end{equation}
   a test can be tried to see if the spherical nature of the solution is kept as time progresses.
-  This can be seen in Figure \ref{fig:basic_spherical}.
+  This can be seen in Figure \ref{fig:basic_spherical}, where at different times the shape of the biomass, $M$, is seen to remain spherical.
 
   \begin{figure}
     \centering
@@ -80,10 +80,11 @@
       \includegraphics[scale = 0.7]{basic_spherical_M_t40} \\
       (a) & (b)
     \end{tabular}
-    \caption{Solutions for $M$ with spherical initial conditions defined by (\ref{equ:basic_spherical}) at (a) $t = 0$ and (b) $t = 40$. Computed with a $1025 \times 1025$ grid and a timestep of $\Delta t = 10^-3$.}
+    \caption{Solutions for $M$ with spherical initial conditions defined by (\ref{equ:basic_spherical}) at (a) $t = 0$ and (b) $t = 40$. Computed with a $1025 \times 1025$ grid and a timestep of $\Delta t = 10^{-3}$.}
     \label{fig:basic_spherical}
   \end{figure}
- 
+  
+  Both Figure \ref{fig:basic_trav} and Figure \ref{fig:basic_spherical} increase the confidence that the spatial discretization did not introduce any loss of characteristics for the solutions.
     
   %!% Show what happens when it hits the boundary (should mess with total biomass a bit)
   %!% If its bad enough, show that making the grid more refined reduces this (or time step maybe?)
@@ -92,7 +93,7 @@
   To ensure this is not the case, the total amount of biomass can be tracked.
   The total biomass cannot be exactly determined with the given growth rate function.
   This means that there will not be anything to measure the validity of the simulation solution against.
-  However, if the growth rate were constant, the total biomass would be expected to grow exponentially.
+  However, if the growth rate were constant, the total biomass would be expected to grow exponentially like $y_0 e^t$
   This can be checked by tracking the total biomass, now called $T_{M}(t)$, with the changed growth rate function:
   \begin{equation} \label{equ:F_constant}
     F(C) = 1
@@ -167,8 +168,9 @@
 %!% Just show the results and state it is slow to converge when F(C) is dependent on C (double check with the older versions of code)
   To observe the validity of the method, a test on the convergence of solutions based on the spatial discritization is done.
   This will involve using the same simulation described in (\ref{equ:basic_init_trav_wave}) due to the simplicity. 
-  The convergence will be tracked with all three forms of $\epsilon_{sol}$
-%!% Fix flow of this section
+ 
+  The convergence will be tracked with only two forms of $\epsilon_{sol}$; $\epsilon_1$ and $\epsilon_2$.
+  This is because the value of $\epsilon_{\infty}$ doesn't vary with the grid size; the wave front is too sharp and with a change in grid size it will always be the point of greatest error.
   Since there exist a difference in the number of grid points between the different solutions, $u_1$ and $u_2$, only the grid points in the more coarse refinement will be used.
   This places a limitation on the selection of grid-sizes and so they will follow the series $s(n) = 2^{n-1}+1$ for $n \in \mathbb{Z}$.
   So that the grid points can line up, without any use of linear interpolation, grid refine must be using $s(n)$ instead of the typical grid doubling of $2^{n}$. 
@@ -254,11 +256,11 @@
   \begin{figure}
     \centering
     \includegraphics{converge_spatial}
-    \caption{Plot showing the convergence of solutions based on changed in $\Delta x$. The computions are of $\epsilon_{\ell_1}$, $\epsilon_{\ell_2}$, and $\epsilon_{ell_\infty}$ with grid-size following $s(n) = 2^{n-1}+1$.}
+    \caption{Plot showing the convergence of solutions based on changes in $\Delta x$. The computions are of $\epsilon_{\ell_1}$ and $\epsilon_{\ell_2}$ with grid-size following $s(n) = 2^{n-1}+1$.}
     \label{fig:converge_spatial}
   \end{figure}
 
-  The results from Figure \ref{fig:converge_spatial} show that the solutions converge as the grid size becomes refined.
+  The results from Figure \ref{fig:converge_spatial} show that the solutions converge as the grid size become refined with the grid size.
 
 %!% Also, check the results with a larger and smaller $\Delta t$ to see if they change.
 
@@ -292,35 +294,53 @@
 %
 
 \subsection{Results}
-  Here the main comparison that analysis the effects of using Algorithm \ref{alg:iterateCM} with different $P$ values.
-  Recall that the main observation is for $P = 1$, which corelates to the semi-implicit method. 
-  Along with accuracy, the simulation time will be tracked.
+  Here the main comparison that analyses the effects of using Algorithm \ref{alg:iterateCM} with different tolerances. 
+  Recall that the main observation is for $tol. = 1$, which correlates to the semi-implicit method since it will allow only a single iteration of the algorithm. 
+
+  The simulation used is the same as described in (\ref{fig:basic_trav}).
+  The comparison will be on multiple metrics: the average number of iterations of Algorithm \ref{alg:iterateCM}, the value of $\epsilon_1$ and $\epsilon_2$, the computation time of the simulation, and the location of the wave peak.
+
+  The average number of iterations are tracked so that an idea of the extra work can be formed.
+  As the tolerance decreases the amount of iterations the algorithm must perform will increase, the degree of increase will help relate the amount of work.
+
+  The value of $\epsilon_1$ and $\epsilon_2$ act as a measure of accuracy.
+  Here, these values correspond to the difference between a pair of solutions, $u_1$ and $u_2$.
+  The $(u_1, u_2)$ pairs are: $(1, 10^{-8}), (10^{-8}, 10^{-10}), (10^{-10}, 10^{-12}), (10^{-12}, 10^{14})$.
+  Each row of Table \ref{tab:tolerance_comparison} refers to the $u_1$ values of the pairs.
+  Each difference was taken at the last timestep.
+
+  Along with accuracy, the simulation time is tracked.
   This is because it represents another metric for which the viability of the fully-implicit method can be verified.
-  Theoretically there should be a decrease in the error with the fully-implicit method as the value for $P$ increases.
+  Theoretically there should be a decrease in the error with the fully-implicit method as the value for $tol$ decreases.
   Therefore, this needs to be weighted against the cost of computational intensity and the increase of the simulation time.
+
+  The location of the wave peak is a tracked quality of the solution that reveals how consistent the results are.
+  The wave peak is described here as the maximum value of the solution at the final timestep calculated.
+  The ultimate goal is that the simulation solutions be converging towards the exact solution.
+  To see this here the $x$-coordinate of the wave peak is tracked.
+
+  The results of the method comparison can be seen in Table \ref{tab:tolerance_comparison}.
+  \input{./Chapters/3_numerics/Figures/results_table}
+
+  %!% Talk about what is seen here?
 
   %!% The fully-implicit method should have less iterations of the linear solver.
   
-  The results of the method comparison can be seen in Table \ref{tab:tolerance_comparison}.
-
-  %!% Have a table:
-  %!%   tol. | avg iters | epsilon's | computer time| quantities of interest.... | (maybe avg iters of linear solver?)
-  
-  \begin{table}[h!tb]
-    \centering
-    %!% If I just list time and epsilons, maybe four gnuplots graph with the simulation time listed in the legend would be better.
-    \begin{tabular}{|c|c|c|c|c|}
-      \hline
-      P & Simulation Time & $\epsilon_{\ell_1}$ & $\epsilon_{\ell_2}$ & $\epsilon_{\ell_\infty}$  \\
-      \hline
-      1& 60.05 & 0.0018 & - & - \\
-      2& 97.72  & 0.0014 & - & - \\
-      3& 117.46 & 0.0013 & - & - \\
-      4& 126.44 & 0.0011& - & - \\
-      \hline
-      %!% OLD ROWS - Tol. 1 & Computation Time & $\epsilon_{sol}$ & Avg. Iter. 1 & Max Iter. 1 & Avg. Iter. 2 & Max Iter. 2 \\
-    \end{tabular}
-    \caption{Results from running simulation with different $P$ values. Note, $P = 1$ corresponds to the semi-implicit method.}
-    \label{tab:tolerance_comparison}
-  \end{table}
+  %\begin{table}[h!tb]
+  %  \centering
+  %  %!% If I just list time and epsilons, maybe four gnuplots graph with the simulation time listed in the legend would be better.
+  %  \begin{tabular}{|c|c|c|c|c|}
+  %    \hline
+  %    P & Simulation Time & $\epsilon_{\ell_1}$ & $\epsilon_{\ell_2}$ & $\epsilon_{\ell_\infty}$  \\
+  %    \hline
+  %    1& 60.05 & 0.0018 & - & - \\
+  %    2& 97.72  & 0.0014 & - & - \\
+  %    3& 117.46 & 0.0013 & - & - \\
+  %    4& 126.44 & 0.0011& - & - \\
+  %    \hline
+  %    %!% OLD ROWS - Tol. 1 & Computation Time & $\epsilon_{sol}$ & Avg. Iter. 1 & Max Iter. 1 & Avg. Iter. 2 & Max Iter. 2 \\
+  %  \end{tabular}
+  %  \caption{Results from running simulation with different $P$ values. Note, $P = 1$ corresponds to the semi-implicit method.}
+  %  \label{tab:tolerance_comparison}
+  %\end{table}
   

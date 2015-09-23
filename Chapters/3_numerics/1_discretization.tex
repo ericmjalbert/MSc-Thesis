@@ -1,7 +1,7 @@
 \section{Discretization}
 
 In order to find the solution for (\ref{equ:model_system}) spatial and temporal discretizations must be made.
-First the equations are discretzied in time, 
+First the equations are discretizied in time, 
 \begin{equation} \label{equ:M_time_discret}
   \frac{M^{k+1} - M^{k}}{\Delta t} = \nabla_x (D(M^{k+1}) \nabla_x M^{k+1}) + F(C^{k+1}) M^{k+1},
 \end{equation}
@@ -21,6 +21,7 @@ The solution of (\ref{equ:M_time_discret}) will be approximated at each grid poi
 To index the grid point, $i$ and $j$ are used such that $M^{k}_{i,j} \approx M(t^{k}, x_{1_i}, x_{2_j})$.
 Because of the five-point stencil, the boundary gridpoints will depend on ghost grid points.
 This means that the equation to solve interior grid points will differ slightly from boundary points.
+
 The resulting equation for interior points, where $i \in (1, 2, \ldots, n-1)$ and $j \in (1, 2, \ldots, m-1)$, is
 \begin{equation} \label{equ:M_space_discret}
   \frac{M^{k+1}_{i,j} - M^{k}_{i,j}}{\Delta t} = 
@@ -30,14 +31,16 @@ The resulting equation for interior points, where $i \in (1, 2, \ldots, n-1)$ an
     + F(C^{k+1}_{i,j}) M^{k+1}_{i,j}
 \end{equation}
 where $\mathbb{A} = \left\{ (0, \pm1), (\pm1, 0) \right\}$.
+
 The resulting equation for boundary points, when $(i,j) \in \{0,n\} \times \{0,1,\ldots,m\}$ or $(i,j) \in \{0,1,\ldots,n\} \times \{0,m\}$, is
 \begin{equation} \label{equ:M_space_discret_boundary}
   \begin{aligned}
   \frac{M^{k+1}_{i,j} - M^{k}_{i,j}}{\Delta t} =& 
     \frac{1}{\Delta x^2} \sum_{(s,r) \in \mathbb{A}}
     \left( \frac{D(M^{k+1}_{i+s,j+r}) + D(M^{k+1}_{i,j})}{2}
-    \cdot ( M^{k+1}_{i+s, j+r} - M^{k+1}_{i,j}) \right) \\&
-    + \sum_{(s,r) \in \mathbb{B}}  
+    \cdot ( M^{k+1}_{i+s, j+r} - M^{k+1}_{i,j}) \right)
+    \\
+    + \frac{1}{\Delta x^2} \sum_{(s,r) \in \mathbb{B}} &
     \left( \frac{D(M^{k+1}_{i+s,j+r}) + D(M^{k+1}_{i,j})}{2}
     \cdot ( M^{k+1}_{i-s, j-r} - M^{k+1}_{i+s, j+r}) \right)
     + F(C^{k+1}_{i,j}) M^{k+1}_{i,j}
@@ -46,10 +49,12 @@ The resulting equation for boundary points, when $(i,j) \in \{0,n\} \times \{0,1
 where $\mathbb{B}$ depends on the boundary position;
 $\mathbb{B}_1 = \left\{ (0,-1) \right\}$, $\mathbb{B}_2 = \left\{ (-1,0) \right\}$, $\mathbb{B}_3 = \left\{ (1,0) \right\}$, $\mathbb{B}_4 = \left\{ (0,1) \right\}$.
 For the corner points, where two different boundaries connect, the result is to use a cross-product between $\mathbb{B}$'s, for example $\mathbb{B} = \mathbb{B}_1 \times \mathbb{B}_2$
+
 %!% Maybe add a diagrame (tikz) here that shows where the different B's would lay in the region. 
 %!% something like B4-...-B5-...-B6
 %!%                |      |      |
-%!%                B1-...-B2-...-B3
-For both (\ref{equ:M_space_discret} - \ref{equ:M_space_discret_boundary}) the arithmetic mean of the diffusion function, $D$, is taken because of its steep gradiant at the interface.
+%!%                B1-...-B2-...-B
+For both (\ref{equ:M_space_discret} - \ref{equ:M_space_discret_boundary}) the arithmetic mean of the diffusion function, $D$, is taken because of the steap gradiant at the interface.
+Taking the value of the $D(M^{k+1}_{i+\frac{s}{2}, j +\frac{r}{2}})$ might result in a zero and thus it nullify the diffusion effect.
 
 
