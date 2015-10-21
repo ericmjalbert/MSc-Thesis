@@ -16,45 +16,47 @@ This region has Neumann boundary conditions, $\frac{\partial M}{\partial x} = \f
 Now, only (\ref{equ:M_time_discret}) requires spatial considerations since, according to the biology of our system, the substrate does not diffuse across the region.
 The spatial discretization will be through the Finite Difference Method as described in \cite{saad2003iterativeMethod}.
 Here, a uniform $n \times m$ grid is used to discretize $\Omega$.
-This means that the distance between grid points are the same in both $x_1$ and $x_2$ dimensions; we have $\Delta x_1 = \Delta x_2$.
-The solution of (\ref{equ:M_time_discret}) will be approximated at each grid point using a five-point stencil. 
+Since all the calculations will be done on the grid intersections the discretization will be grid-point based.
+This means that a $n \times m$ grid implies there are $(n-1) \times (m-1)$ grid boxes.
+The distance between grid points is the same in both $x_1$ and $x_2$ dimensions; we have $\Delta x_1 = \Delta x_2$.
+A five-point stencil is used to approximate the solution of (\ref{equ:M_time_discret}) at each grid point.
 To index the grid point, $i$ and $j$ are used such that $M^{k}_{i,j} \approx M(t^{k}, x_{1_i}, x_{2_j})$.
-Because of the five-point stencil, the boundary gridpoints will depend on ghost grid points.
-This means that the equation to solve interior grid points will differ slightly from boundary points.
-
-The resulting equation for interior points, where $i \in (1, 2, \ldots, n-1)$ and $j \in (1, 2, \ldots, m-1)$, is
-\begin{equation} \label{equ:M_space_discret}
-  \frac{M^{k+1}_{i,j} - M^{k}_{i,j}}{\Delta t} = 
-    \frac{1}{\Delta x^2} \sum_{(s,r) \in \mathbb{A}} 
-    \left( \frac{D(M^{k+1}_{i+s,j+r}) + D(M^{k+1}_{i,j})}{2} 
-    \cdot ( M^{k+1}_{i+s, j+r} - M^{k+1}_{i,j}) \right) 
-    + F(C^{k+1}_{i,j}) M^{k+1}_{i,j}
+To account for the dependency on neighbouring grid points, we introduce $\sigma$ as the index pair from the set 
+\begin{equation}\label{equ:neighbour}
+  \mathcal{N}_{ij} = \{n_{ij}, e_{ij}, s_{ij}, w_{ij}\}.
 \end{equation}
-where $\mathbb{A} = \left\{ (0, \pm1), (\pm1, 0) \right\}$.
-
-The resulting equation for boundary points, when $(i,j) \in \{0,n\} \times \{0,1,\ldots,m\}$ or $(i,j) \in \{0,1,\ldots,n\} \times \{0,m\}$, is
-\begin{equation} \label{equ:M_space_discret_boundary}
+where, 
+\begin{equation}
   \begin{aligned}
-  \frac{M^{k+1}_{i,j} - M^{k}_{i,j}}{\Delta t} =& 
-    \frac{1}{\Delta x^2} \sum_{(s,r) \in \mathbb{A}}
-    \left( \frac{D(M^{k+1}_{i+s,j+r}) + D(M^{k+1}_{i,j})}{2}
-    \cdot ( M^{k+1}_{i+s, j+r} - M^{k+1}_{i,j}) \right)
+    n_{ij} = \begin{cases} 
+      (i,j+1)  & \text{ if } j < m \\
+      (i,j-1)  & \text{ if } j = m \end{cases}
+    & \qquad 
+    e_{ij} = \begin{cases}
+      (i+1,j)  & \text{ if } i < n \\
+      (i-1,j)  & \text{ if } i = n \end{cases}
     \\
-    + \frac{1}{\Delta x^2} \sum_{(s,r) \in \mathbb{B}} &
-    \left( \frac{D(M^{k+1}_{i+s,j+r}) + D(M^{k+1}_{i,j})}{2}
-    \cdot ( M^{k+1}_{i-s, j-r} - M^{k+1}_{i+s, j+r}) \right)
-    + F(C^{k+1}_{i,j}) M^{k+1}_{i,j}
+    s_{ij} = \begin{cases}
+      (i,j-1)  & \text{ if } j > 0 \\
+      (i,j+1)  & \text{ if } j = 0 \end{cases}
+    & \qquad 
+    w_{ij} = \begin{cases}
+      (i-1,j)  & \text{ if } i > 0\\
+      (i+1,j)  & \text{ if } i = 0 \end{cases}.
   \end{aligned}
 \end{equation}
-where $\mathbb{B}$ depends on the boundary position;
-$\mathbb{B}_1 = \left\{ (0,-1) \right\}$, $\mathbb{B}_2 = \left\{ (-1,0) \right\}$, $\mathbb{B}_3 = \left\{ (1,0) \right\}$, $\mathbb{B}_4 = \left\{ (0,1) \right\}$.
-For the corner points, where two different boundaries connect, the result is to use a cross-product between $\mathbb{B}$'s, for example $\mathbb{B} = \mathbb{B}_1 \times \mathbb{B}_2$
+With $\mathcal{N}_{ij}$ and $\sigma$ we can account for the difference in boundary points and interior points.
 
-%!% Maybe add a diagrame (tikz) here that shows where the different B's would lay in the region. 
-%!% something like B4-...-B5-...-B6
-%!%                |      |      |
-%!%                B1-...-B2-...-B
-For both (\ref{equ:M_space_discret} - \ref{equ:M_space_discret_boundary}) the arithmetic mean of the diffusion function, $D$, is taken because of the steap gradiant at the interface.
-Taking the value of the $D(M^{k+1}_{i+\frac{s}{2}, j +\frac{r}{2}})$ might result in a zero and thus it nullify the diffusion effect.
+The equation for (\ref{equ:M_time_discret}), after spatial discretization, is
+\begin{equation} \label{equ:M_space_discret}
+  \frac{M^{k+1}_{i,j} - M^{k}_{i,j}}{\Delta t} =
+    \frac{1}{\Delta x^2} \sum_{\sigma \in \mathcal{N}_{ij}}
+    \left( \frac{D(M^{k+1}_{\sigma}) + D(M^{k+1}_{i,j})}{2} \right)
+    \cdot \left( M^{k+1}_{\sigma} - M^{k+1}_{i,j} \right)
+    + F(C^{k+1}_{i,j}) M^{k+1}_{i,j}
+\end{equation}
+
+For (\ref{equ:M_space_discret}), the arithmetic mean of the diffusion function, $D$, is taken because of the steep gradiant at the interface.
+The alternative would be to use $D(M^{k+1}_{i+\frac{s}{2}, j +\frac{r}{2}})$, however this may result in a value of zero and thus nullify the effect of the spatial diffusion.
 
 

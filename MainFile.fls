@@ -301,6 +301,7 @@ INPUT Chapters/2_model/4_parameters.tex
 INPUT Chapters/2_model/4_parameters.tex
 INPUT Chapters/3_numerics/1_discretization.tex
 INPUT Chapters/3_numerics/1_discretization.tex
+INPUT /usr/share/texlive/texmf-dist/fonts/tfm/adobe/times/ptmr7t.tfm
 INPUT Chapters/3_numerics/2_solving_method.tex
 INPUT Chapters/3_numerics/2_solving_method.tex
 INPUT Chapters/3_numerics/3_implementation.tex
@@ -308,9 +309,10 @@ INPUT Chapters/3_numerics/3_implementation.tex
 INPUT /usr/share/texlive/texmf-dist/tex/latex/psnfss/ot1pcr.fd
 INPUT /usr/share/texlive/texmf-dist/tex/latex/psnfss/ot1pcr.fd
 INPUT /usr/share/texlive/texmf-dist/fonts/tfm/adobe/courier/pcrr7t.tfm
-INPUT Chapters/3_numerics/4_results.tex
-INPUT Chapters/3_numerics/4_results.tex
-INPUT /usr/share/texlive/texmf-dist/fonts/tfm/adobe/times/ptmr7t.tfm
+INPUT Chapters/3_numerics/4_method_validation.tex
+INPUT Chapters/3_numerics/4_method_validation.tex
+INPUT /usr/share/texlive/texmf-dist/fonts/vf/adobe/courier/pcrr7t.vf
+INPUT /usr/share/texlive/texmf-dist/fonts/tfm/adobe/courier/pcrr8r.tfm
 INPUT Chapters/3_numerics/Figures/basic_trav_wave_M_t0.eps
 INPUT ./Chapters/3_numerics/Figures/basic_trav_wave_M_t0.eps
 INPUT ./Chapters/3_numerics/Figures/basic_trav_wave_M_t0.eps
@@ -350,8 +352,6 @@ INPUT ./Chapters/3_numerics/Figures/basic_trav_wave_C_t40-eps-converted-to.pdf
 INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm
 INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/amsfonts/symbols/msam5.tfm
 INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm5.tfm
-INPUT /usr/share/texlive/texmf-dist/fonts/vf/adobe/courier/pcrr7t.vf
-INPUT /usr/share/texlive/texmf-dist/fonts/tfm/adobe/courier/pcrr8r.tfm
 INPUT Chapters/3_numerics/Figures/basic_spherical_M_t0.eps
 INPUT ./Chapters/3_numerics/Figures/basic_spherical_M_t0.eps
 INPUT ./Chapters/3_numerics/Figures/basic_spherical_M_t0.eps
@@ -388,6 +388,8 @@ INPUT ./Chapters/3_numerics/Figures/converge_spatial.eps
 INPUT ./Chapters/3_numerics/Figures/converge_spatial-eps-converted-to.pdf
 INPUT ./Chapters/3_numerics/Figures/converge_spatial-eps-converted-to.pdf
 INPUT ./Chapters/3_numerics/Figures/converge_spatial-eps-converted-to.pdf
+INPUT Chapters/3_numerics/5_comparison.tex
+INPUT Chapters/3_numerics/5_comparison.tex
 INPUT ./Chapters/3_numerics/Figures/results_table.tex
 INPUT ./Chapters/3_numerics/Figures/results_table.tex
 INPUT MainFile.bbl

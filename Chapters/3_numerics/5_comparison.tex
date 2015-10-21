@@ -1,0 +1,51 @@
+\section{Comparison of Semi-implicit and Fully-implicit Method}
+  Here the main comparison that analyses the effects of using Algorithm \ref{alg:iterateCM} with different tolerances. 
+  Recall that the main observation is for $tol. = 1$, which correlates to the semi-implicit method since it will allow only a single iteration of the algorithm. 
+
+  The simulation used is the same as described in (\ref{fig:basic_trav}).
+  The comparison will be on multiple metrics: the average number of iterations of Algorithm \ref{alg:iterateCM}, the value of $\epsilon_1$ and $\epsilon_2$, the computation time of the simulation, and the location of the wave peak.
+
+  The average number of iterations are tracked so that an idea of the extra work can be formed.
+  As the tolerance decreases the amount of iterations the algorithm must perform will increase, the degree of increase will help relate the amount of work.
+
+  The value of $\epsilon_1$ and $\epsilon_2$ act as a measure of accuracy.
+  Here, these values correspond to the difference between a pair of solutions, $u_1$ and $u_2$.
+  The $(u_1, u_2)$ pairs are: $(1, 10^{-8}), (10^{-8}, 10^{-10}), (10^{-10}, 10^{-12}), (10^{-12}, 10^{14})$.
+  Each row of Table \ref{tab:tolerance_comparison} refers to the $u_1$ values of the pairs.
+  Each difference was taken at the last timestep.
+
+  Along with accuracy, the simulation time is tracked.
+  This is because it represents another metric for which the viability of the fully-implicit method can be verified.
+  Theoretically there should be a decrease in the error with the fully-implicit method as the value for $tol$ decreases.
+  Therefore, this needs to be weighted against the cost of computational intensity and the increase of the simulation time.
+
+  The location of the wave peak is a tracked quality of the solution that reveals how consistent the results are.
+  The wave peak is described here as the maximum value of the solution at the final timestep calculated.
+  The ultimate goal is that the simulation solutions be converging towards the exact solution.
+  To see this here the $x$-coordinate of the wave peak is tracked.
+
+  The results of the method comparison can be seen in Table \ref{tab:tolerance_comparison}.
+  \input{./Chapters/3_numerics/Figures/results_table}
+
+  %!% Talk about what is seen here?
+
+  %!% The fully-implicit method should have less iterations of the linear solver.
+  
+  %\begin{table}[h!tb]
+  %  \centering
+  %  %!% If I just list time and epsilons, maybe four gnuplots graph with the simulation time listed in the legend would be better.
+  %  \begin{tabular}{|c|c|c|c|c|}
+  %    \hline
+  %    P & Simulation Time & $\epsilon_{\ell_1}$ & $\epsilon_{\ell_2}$ & $\epsilon_{\ell_\infty}$  \\
+  %    \hline
+  %    1& 60.05 & 0.0018 & - & - \\
+  %    2& 97.72  & 0.0014 & - & - \\
+  %    3& 117.46 & 0.0013 & - & - \\
+  %    4& 126.44 & 0.0011& - & - \\
+  %    \hline
+  %    %!% OLD ROWS - Tol. 1 & Computation Time & $\epsilon_{sol}$ & Avg. Iter. 1 & Max Iter. 1 & Avg. Iter. 2 & Max Iter. 2 \\
+  %  \end{tabular}
+  %  \caption{Results from running simulation with different $P$ values. Note, $P = 1$ corresponds to the semi-implicit method.}
+  %  \label{tab:tolerance_comparison}
+  %\end{table}
+  

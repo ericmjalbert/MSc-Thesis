@@ -1,8 +1,8 @@
 \section{Solving Method}
 
-Now there exist equations for which $C$ and $M$ can be solved, (\ref{equ:C_time_discret}) and (\ref{equ:M_space_discret} - \ref{equ:M_space_discret_boundary}) respectivly.
+Now there exist equations for which $C$ and $M$ can be solved, (\ref{equ:C_time_discret}) and (\ref{equ:M_space_discret}) respectivly.
 Using $C^{k}$ and $M^{k}_{i,j}$ as approximations of the solutions for (\ref{equ:model_system}) will allow the system to be solved by computing $C^{k+1}$ and $M^{k+1}_{i,j}$.
-However, there are complications with trying to get an explicit formula for $M^{k+1}_{i,j}$ from (\ref{equ:M_space_discret} - \ref{equ:M_space_discret_boundary}) because of the dependency on $M$ in $D(M)$. 
+However, there are complications with trying to get an explicit formula for $M^{k+1}_{i,j}$ from (\ref{equ:M_space_discret}) because of the dependency on $M$ in $D(M)$. 
 To remedy this, a fixed point iteration is introduced.
 In a single time step, the solutions for $M$ and $C$ can be solved using the previous time step solution in the follow manner:
 \begin{equation} \label{equ:M_fixed_point}
@@ -99,6 +99,9 @@ This results in $A$ being a M-matrix.
 It also means that it could be solved using Bi-Conjugate Gradient Method.
 However the Conjugate Gradient method has a faster computation time then Bi-Conjugate Gradiant method for this problem and is used for this reason (\cite{barret1987templates}).
 
+
+%!% From this we can figure an additional constrait on delta t. 
+
 For solving (\ref{equ:C_fixed_point}), the equation can be rearranged into a quadratic form, substituting in $G(C)$ from (\ref{equ:model_functions})
 \begin{equation}
   \left(C^{(p+1)}\right)^2 + \left( \kappa - C^k + \frac{h}{2} \gamma M^{(p+1)} + \frac{h}{2} \frac{ \gamma C^k M^k}{\kappa + C^k} \right) C^{(p+1)} + \left( -\kappa C^k + \frac{h}{2} \frac{\gamma \kappa C^k M^k}{\kappa + C^k} \right) = 0.
@@ -141,12 +144,11 @@ Using the quadratic equation results in,
 Now that computable solutions for $M$ and $C$ at a single time step have been found, an algorithm to solve for the next time step can be established.
 Algorithm \ref{alg:iterateCM} shows the organization of solving (\ref{equ:C_fixed_point} - \ref{equ:M_fixed_point}). 
 \begin{algorithm}
-  \KwData{$M^{(p)}$ and $C^{(p)}$ are temporary solutions defined such that 
-    \\$\quad$ $M^{(p)} \to M^{k+1}$ and $C^{(p)} \to C^{k+1}$ as $(p) \to P$.
-    \\$\quad$ $\epsilon_{sol}$ is a tolerance set for a desired accuracy.}
+  \KwData{$M^{k}$, $C^{k}$ are the values from the previous timestep and $p = 0$. }
   \Begin
   {
-    \While{convergence is not acheived } 
+    Let $M^{(0)} = M^{k}$ and $C^{(0)} = C^{k}$\;
+    \While{Convergence is not acheived } 
     {
         %!% Did I ever define b^p ?? If not I should either rewrite this or introduce b^p....
         Solve $A^{(p)} M^{(p+1)} = b^{(p)}$\;
@@ -159,10 +161,12 @@ Algorithm \ref{alg:iterateCM} shows the organization of solving (\ref{equ:C_fixe
         Let $M^{(p)} = M_{(p+1)}$\;
         Let $p = p + 1 $\;
     }
+    Let $M^{(k+1)} = M^{(P)}$ and $C^{(k+1)} = C^{(P)}$\;
   }
   \caption{Algorithm for the fully-implicit solving of (\ref{equ:model_system}) }
   \label{alg:iterateCM}
 \end{algorithm}
+
 Note that Algorithm \ref{alg:iterateCM} actually describes both a fully- and semi- implicit method for solving (\ref{equ:model_system}). 
 If $P = 1$ then only a single iteration of the algorithm is applied, which correlates to a semi-implicit method would behave.
 This would result in a change similar to how the Gauss-Seidal method changes the Jacobi method; the values used would no longer be updated in a single timestep when $P = 1$.
@@ -171,7 +175,7 @@ To use the algorithm, the matrix system was converted into a 1D array by use of 
 \begin{equation}
 \begin{array}{c c c c}
   %!% Make sure this actually maps to {1, \ldots, nm} instead of 1.... (n+1)(m+1)
-  \pi :& \{ 0, \ldots, n\} \times \{0, \ldots, m\} & \to & \{1, \ldots, nm \} \\
+  \pi :& \{ 0, \ldots, n\} \times \{0, \ldots, m\} & \to & \{0, \ldots, nm \} \\
        & (i,j)                                     & \to & \pi(i,j)
 \end{array}
 \end{equation}
