@@ -1,4 +1,4 @@
-\section{Numerical Results}
+\section{Method Validation}
 
   With a defined method and computational setup a varaity of simulations can be run to observe the accuracy and behaviour of the method.
   An examination of a typical simulation will show if the expected behaviour is observed, validating the method as functioning.
@@ -93,9 +93,9 @@
   To ensure this is not the case, the total amount of biomass can be used to compare the simulated amount against the theoretical amount. 
   However, the total biomass cannot be exactly determined with the given growth rate function.
   This means that there will not be anything to measure the validity of the simulation solution against.
-  If we let the growth rate be constant, the expected total biomass would be $y_0 e^t$.
-  This can be checked by tracking the total biomass, now called $T_{M}(t)$, with the changed growth rate function, $F(C) = 1$.
-  Tracking $T_{M}(t)$ can be done by,
+  If we let the growth rate be some constant called $a$, the expected total biomass would be of the form $y_0 e^{at}$.
+  This can be checked by tracking the total biomass, now called $T_{M}(t)$, with the changed growth rate function, $F(C) = a$.
+  The calculation of $T_{M}(t)$ can be done by,
   \begin{equation} \label{equ:total_biomass}
     T_{M}(t) = \int_{\Omega} M(t) dx.
   \end{equation}
@@ -103,15 +103,24 @@
   \begin{equation}
     T_{M}(t^k) \approx T_{M}^{k} = \frac{ \sum^n_i \sum^m_j M^{k}_{i,j} }{nm}.
   \end{equation}
-  
-  %!% Why is this next line have \frac{1}{3812}... should maybe show the calculations that made that values'; i.e. solve y = y0*\exp^{k}
-  Figure \ref{fig:basic_growth} shows that the total biomass is as expected, since it matchs the curve of $\frac{1}{3812.5}*e^{k}$, an exponential function.
-  The simulation results in Figure \ref{fig:basic_growth} are from the same as Figure \ref{fig:basic_spherical} but at later times so that the boundary effects can be observed.
+
+  %!% If I can figure out how to exactly do this, then add it in....
+%  The exact expected biomass can be calculated by computing 
+%  \begin{equation}
+%    \int_{\Omega} a M(t) dA = M_0 e^{at}
+%  \end{equation}
+  The simulation setup used will be analogous to that used for Figure \ref{fig:basic_spherical}.
+  The one difference will be that the simulation here is ran for a longer time to allow the biomass to diffuse along the boundary, showing the boundary effects.
+ 
+  From Figure \ref{fig:basic_growth} we can see that the total biomass only differs between the computed value and the theoretical value by a relative error less then $0.003$.
+  The cases where the error becomes significant are from the region being completely filled with biomass, at which point diffusion is no longer possible.
+  The error fluctuates violently here because of this.
+  This suggests that the method does not introduce any significant sources or sinks of biomass at the boundary of the region.
 
   \begin{figure}
     \centering
     \includegraphics[scale = 0.9]{basic_growth}
-    \caption{Plot of the relative error, $\frac{|u_1 - u_2|}{|u_2|}$, between the computed total biomass, $T_{M}(t)$, and the theoretical total biomass, $y_0 e^x$. 
+    \caption{Plot of the relative error, $\frac{|f_1 - f_2|}{|f_2|}$, between the computed total biomass, $f_1 = T_{M}(t)$, and the theoretical total biomass, $f_2 = y_0 e^x$. 
       The changes after $t = 8$ are from the biomass having completely filled the region $\Omega$.
       This means that there is no physical space for the biomass to occupy and thus the growth slows down to a stop.}
     \label{fig:basic_growth}
@@ -136,21 +145,19 @@
     \epsilon_{sol} = \frac{||u_1 - u_2||}{||u_2||}
   \end{equation}
   where $u_1$ represents one simulation solution and $u_2$ represents the solution that is theoretically more accurate.
-  The theoretical accuracy of $u_2$ derives from the fact that most comparisons will be done between solutions that vary in only $\Delta x$ or between semi- and fully- implicit.
-  These are understood to have the relation that a smaller $\Delta x$, and that the fully-implicit method is to be more accurate.
+  The theoretical accuracy of $u_2$ derives from the fact that most comparisons will be done between solutions where one is trivially expected to be more precise.
+  For our purposes, the solutions we compare will typically vary in only $\Delta x$ or between semi- and fully- implicit.
+  These are understood to have the relation that a smaller $\Delta x$, and that the fully-implicit method with the highest tolerance is to be more accurate.
   There is an assumption that both $u_1$ and $u_2$ have the same number of grid points, so that the difference can be taken grid-wise.
-%!%The theoretical accuracy of $u_2$ derives from the fact that most comparisons will be done between solutions that vary in only $\Delta x$, $\Delta t$, or between semi- and fully- implicit.
-%!%  These are understood to have the relation that a smaller $\Delta x$ and $\Delta t$ will be more accurate, and that the fully-implicit method is to be more accurate.
-
 
   The results of the error computations, named $\epsilon_{sol}$, is a numerical value for the difference between two solutions.
-  This depends on the normed used during the computations.
+  This depends on the norm used during the computations.
   Here three norms will be used:
   \begin{equation}  \label{equ:norm_l1}
-    \ell_1: ||u||_1 = \sum_{\pi(i,j)}^{nm} |u_{i,j}|
+    \ell_1: ||u||_1 = \frac{1}{nm} \sum_{\pi(i,j)}^{nm} |u_{i,j}|
   \end{equation}
   \begin{equation}  \label{equ:norm_l2}
-    \ell_2: ||u||_2 = \sqrt{\sum_{\pi(i,j)}^{nm} (u_{i,j})^2}
+    \ell_2: ||u||_2 = \frac{1}{nm} \sqrt{\sum_{\pi(i,j)}^{nm} (u_{i,j})^2}
   \end{equation}
   \begin{equation}  \label{equ:norm_linf}
     \ell_\infty: ||u||_\infty = \max_{\substack{i=1,\ldots,n \\j=1,\ldots,m}} |u_{i,j}|
@@ -168,81 +175,102 @@
   This will involve using the same simulation described in (\ref{equ:basic_init_trav_wave}) due to the simplicity. 
  
   The convergence will be tracked with only two forms of $\epsilon_{sol}$; $\epsilon_1$ and $\epsilon_2$.
-  This is because the value of $\epsilon_{\infty}$ doesn't vary with the grid size; the wave front is too sharp and with a change in grid size it will always be the point of greatest error.
-  Since there exist a difference in the number of grid points between the different solutions, $u_1$ and $u_2$, only the grid points in the more coarse refinement will be used.
-  This places a limitation on the selection of grid-sizes and so they will follow the series $s(n) = 2^{n-1}+1$ for $n \in \mathbb{Z}$.
-  So that the grid points can line up, without any use of linear interpolation, grid refine must be using $s(n)$ instead of the typical grid doubling of $2^{n}$. 
-  This is illustrated in Figure \ref{fig:grid_point_lineup}.
-
+  This is because the value of $\epsilon_{\infty}$ doesn't vary with the grid size, since the wave front has a steep interface and tends to lead to inconsistent changes in error.
+  Since the use of $\epsilon_{\infty}$ is not a suitable method for measuring the error, the inconsistency does not suggest an invalidity with the method.
+  Because of the difference in the number of grid points between different solutions, $u_1$ and $u_2$, only the grid points in the coarser refinement will be used.
+  This places a limitation on the selection of grid-sizes since there must be some grid points locations that are the same for two different chosen grid sizes.
+  For this purpose, we define the function $s(n) = 2^{n}+1$ for $n \in \mathbb{N}$ to be used as the grid size selection function.
+  Now certain grid points will match without the use of linear interpolation.
+  Here we do not use the typical grid doubling, $2^n$, because no grid points equal between two different grid size selection, as illustrated in Figure \ref{fig:grid_point_lineup}.
 
   \begin{figure}
     \centering
-    \begin{tikzpicture}
-      \draw [dashed] (0, 4.2) -- (0, 0.8);
-      \draw [dashed] (1, 4.2) -- (1, 0.8);
-      \draw [dashed] (2, 4.2) -- (2, 0.8);
-      \draw [dashed] (3, 4.2) -- (3, 0.8);
-  
-      \draw [thick] (0,4) -- (3,4);
-      \draw [thick] (0, 4.2) -- (0, 3.8);
-      \draw [thick] (1, 4.2) -- (1, 3.8);
-      \draw [thick] (2, 4.2) -- (2, 3.8);
-      \draw [thick] (3, 4.2) -- (3, 3.8);
-  
-      \node [right] at (4.6, 4) {4 grid points initially};
-      \node [above] at (0,4.2) {1};
-      \node [above] at (1,4.2) {2};
-      \node [above] at (2,4.2) {3};
-      \node [above] at (3,4.2) {4};
-  
-      \draw [thick] (0, 2.5) -- (3, 2.5);
-      \draw [thick] (0, 2.7) -- (0, 2.3);
-      \draw [thick] (0.5, 2.7) -- (0.5, 2.3);
-      \draw [thick] (1, 2.7) -- (1, 2.3);
-      \draw [thick] (1.5, 2.7) -- (1.5, 2.3);
-      \draw [thick] (2, 2.7) -- (2, 2.3);
-      \draw [thick] (2.5, 2.7) -- (2.5, 2.3);
-      \draw [thick] (3, 2.7) -- (3, 2.3);
-  
-      \node [right] at (4, 2.5) {(a) 7 grid points following $s(n)=2^n +1$};
-      \node [above] at (0, 2.7) {1};
-      \node [above] at (0.5, 2.7) {2};
-      \node [above] at (1, 2.7) {3};
-      \node [above] at (1.5, 2.7) {4};
-      \node [above] at (2, 2.7) {5};
-      \node [above] at (2.5, 2.7) {6};
-      \node [above] at (3, 2.7) {7};
-  
-      \draw [thick] (0, 1) -- (3, 1);
-      \draw [thick] (0.000, 1.2) -- (0.000, 0.8);
-      \draw [thick] (0.429, 1.2) -- (0.429, 0.8);
-      \draw [thick] (0.857, 1.2) -- (0.857, 0.8);
-      \draw [thick] (1.286, 1.2) -- (1.286, 0.8);
-      \draw [thick] (1.714, 1.2) -- (1.714, 0.8);
-      \draw [thick] (2.143, 1.2) -- (2.143, 0.8);
-      \draw [thick] (2.571, 1.2) -- (2.571, 0.8);
-      \draw [thick] (3.000, 1.2) -- (3.000, 0.8);
-  
-      \node [right] at (4, 1) {(b) 8 grid points following $2^{n+1}$};
-      \node [above] at (0.000, 1.2) {1};
-      \node [above] at (0.429, 1.2) {2};
-      \node [above] at (0.857, 1.2) {3};
-      \node [above] at (1.286, 1.2) {4};
-      \node [above] at (1.714, 1.2) {5};
-      \node [above] at (2.143, 1.2) {6};
-      \node [above] at (2.571, 1.2) {7};
-      \node [above] at (3.000, 1.2) {8};
+    \begin{tabular}{| c | c | c |}
+      \hline
+      &  $s(n) = 2^{n}+1 $ & $2^n$ \\
+      \hline
+      $n=2$ 
+      & 
+      \begin{tikzpicture}
+        \draw [thick] (0.0, 1.0) -- (4.0, 1.0);
+        \draw [thick] (0.0, 0.8) -- (0.0, 1.2);
+        \draw [thick] (1.0, 0.8) -- (1.0, 1.2);
+        \draw [thick] (2.0, 0.8) -- (2.0, 1.2);
+        \draw [thick] (3.0, 0.8) -- (3.0, 1.2);
+        \draw [thick] (4.0, 0.8) -- (4.0, 1.2);
 
-      %!% Maybe try doing a 2D explaination. Showing the grids in an isometric plane in a - b - c format on one row. Then have horizontal dashed lines showing the matching (and not matching) grid-points ??
-      %!%     _ _  
-      %!%    /| _
-      %!%   |x/__  etc....
-      %!%   |/___
-  
-    \end{tikzpicture}
-    \caption{Visualization in 1D explaining the use of $s(n) = 2^{n} + 1$ instead of $2^{n+1}$ to control the grid size selection. 
-      When the number of grid points are (b) doubled they do not lineup with the grid points of the previous discritization.
-      With (a) this problem does not exist.}
+        \node [above] at (0.0, 1.2) {1};
+        \node [above] at (1.0, 1.2) {2};
+        \node [above] at (2.0, 1.2) {3};
+        \node [above] at (3.0, 1.2) {4};
+        \node [above] at (4.0, 1.2) {5};
+      \end{tikzpicture} 
+      &
+      \begin{tikzpicture}
+        \draw [thick] (0,1) -- (4,1);
+        \draw [thick] (0.0, 0.8) -- (0.0, 1.2);
+        \draw [thick] (1.333, 0.8) -- (1.333, 1.2);
+        \draw [thick] (2.667, 0.8) -- (2.667, 1.2);
+        \draw [thick] (4.0, 0.8) -- (4.0, 1.2);
+
+        \node [above] at (0.0, 1.2) {1};
+        \node [above] at (1.333, 1.2) {2};
+        \node [above] at (2.667, 1.2) {3};
+        \node [above] at (4.0, 1.2) {4};
+      \end{tikzpicture}
+      \\
+      \hline
+      $ n = 3 $
+      &
+      \begin{tikzpicture}
+        \draw [thick] (0,1) -- (4,1);
+        \draw [thick] (0.0, 0.8) -- (0.0, 1.2);
+        \draw [thick] (0.5, 0.8) -- (0.5, 1.2);
+        \draw [thick] (1.0, 0.8) -- (1.0, 1.2);
+        \draw [thick] (1.5, 0.8) -- (1.5, 1.2);
+        \draw [thick] (2.0, 0.8) -- (2.0, 1.2);
+        \draw [thick] (2.5, 0.8) -- (2.5, 1.2);
+        \draw [thick] (3.0, 0.8) -- (3.0, 1.2);
+        \draw [thick] (3.5, 0.8) -- (3.5, 1.2);
+        \draw [thick] (4.0, 0.8) -- (4.0, 1.2);
+
+        \node [above] at (0.0, 1.2) {1};
+        \node [above] at (0.5, 1.2) {2};
+        \node [above] at (1.0, 1.2) {3};
+        \node [above] at (1.5, 1.2) {4};
+        \node [above] at (2.0, 1.2) {5};
+        \node [above] at (2.5, 1.2) {6};
+        \node [above] at (3.0, 1.2) {7};
+        \node [above] at (3.5, 1.2) {8};
+        \node [above] at (4.0, 1.2) {9};
+      \end{tikzpicture}
+      &
+      \begin{tikzpicture}
+        \draw [thick] (0,1) -- (4,1);
+        \draw [thick] (0.000, 0.8) -- (0.000, 1.2);
+        \draw [thick] (0.571, 0.8) -- (0.571, 1.2);
+        \draw [thick] (1.143, 0.8) -- (1.143, 1.2);
+        \draw [thick] (1.714, 0.8) -- (1.714, 1.2);
+        \draw [thick] (2.286, 0.8) -- (2.286, 1.2);
+        \draw [thick] (2.857, 0.8) -- (2.857, 1.2);
+        \draw [thick] (3.429, 0.8) -- (3.429, 1.2);
+        \draw [thick] (4.000, 0.8) -- (4.000, 1.2);
+
+        \node [above] at (0.000, 1.2) {1}; 
+        \node [above] at (0.571, 1.2) {2};
+        \node [above] at (1.143, 1.2) {3};
+        \node [above] at (1.714, 1.2) {4};
+        \node [above] at (2.286, 1.2) {5};
+        \node [above] at (2.857, 1.2) {6};
+        \node [above] at (3.429, 1.2) {7};
+        \node [above] at (4.000, 1.2) {8};
+
+      \end{tikzpicture}
+      \\
+      \hline
+    \end{tabular}
+    \caption{Visualization in 1D to illustrate the choice of $s(n) = 2^{n} + 1 $ instead of $2^{n}$ for the grid size selection.
+      Here is can be seen that successive grid size selections using $s(n)$ line up on certain grid points and when using $2^n$ no grid points are equivalent.}
     \label{fig:grid_point_lineup}
   \end{figure}
 
@@ -250,11 +278,18 @@
   %!% Makes this use log graph and maybe its a stragith line.
   %!% Also have graphs of how the quatilites of interest change with grid-size (and with t?)
   %!% Maybe have a 2D plot of x = \delta x, y = \delta t, z = \epsilon. showing how it (should) decrease with \delta x and \t.
-      %!% to the above graph, can later add computation time to it to justify the choice in \delta t and \delta x for the later simulations
+  %     to the above graph, can later add computation time to it to justify the choice in \delta t and \delta x for the later simulations
+
+  Using the same simulation setup as was done in Figure (\ref{fig:basic_trav}), solutions resulting from different grid sizes based on $s(n)$ are computed for $n = 5, 6, \ldots, 12$.
+  In this case, when calculating $\epsilon_{sol} = \frac{| u_1 - u_2 |}{|u_2|}$, we let $u_1$ be the grid size under investigation and $u_2$ be the solutions of the most refined gridsize, $n = 12$.
+  This results in a series of values that, if the solutions converge with smaller grid sizes, should have less change.
+
+
+
   \begin{figure}
     \centering
     \includegraphics{converge_spatial}
-    \caption{Plot showing the convergence of solutions based on changes in $\Delta x$. The computions are of $\epsilon_{\ell_1}$ and $\epsilon_{\ell_2}$ with grid-size following $s(n) = 2^{n-1}+1$.}
+    \caption{Plot showing the convergence of solutions based on changes in $\Delta x$. The computions are of $\epsilon_{\ell_1}$ and $\epsilon_{\ell_2}$ with grid-size following $s(n) = 2^{n}+1$.}
     \label{fig:converge_spatial}
   \end{figure}
 
