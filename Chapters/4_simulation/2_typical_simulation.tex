@@ -9,56 +9,77 @@ This means there will be a number of points to discuss here:
   \item Show the results.
 \end{itemize}
 
+%
+%
+%This will be a short section describing what the region/xgridsize/parameters etc. will be for the following simulations.
+%The main idea here is so that the results can be appropiatly reproduced. 
+%Also include a section on the machine run (so this will be reckoning2 I think....)
+%
+%This will list, in depth, the programs that I use, ie. R, python, Fortran, BASH, and what versions of each.
+%Should probably also list hat each parameters that isn't method specific ($\alpha, \beta ,\gamma, \delta, \nu, \mu, \kappa$), so mainly the region, gridsize, and t stuff.
 
-The system
-\begin{align}
-    M_t &= \nabla_x \left( D(M) \nabla_x M \right) + f(C) M \\
-    C_t &= - g(C) M 
-\end{align}
-where
-\begin{align}
-    D(M) &= \delta \frac{M^\alpha}{(1 - M)^\beta} \\
-    f(C) &= g(C) - \nu  \\
-    g(C) &= \frac{\gamma C}{\kappa +C}
-\end{align}
-is solved on a rectangular region with length $L$ and width $\lambda L$ with the following parameter values,
-\begin{equation}
-\begin{aligned}
-    \alpha &= 4 \\
-    \beta &= 4 \\
-    \nu &= 0.1 \\      
-\end{aligned}
-\qquad
-\begin{aligned}
-    \delta &= 10^{-8} \\
-    \kappa &= 0.01 \\
-    \gamma &= 0.81 \\
-\end{aligned}
-\end{equation}
-and with initial conditions of $C = 1$ everywhere and $i$ random innoculation points centered at $(x_i, y_i)$ defined by, 
-\begin{equation}
-  M(x,y) = \max \left\{ -\frac{h}{d^2} \left((x-x_i)^2 + (y-y_i)^2\right) + h, \quad 0 \right\}
-\end{equation}  
-where $h = 0.1/i, d=\frac{5}{128}$ , representing the height and depth of the inoculation site.
-
-Using simulation code version $139e63e$ a typical simultation with $i = 4$ random innoculation points was run. The following results were found using a finite difference method to solve $M$ and trapizedral rule to solve $C$ with $\Delta x = \frac{1}{512}$ and $\Delta t = 10^-2$.
-
-\begin{figure}[h!tb]
-\begin{center}
-  \begin{tabular}{c c}
-%      \includegraphics[scale=0.15]{3d_sim_t0.png} &
-%      \includegraphics[scale=0.15]{3d_sim_t8.png} \\
-      (a) & (b) \\
-%      \includegraphics[scale=0.15]{3d_sim_t16.png} &
-%      \includegraphics[scale=0.15]{3d_sim_t24.png} \\
-      (c) & (d) \\
-%      \includegraphics[scale=0.15]{3d_sim_t32.png} &
-%      \includegraphics[scale=0.15]{3d_sim_t40.png} \\
-      (e) & (f)
-   \end{tabular}
-  \caption{Solutions of $M$ at (a) t = 0, (b) t =8, (c) t = 16, (d) t = 24, (e) t = 32, (f) t = 40. } 
-  \label{fig:solution42}
-\end{center}
-\end{figure}
-
-
+%!% Actually, describe CO2 prod after typical simulation
+%
+%\subsection{$CO_2$ Production}
+%
+%I think describing what the CO2 production equation stuff is here would be best. The idea would be to source the origins of this idea (Alex paper?) and then have the equations and calcuations to figuring it out listed here. Finishing this off with the actual third equation:
+%\begin{equation}
+% \mathcal{P}(t) = \int^t_0 \mathcal{R}(s) dt
+%\end{equation}
+%\begin{equation}
+% \mathcal{R}(t) = \int_\Omega p_t dx = \int_\Omega G(C) M dx
+%\end{equation}
+%
+%A few things that would needed to be added would be to firstly, reverse the order of the introduction of that. Ie. $p_t = G(C) M$ first, then $\mathcal{R}(t) = \ldots$, lastly $\mathcal{P}(t) =\ldots$. Also should have a quick blerb that mentions that $\mathcal{R}(t)$ is the rate of CO2 being produced at the point in time and $\mathcal{P}(t)$ is the cumulative amount of CO2 produced.
+%The system
+%\begin{align}
+%    M_t &= \nabla_x \left( D(M) \nabla_x M \right) + f(C) M \\
+%    C_t &= - g(C) M 
+%\end{align}
+%where
+%\begin{align}
+%    D(M) &= \delta \frac{M^\alpha}{(1 - M)^\beta} \\
+%    f(C) &= g(C) - \nu  \\
+%    g(C) &= \frac{\gamma C}{\kappa +C}
+%\end{align}
+%is solved on a rectangular region with length $L$ and width $\lambda L$ with the following parameter values,
+%\begin{equation}
+%\begin{aligned}
+%    \alpha &= 4 \\
+%    \beta &= 4 \\
+%    \nu &= 0.1 \\      
+%\end{aligned}
+%\qquad
+%\begin{aligned}
+%    \delta &= 10^{-8} \\
+%    \kappa &= 0.01 \\
+%    \gamma &= 0.81 \\
+%\end{aligned}
+%\end{equation}
+%and with initial conditions of $C = 1$ everywhere and $i$ random innoculation points centered at $(x_i, y_i)$ defined by, 
+%\begin{equation}
+%  M(x,y) = \max \left\{ -\frac{h}{d^2} \left((x-x_i)^2 + (y-y_i)^2\right) + h, \quad 0 \right\}
+%\end{equation}  
+%where $h = 0.1/i, d=\frac{5}{128}$ , representing the height and depth of the inoculation site.
+%
+%Using simulation code version $139e63e$ a typical simultation with $i = 4$ random innoculation points was run. The following results were found using a finite difference method to solve $M$ and trapizedral rule to solve $C$ with $\Delta x = \frac{1}{512}$ and $\Delta t = 10^-2$.
+%
+%\begin{figure}[h!tb]
+%\begin{center}
+%  \begin{tabular}{c c}
+%%      \includegraphics[scale=0.15]{3d_sim_t0.png} &
+%%      \includegraphics[scale=0.15]{3d_sim_t8.png} \\
+%      (a) & (b) \\
+%%      \includegraphics[scale=0.15]{3d_sim_t16.png} &
+%%      \includegraphics[scale=0.15]{3d_sim_t24.png} \\
+%      (c) & (d) \\
+%%      \includegraphics[scale=0.15]{3d_sim_t32.png} &
+%%      \includegraphics[scale=0.15]{3d_sim_t40.png} \\
+%      (e) & (f)
+%   \end{tabular}
+%  \caption{Solutions of $M$ at (a) t = 0, (b) t =8, (c) t = 16, (d) t = 24, (e) t = 32, (f) t = 40. } 
+%  \label{fig:solution42}
+%\end{center}
+%\end{figure}
+%
+%

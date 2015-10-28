@@ -1,4 +1,4 @@
-\section{Solving Method}
+\section{Solving Technique}
 
 Now there exist equations for which $C$ and $M$ can be solved, (\ref{equ:C_time_discret}) and (\ref{equ:M_space_discret}) respectivly.
 Using $C^{k}$ and $M^{k}_{i,j}$ as approximations of the solutions for (\ref{equ:model_system}) will allow the system to be solved by computing $C^{k+1}$ and $M^{k+1}_{i,j}$.
@@ -99,11 +99,8 @@ This results in $A$ being a M-matrix.
 It also means that it could be solved using Bi-Conjugate Gradient Method.
 However the Conjugate Gradient method has a faster computation time then Bi-Conjugate Gradiant method for this problem and is used for this reason (\cite{barret1987templates}).
 
-
-%!% From this we can figure an additional constrait on delta t. 
-
 For solving (\ref{equ:C_fixed_point}), the equation can be rearranged into a quadratic form, substituting in $G(C)$ from (\ref{equ:model_functions})
-\begin{equation}
+\begin{equation} \label{equ:quadratic_C}
   \left(C^{(p+1)}\right)^2 + \left( \kappa - C^k + \frac{h}{2} \gamma M^{(p+1)} + \frac{h}{2} \frac{ \gamma C^k M^k}{\kappa + C^k} \right) C^{(p+1)} + \left( -\kappa C^k + \frac{h}{2} \frac{\gamma \kappa C^k M^k}{\kappa + C^k} \right) = 0.
 \end{equation}
 
@@ -117,28 +114,79 @@ Using the quadratic equation results in,
     b &= \kappa - C^k + \frac{h}{2} \gamma M^{(p+1)} + \frac{h}{2} \frac{\gamma C^k M^k}{\kappa + C^k} \\
     c &= -\kappa C^k + \frac{h}{2} \frac{\gamma \kappa C^k M^k}{\kappa + C^k}
   \end{aligned}  \end{equation}
+
+Unless $b^2 - 4ac = 0$, we have two different solutions to $C^{(p+1)}$. 
+The problem with that is that if both solutions are positive we have two valid values to be used. 
+If the quantitative behaviour of the solutions change with choices of timestep, $h$, then the validity of the method goes down.
+Here, we can show that there will always be only one positive solution, regardless of timestep choice.
+
+\begin{prop}
+  The quadratic equation defined as (\ref{equ:quadratic_C}) will always have one positive solution and one negative solution for realistic parameter choices.
+\end{prop}
+
+\begin{proof}
+  Rearranging (\ref{equ:quadratic_C}) so that all the $h$ terms are on the right-hand-side, we get
+  \begin{equation}
+    \left( C^{(p+1)} \right)^2 + \left(\kappa - C^{k}\right)C^{(p+1)} - \kappa C^{k} =  \left(\frac{\gamma C^k M^k}{2\left(\kappa + C^k\right)} - \left(\frac{\gamma M^{(p+1)}}{2} - \frac{\gamma C^k M^k}{2 \left(\kappa + C^k\right)} \right)C^{(p+1)} \right) h.
+  \end{equation}
+  To simplify analysis, we let $\bar{a} = \frac{\gamma M^{(p+1)}}{2} - \frac{\gamma C^k M^k}{2\left(\kappa + C^k\right)}$ and $\bar{b} = \frac{\gamma C^k M^k}{2\left(\kappa + C^k\right)}$.
   
-  To determine which branch of (\ref{eq:Cquad}) to use, a physical situation is used. 
-  Specifically the case where there exist no biomass, $M = 0$. 
-  %!% "function of $\tau$.... need to change them all to tau at some point....
-  The expected outcome is that no substrate is consumed and thus the substrait concentration will remain constant as a function of $t$. 
-  When the equations in (\ref{para:abc}) are evaluated at $M = 0$, the result it,
-  \begin{equation}
-    a = 1, \quad b = \kappa - C^k, \quad c = -\kappa C^k,
-  \end{equation} 
-  which can be used to evaluate (\ref{eq:Cquad}) as,
-  \begin{equation} \begin{aligned}
-    C^{(p+1)} &= \frac{- (\kappa - C^k) \pm \sqrt{(\kappa - C^k)^2 - 4 (-\kappa C^k)}}{2} \\
-      &= \frac{1}{2} \left( C^k - \kappa \pm \sqrt{\kappa^2 + 2 \kappa C^k + \left(C^k \right) ^2}\right) \\
-      &= \frac{1}{2} \left( C^k - \kappa \pm (\kappa+C^k) \right). \\
-  \end{aligned} \end{equation}
-  Now, if the positive branch is used the above equation evaluates to $C^{(p+1)} = C^k$. 
-  This means that between any two distinct times, the substrait concentration will remain constants, which was expected. 
-  To further this confirmation, the negative branch results in $C^{(p+1)} = -\kappa $, a non-postive substrate concentration, which is not physically relavent. 
-  \begin{equation}
-    C^{(p+1)} = \frac{-b + \sqrt{b^2 - 4ac}}{2a}
-  \end{equation} 
-  where $a,b$, and $c$ are defined in (\ref{para:abc}).
+  We analysize both the left-hand-side and right-hand-side independently by letting $f_l = \left( C^{(p+1)} \right)^2 + \left(\kappa - C^{k}\right)C^{(p+1)} - \kappa C^{k}$ and $f_r =  \left(\bar{b} - \bar{a} C^{(p+1)} \right) h$.
+  $f_l$ is a quadratic equation with positive concavity everywhere and $C^{(p+1)}$-intercept at $-\kappa C^{k} < 0$.
+  $f_r$ is a line with a slope opposite to the sign of $\bar{a}$ and has $C^{(p+1)}$-intercept at $\bar{b}h > 0$.
+ %!% FINISH THIS UP. NEED TO PROVE THEY WILL ALWAYS INTERCEPT AT BOTH NEG AND POS PINT, and then need to show that the positive intersection cooresponds to the positive branch of the quad equ. 
+  Since both $f_l$ and $f_r$ are defined for all $\mathcal{R}$ they must intersect at some point.
+  \begin{figure}
+    \centering
+    \begin{tikzpicture}
+      \draw[<->, thick] (-5, 0) -- (5, 0);
+      \draw[<->, thick] (0, -3) -- (0, 4); 
+      \node[right] at (5, 0) {$C^{(p+1)}$};
+      \node[above] at (0, 4) {};
+
+      \draw[<->, domain=-2:4] plot (\x, {0.5*\x*\x - \x - 1});
+      \draw (-0.1, -1) -- (0.1, -1);
+      \node[right] at (0, -1) {$-\kappa C^{k}$};
+
+      \draw[<->, dashed, domain=-4:4] plot (\x, {-0.5*\x+1});
+      \draw (-0.1, 1) -- (0.1, 1); 
+      \node[right] at (0, 1) {$\bar{b} h$};
+
+      \draw (7, 2.5) -- (4.5, 2.5) -- (4.5, 4.5) -- (7, 4.5) -- (7, 2.5);
+      \draw[<->, dashed] (5, 4) -- (6, 4);
+      \node[right] at (6, 4) {$f_l$};
+      \draw[<->] (5, 3) -- (6, 3);
+      \node[right] at (6, 3) {$f_r$};
+    \end{tikzpicture}
+  \label{fig:proof_pos_sol}
+  \caption{Graph of $f_l = \left( C^{(p+1)} \right)^2 + \left(\kappa - C^{k}\right)C^{(p+1)} - \kappa C^{k}$ and $f_r =  \left(\bar{b} - \bar{a} C^{(p+1)} \right) h$ for $\bar{a} > 0$ and $\kappa - C^{k} < 0$. 
+    Notice that because $-\kappa C^{k} < 0$ and $\bar{b} h > 0$ for all realistic parameter values the two functions will always intersect in the positive $C^{(p+1)}$ region.
+    Even if $\bar{a} < 0$ or $\kappa - C^{k} > 0$, the functions are guaranteed to have only one positive intersection since the location of the y-intercepts will not qualitativly change.
+  }
+  \end{figure}
+\end{proof}
+  
+%  To determine which branch of (\ref{eq:Cquad}) to use, a physical situation is used. 
+%  Specifically the case where there exist no biomass, $M = 0$. 
+%  %!% "function of $\tau$.... need to change them all to tau at some point....
+%  The expected outcome is that no substrate is consumed and thus the substrate concentration will remain constant as a function of $t$. 
+%  When the equations in (\ref{para:abc}) are evaluated at $M = 0$, the result it,
+%  \begin{equation}
+%    a = 1, \quad b = \kappa - C^k, \quad c = -\kappa C^k,
+%  \end{equation} 
+%  which can be used to evaluate (\ref{eq:Cquad}) as,
+%  \begin{equation} \begin{aligned}
+%    C^{(p+1)} &= \frac{- (\kappa - C^k) \pm \sqrt{(\kappa - C^k)^2 - 4 (-\kappa C^k)}}{2} \\
+%      &= \frac{1}{2} \left( C^k - \kappa \pm \sqrt{\kappa^2 + 2 \kappa C^k + \left(C^k \right) ^2}\right) \\
+%      &= \frac{1}{2} \left( C^k - \kappa \pm (\kappa+C^k) \right). \\
+%  \end{aligned} \end{equation}
+%  Now, if the positive branch is used the above equation evaluates to $C^{(p+1)} = C^k$. 
+%  This means that between any two distinct times, the substrate concentration will remain constants, which was expected. 
+%  To further this confirmation, the negative branch results in $C^{(p+1)} = -\kappa $, a non-postive substrate concentration, which is not physically relavent. 
+%  \begin{equation}
+%    C^{(p+1)} = \frac{-b + \sqrt{b^2 - 4ac}}{2a}
+%  \end{equation} 
+%  where $a,b$, and $c$ are defined in (\ref{para:abc}).
 
 
 Now that computable solutions for $M$ and $C$ at a single time step have been found, an algorithm to solve for the next time step can be established.

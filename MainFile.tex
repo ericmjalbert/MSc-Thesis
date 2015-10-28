@@ -34,10 +34,13 @@
 %}
 
 \usepackage[mathlines]{lineno}  % Line numbers in document...
-\usepackage{silence}
-
 %% parameters for lineno to work nicely
 \linenumbers
+
+%% Supress annoying warnings
+%\usepackage{silence}
+%\WarningFilter{latex}{Text page}
+
 \makeatletter
 % Make a copy of macros responsible for entering display math mode
 \let\start@align@nopar\start@align
@@ -53,9 +56,6 @@
 \theoremstyle{plain}
 \newtheorem{thm}{Theorem}[section]
 \newtheorem{prop}[thm]{Proposition}
-
-%% Supress annoying warnings
-\WarningFilter{latex}{Text page}
 
 %Folder paths that contain graphics
 \graphicspath{
@@ -79,8 +79,8 @@
 
 \pdfinfo{
 /Author (Eric M. Jalbert, 2015)
-/Title (Comparison of Semi-Implicit and Fully-Implicit Methods for Solving PDE-ODE Coupled Systems)
-/Subject (Comparison of Semi-Implicit and Fully-Implicit Methods for Solving PDE-ODE Coupled Systems)
+/Title (Comparison of Semi-Implicit and Fully-Implicit Methods for a Highly Degenerate Diffusion-Reaction Equation Coupled with an ODE)
+/Subject (Comparison of Semi-Implicit and Fully-Implicit Methods for a Highly Degenerate Diffusion-Reaction Equation Coupled with an ODE)
 }
 
 %Paragraph symmetries...
@@ -143,12 +143,12 @@
 \doublespacing
 %\onehalfspacing
 
-%\chapter{Introductions}
-%\input{Chapters/1_introduction/1_biology_background}
-%\input{Chapters/1_introduction/2_objectives}
-%\input{Chapters/1_introduction/3_outline}
+\chapter{Introductions}
+\input{Chapters/1_introduction/1_background}
+\input{Chapters/1_introduction/2_objectives}
+\input{Chapters/1_introduction/3_outline}
 \chapter{Model Definition}
-\input{Chapters/2_model/1_history}
+%\input{Chapters/2_model/1_history}
 \input{Chapters/2_model/2_model_description}
 \input{Chapters/2_model/3_non_dimension}
 \input{Chapters/2_model/4_parameters}
@@ -158,15 +158,13 @@
 \input{Chapters/3_numerics/3_implementation}
 \input{Chapters/3_numerics/4_method_validation}
 \input{Chapters/3_numerics/5_comparison}
-%\chapter{Simulation Results}
-%\input{Chapters/4_simulation/1_simulation_description}
-%\input{Chapters/4_simulation/2_typical_simulation}
-%\input{Chapters/4_simulation/3_travelling_wave}
-%\input{Chapters/4_simulation/4_spatial_effects}
-%\input{Chapters/4_simulation/5_fittings}
-%\chapter{Conclusions}
-%\input{Chapters/5_conclusions/1_lessons}
-%\input{Chapters/5_conclusions/2_future_work}
+\chapter{Simulation Results}
+\input{Chapters/4_simulation/2_typical_simulation}
+\input{Chapters/4_simulation/3_travelling_wave}
+\input{Chapters/4_simulation/4_spatial_effects}
+\chapter{Conclusions}
+\input{Chapters/5_conclusions/1_lessons}
+\input{Chapters/5_conclusions/2_future_work}
 
 
 \newpage

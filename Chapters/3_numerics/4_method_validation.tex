@@ -6,7 +6,7 @@
   This convergence test will also show the thresholds for an accurate simulation result, to help reduce the computiation times.
   With a well-established method, the comparison between semi- and fully-implicit methods can be done.
 
-\subsection{Basic Simulations}
+subsection{Basic Simulations}
 
   Using Algorithm \ref{alg:iterateCM}, simple scenarios can be tested as a first verification on the method.
 
@@ -93,7 +93,10 @@
   To ensure this is not the case, the total amount of biomass can be used to compare the simulated amount against the theoretical amount. 
   However, the total biomass cannot be exactly determined with the given growth rate function.
   This means that there will not be anything to measure the validity of the simulation solution against.
-  If we let the growth rate be some constant called $a$, the expected total biomass would be of the form $y_0 e^{at}$.
+  If we let the growth rate be some constant called $a$, the exact total biomass can be calculated.
+  %!% right here use the divergence theroem to get it exatly?
+
+  the expected total biomass would be of the form $y_0 e^{at}$.
   This can be checked by tracking the total biomass, now called $T_{M}(t)$, with the changed growth rate function, $F(C) = a$.
   The calculation of $T_{M}(t)$ can be done by,
   \begin{equation} \label{equ:total_biomass}
@@ -130,14 +133,14 @@
   %!% Show here the pre-work of integrating over the domain and that the spatial term dissapers and all thats left is the growth terms in both M and C.
   %!% If its interesting, show a graph of M'+gama C vs. t, and try to explain/justify the changes it makes (unless its 0, then just report that its zero and say DATA NOT SHOWN.
 
-\subsection{Convergence Analysis}
+subsection{Convergence Analysis}
   %!%To validate the accuracy of the method, convergence analyses on the spatial and temporal discretizations will need to be made. 
   To validate the accuracy of the method, convergence analyses on the spatial discretizations will need to be made. 
   Then the comparison between the semi- and fully-implicit method established in Algorithm \ref{alg:iterateCM} can investigated.
   First, a metric must be formed to enable consistent comparisons between different simulation solutions. 
   This metric will be referred to as the error. %!% Find a better name fore the norm...
 
-\subsubsection{Error Computations}
+subsubsection{Error Computations}
 
   The error is computed by taking the relative normed-difference between two solution in the following fashion:
   \begin{equation} \label{equ:error_comp}
@@ -169,7 +172,7 @@
  %!% \item Maybe run though a trivial Fisher equation problem to confirm that it works ?
   % Also mention the Accuracy of the solutions by using the norm of each solution compared to the  most accurate one.... (Maybe take a solution at a higher grid resolution?, not sure what to do here)
 
-\subsubsection{Grid Size Convergence}
+subsubsection{Grid Size Convergence}
 %!% Just show the results and state it is slow to converge when F(C) is dependent on C (double check with the older versions of code)
   To observe the validity of the method, a test on the convergence of solutions based on the spatial discritization is done.
   This will involve using the same simulation described in (\ref{equ:basic_init_trav_wave}) due to the simplicity. 

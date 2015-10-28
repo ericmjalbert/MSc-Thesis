@@ -1,11 +1,12 @@
 \section{Model Description}
-The model used for simulations is based on the deterministic model developed in \cite{eberl2001deterministic}, which was designed to simulate the development of spatially heterogenous biofilm structures.
+The model used for simulations is based on the deterministic biofilm model developed in \cite{eberl2001deterministic}, which was designed for modelling the development of spatially heterogenous biofilm structures.
 They modelled the biomass density and nutrient concentration as a two-PDE-coupled system.
-Here the spatial diffusion of the nutrient concetration is removed to mimic the carbon substrait that \textit{C.Thermocellum} consumes in growth. 
-This makes a PDE-ODE-coupled system purposed as,
+Here the spatial diffusion of the nutrient concetration is removed to mimic the carbon fiberous substrate that \textit{C.Thermocellum} consumes in growth. 
+
+With that modification, a PDE-ODE-coupled system can be purposed as,
 \begin{align} 
-   M &= \nabla_x \left( d(M) \nabla_x M \right) + f(C) M \label{equ:model_M}\\
-   C &= -g(C) M \label{equ:model_C}
+   M_t &= \nabla_x \left( d(M) \nabla_x M \right) + f(C) M \label{equ:model_M}\\
+   C_t &= -g(C) M \label{equ:model_C}
 \end{align}
 where
 \begin{equation} \label{equ:model_d}
@@ -17,10 +18,10 @@ where
 \begin{equation} \label{equ:model_g}
   g(C) = y \frac{C}{k + C}
 \end{equation}
-Here we have a pair of equations, (\ref{equ:model_M}) and (\ref{equ:model_C}), that represent the biomass density and substrait concentration respectivly.
+Here we have a pair of equations, (\ref{equ:model_M}) and (\ref{equ:model_C}), that represent the biomass density and substrate concentration respectivly.
 The spatial diffusion of the biofilm is modelled with density-dependent diffusion, represented by (\ref{equ:model_d}), and the growth rate of biomass is given by (\ref{equ:model_f}).
 The growth rate is simple Monod kinetic growth with a constant death rate.
-In (\ref{equ:model_C}) there is only a consumption term from the bacteria consuming the carbon substrait. This term is based on the growth of the biomass, differing only by a scalar multiplier.
+In (\ref{equ:model_C}) there is only a consumption term from the bacteria consuming the carbon substrate. This term is based on the growth of the biomass, differing only by a scalar multiplier.
  
 %%%
 %%%  After each statement above about the model,
