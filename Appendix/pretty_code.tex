@@ -1,0 +1,19 @@
+\fancypagestyle{appendix-code}{
+\lhead{}
+\rhead{\textit{APPENDIX B: SOURCE CODE}}
+}
+
+\pagestyle{appendix-code}
+\chapter{Source Code}
+
+\lstdefinestyle{mystyle}{
+  basicstyle=\ttfamily\small,
+  showspaces=false,
+  showstringspaces=false,
+  tabsize=2
+}
+\lstset{style=mystyle}
+
+\lstinputlisting[language=Fortran, caption=PDE-ODEsolver.f90 Main code base]{./Appendix/PDE-ODEsolver.f90}
+
+

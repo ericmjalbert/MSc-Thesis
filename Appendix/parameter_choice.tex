@@ -1,0 +1,35 @@
+\fancypagestyle{appendix-param}{
+\lhead{}
+\rhead{\textit{APPENDIX A: DEFAULT PARAMETER VALUES}}
+}
+
+\pagestyle{appendix-param}
+\chapter{Default Parameter Values}
+
+The default parameter values used for simulation are listed in the follow table. Unless stated, every simulation uses these values.
+
+\begin{table}[h!tb]
+  \centering
+  \begin{tabular}{| c | c | c |}
+    \hline
+    Parameter & Symbol & Value \\
+    \hline
+    - & $\alpha$    & $4$ \\
+    - & $\beta$     & $4$ \\
+    Death rate & $\nu$       & $0.12$ \\
+    Half-concentration rate & $\kappa$    & $10^{-3}$ \\
+    Yield rate & $\gamma$    & $0.80$ \\
+    Diffusion constant & $\delta$    & $10^{-4}$ \\
+    \hline
+    Initial condition height & $h$ & $0.1$ \\
+    Initial condition depth & $d$ & $\frac{5}{127}$ \\
+    \hline
+    Number of grid points & $nm$ & $513 \times 513$ \\
+    Grid size & $\Delta x$  & $\frac{1}{513}$ \\
+    Time step & $\Delta t$  & $10^{-3}$ \\
+    \hline
+  \end{tabular}
+  \caption{The listing of default parameter values used for most simulations.}
+  \label{tab:default-parameters}
+\end{table}
+

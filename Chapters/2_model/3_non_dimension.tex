@@ -1,13 +1,13 @@
 \section{Nondimensionalization}
  
-To help facilitate the analyses of this system, the full removal of all physical units is preferred. 
-This process of nondimensionalization involves using known parameters to create substitutions with physical units cancelling.
+
+To help facilitate the analysis of this system, the full removal of all physical units is preferred and so we nondimensionalize the parameters.
 Here the parameters used are: the biomass growth rate, $u$; the length of the region, $L$; and the maximum density for biomass and substrate, $M_\infty$ and $C_\infty$.
+The biomass density fraction represents the current density of biomass divided by the maximum biomass density, $M_{\infty}$.
 From using the following parameter changes, the system can be made unitless.
 \begin{align}
   \chi &= \frac{x}{L} \implies L d\chi= dx \\
   \tau &= u t \implies \frac{1}{u} d\tau= dt \\
-  \mathcal{M} &= \frac{M}{M_{\infty}} \\
   \mathcal{C} &= \frac{C}{C_{\infty}} \\
   \delta &= \frac{1}{u L^2} d \\
   \kappa &= \frac{k}{C_\infty} \\
@@ -46,18 +46,33 @@ From using the following parameter changes, the system can be made unitless.
 
 Using these, (\ref{equ:model_M}) and (\ref{equ:model_C}) can be simplified and nondimensionalized into, 
 \begin{align} \label{equ:model_system}
-  \mathcal{M}_\tau &= \nabla_\chi \left( D(\mathcal{M}) \nabla_\chi \mathcal{M} \right) + F(\mathcal{C}) \mathcal{M} \\
-  \mathcal{C}_\tau &= - G(\mathcal{C}) \mathcal{M}, 
+  M_\tau &= \nabla_\chi \left( D(M) \nabla_\chi M \right) + F(\mathcal{C}) M \\
+  \mathcal{C}_\tau &= - G(\mathcal{C}) M, 
 \end{align}
 
 where,
 
 \begin{equation}
 \begin{aligned} \label{equ:model_functions}
-  D(\mathcal{M}) &= \delta \frac{\mathcal{M}^\alpha}{(1 - \mathcal{M})^\beta} \\
+  D(M) &= \delta \frac{M^\alpha}{(1 - M)^\beta} \\
   F(\mathcal{C}) &= \frac{ \mathcal{C}} {\kappa + \mathcal{C}} - \nu \\
   G(\mathcal{C}) &= \gamma \frac{\mathcal{C}}{\kappa +\mathcal{C}}.
 \end{aligned}
 \end{equation}
 with only $\delta, \kappa, \nu, \gamma$ as model parameters. 
+For convience, we henceforth use
+\begin{equation}
+  C := \mathcal{C},\quad x := \chi,\quad t := \tau.
+\end{equation}
 
+Each of the dimensionless parameters in (\ref{equ:model_functions}) have a biological representation based on the transformations done.
+The parameter $\delta$ is the dimensionaless biomass motility coefficient.
+It affects the change in biomass from adjacent biomass sources, a greater $\delta$ results in faster biofilm expansion.
+The parameter $\kappa$ is the half-saturation point, it is exactly the value for which substrate concentration results in $0.5$-optimum growth rate.
+Parameter $\nu$ is the decay and loss rate for biomass.
+These can be from starvation in cases where substrates are depleted or from loss into the aqueous enviroment.
+Lastly, $\gamma$ is the dimensionless maximum substrate consumption rate.
+It signifies the ratio of substrate consumed to biomass growth.
+Here, a larger $\gamma$ value results in more substrate being consumed to  produce the same amount of biomass. 
+
+With (\ref{equ:model_system}) being reduced to these parameters the numerical analysis become more simiplified while still retaining the same significance in results.

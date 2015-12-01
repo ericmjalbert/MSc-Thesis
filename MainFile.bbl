@@ -1,77 +1,161 @@
-\begin{thebibliography}{11}
-\providecommand{\natexlab}[1]{#1}
-\providecommand{\url}[1]{\texttt{#1}}
-\expandafter\ifx\csname urlstyle\endcsname\relax
-  \providecommand{\doi}[1]{doi: #1}\else
-  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+\begin{thebibliography}{}
 
-\bibitem[Barrett et~al.(1987)Barrett, Berry, T.F., Demmel, Donato, Dongarra,
-  Eijkhout, Pozo, Romine, and van~der Vorst]{barret1987templates}
-R.~Barrett, M.~Berry, Chan T.F., J.~Demmel, J.~Donato, J.~Dongarra,
-  V.~Eijkhout, R.~Pozo, C.~Romine, and H.~van~der Vorst.
-\newblock \emph{Templates for the Solution of Linear Systems: Building Blocks
+\bibitem[Barrett et~al., 1987]{barret1987templates}
+Barrett, R., Berry, M., T.F., C., Demmel, J., Donato, J., Dongarra, J.,
+  Eijkhout, V., Pozo, R., Romine, C., and van~der Vorst, H. (1987).
+\newblock {\em Templates for the Solution of Linear Systems: Building Blocks
   for Iterative Methods}.
-\newblock Society for Industrial and Applied Mathematics, 1st edition, 1987.
+\newblock Society for Industrial and Applied Mathematics, 1st edition.
 
-\bibitem[Butcher(2008)]{butcher2008methods}
-J.C. Butcher.
-\newblock \emph{Numerical Methods for Ordinary Differential Equations}.
-\newblock Wiley, 2nd edition, June 2008.
+\bibitem[Burden and Faires, 2010]{burden2010numerical}
+Burden, R. and Faires, J. (2010).
+\newblock {\em Numerical Analysis}.
+\newblock Brooks/Cole, 9th edition.
 
-\bibitem[Dumitrache(2014)]{dumitrache2014understanding}
-A~Dumitrache.
-\newblock \emph{Understanding Biofilms of Anaerobic, Thermophilic and
+\bibitem[Butcher, 2008]{butcher2008methods}
+Butcher, J. (2008).
+\newblock {\em Numerical Methods for Ordinary Differential Equations}.
+\newblock Wiley, 2nd edition.
+
+\bibitem[Duddu et~al., 2008]{duddu2008combined}
+Duddu, R., Bordas, S., Chopp, D., and Moran, B. (2008).
+\newblock A combined extended finite element and level set method for biofilm
+  growth.
+\newblock {\em International Journal for Numerical Methods in Engineering},
+  74:848--870.
+
+\bibitem[Dumitrache, 2014]{dumitrache2014understanding}
+Dumitrache, A. (2014).
+\newblock {\em Understanding Biofilms of Anaerobic, Thermophilic and
   Cellulolytic Bacteria: A Study towards the Advancement of Consolidated
   Bioprocessing Strategies}.
-\newblock PhD thesis, University of Toronto, 2014.
+\newblock PhD thesis, University of Toronto.
 
-\bibitem[Eberl and Demaret(2007)]{eberl2007finite}
-HJ~Eberl and L~Demaret.
+\bibitem[Dumitrache et~al., 2015]{dumitrache2015mathematicalModeling}
+Dumitrache, A., Eberl, H., Wolfaardt, G., and Allen, D. (2015).
+\newblock Mathematical modeling to validate on-line $co_2$ measurements as a
+  metric for cellulolytic biofilm activity in continuous-flow bioreactors.
+\newblock {\em Biochemical Engineering Journal}, 101:55--67.
+
+\bibitem[Dumitrache et~al., 2013a]{dumitrache2013formFunction}
+Dumitrache, A., Wolfaardt, G., Allen, D., Liss, S., and Lynd, L. (2013a).
+\newblock Form and function of clostridium thermocellum biofilms.
+\newblock {\em Applied and Environmental Microbiology}, 79:231--239.
+
+\bibitem[Dumitrache et~al., 2013b]{dumitrache2013tracking}
+Dumitrache, A., Wolfaardt, G., Allen, D., Liss, S., and Lynd, L. (2013b).
+\newblock Tracking the cellulolytic activity of clostridium thermocellum
+  biofilms.
+\newblock {\em Biotechnology for Biofuels}, 6:175.
+
+\bibitem[Eberl and Demaret, 2007]{eberl2007finite}
+Eberl, H. and Demaret, L. (2007).
 \newblock A finite difference scheme for a doubly degenerate
   diffusion–reaction equation arising in microbial ecology.
-\newblock \emph{Electron. J. Differential Equations}, page 77–95, 2007.
+\newblock {\em Electronic Journal of Differential Equations}, CS15:77--95.
 
-\bibitem[Eberl et~al.(2001)Eberl, Parker, and van
-  Loosdrecht]{eberl2001deterministic}
-HJ~Eberl, DF~Parker, and MCM van Loosdrecht.
+\bibitem[Eberl et~al., 2010]{eberl2009mixedCultureModel}
+Eberl, H., Khassehkhan, H., and Demaret, L. (2010).
+\newblock A mixed-culture model of a probiotic biofilm control system.
+\newblock {\em Computation and Mathematical Methods in Medicine}, 11:99--118.
+
+\bibitem[Eberl et~al., 2001]{eberl2001deterministic}
+Eberl, H., Parker, D., and van Loosdrecht, M. (2001).
 \newblock A new deterministic spatio-temporal continuum model for biofilm
   development.
-\newblock \emph{Journal of Theoretical Medicine}, pages 161--175, 2001.
+\newblock {\em Journal of Theoretical Medicine}, 3:161--175.
 
-\bibitem[Ger{\v s}gorin(1931)]{gerschgorin1931uber_die_abgrenzung}
-S.~Ger{\v s}gorin.
-\newblock \"uber die abgrenzung der eigenwerte einer matrix.
-\newblock \emph{Bulletin de l'Acad\'emie des Sciences de l'URSS. Classe des
-  sciences math\'ematiques et na}, pages 749--754, 1931.
+\bibitem[Efendiev et~al., 2002]{efendiev2002existencelongtime}
+Efendiev, M., Eberl, H., and Zelik, S. (2002).
+\newblock Existence and longtime behaviour of solutions of a nonlinear
+  reaction-diffusion system arising in the modeling of biofilms.
+\newblock {\em RIMS Kokyuroko}, 1258:49--71.
 
-\bibitem[Noguera et~al.(1999)Noguera, Pizarro, Stahl, and
-  Rittmann]{noguera1999simulation}
-DR~Noguera, G~Pizarro, DA~Stahl, and BE~Rittmann.
+\bibitem[Gallo and Manzini, 2003]{gallo2003finiteVolume}
+Gallo, C. and Manzini, G. (2003).
+\newblock Finite volume/mixed finite element analysis of pollutant transport
+  and bioremediation in heterogenous saturated aquifers.
+\newblock {\em International Journal for Numerical Methods in Fluids},
+  42:1--21.
+
+\bibitem[Gurtin, 1977]{gurtin1977diffusion}
+Gurtin, M.E., M. (1977).
+\newblock On the diffusion of biological populations.
+\newblock {\em Mathematical Biosciences}, 33:35--49.
+
+\bibitem[Jalbert and Eberl, 2014]{jalbert2014numerical}
+Jalbert, E. and Eberl, H. (2014).
+\newblock Numerical computation of sharp travelling waves of a degenerate
+  diffusion-reaction equation arising in biofilm modelling.
+\newblock {\em Communications in Nonlinear Science and Numerical Simulation},
+  19(7):2181--2190.
+
+\bibitem[Khassehkhan and Eberl, 2008]{khassehkhan2008modelingSimulation}
+Khassehkhan, H. and Eberl, H. (2008).
+\newblock Modeling and simulation of a bacterial biofilm that is controlled by
+  ph and protonated lactic acids.
+\newblock {\em Computation and Mathematical Methods in Medicine}, 9(1):47--67.
+
+\bibitem[Khassehkhan et~al., 2009]{khassehkhan2009nonlinearMaster}
+Khassehkhan, H., Hillen, T., and Eberl, H. (2009).
+\newblock A nonlinear master equation for a degenerate diffusion model of
+  biofilm growth.
+\newblock {\em Lecture Notes in Computer Science}, 5544:735--744.
+
+\bibitem[Mac\'ias-D\'iaz et~al., 2013]{macias-diaz2013efficientNonlinear}
+Mac\'ias-D\'iaz, J., Mac\'ias, S., and Medina-Ram\'iez, I. (2013).
+\newblock An efficient nonlinear finite-difference approach in the
+  computational modeling of the dynamics of a nonlinear diffusion-reaction
+  equation in microbial ecology.
+\newblock {\em Computational Biology and Chemistry}, 47:24--30.
+
+\bibitem[McCollum et~al., 2006]{mccollum2006sorting}
+McCollum, J., Peterson, G., Cox, C., Simpson, M., and Samatova, N. (2006).
+\newblock The sorting direct method for stochastic simulation of biochemical
+  systems with varying reaction execution behavior.
+\newblock {\em Computational Biology and Chemistry}, 30(1):39--49.
+
+\bibitem[Noguera et~al., 1999]{noguera1999simulation}
+Noguera, D., Pizarro, G., Stahl, D., and Rittmann, B. (1999).
 \newblock Simulation of multispecies biofilm development in three dimensions.
-\newblock \emph{Water Science and Technology}, 39:\penalty0 123--130, 1999.
+\newblock {\em Water Science and Technology}, 39:123--130.
 
-\bibitem[Rittmann and McCarty(1980)]{rittmann1980model}
-BE~Rittmann and PL~McCarty.
+\bibitem[Picioreanu et~al., 1998]{picioreanu1998newCombined}
+Picioreanu, C., van Loosedrecht, M., and Heijnen, J. (1998).
+\newblock A new ombined differential-discrete cellular automaton approach for
+  biofilm modeling: application for growth in gel beads.
+\newblock {\em Biotechnology and Bioengineering}, 57:718--731.
+
+\bibitem[Rittmann and McCarty, 1980]{rittmann1980model}
+Rittmann, B. and McCarty, P. (1980).
 \newblock Model of steady-state biofilm kinetics.
-\newblock \emph{Biotechnology and Bioengineering}, 22:\penalty0 2343--2357,
-  1980.
+\newblock {\em Biotechnology and Bioengineering}, 22:2343--2357.
 
-\bibitem[Saad(2003)]{saad2003iterativeMethod}
-Y.~Saad.
-\newblock \emph{Iterative Methods for Sparse Linear Systems}.
-\newblock Society for Industrial and Applied Mathematic, 2nd edition, 2003.
+\bibitem[Saad, 2003]{saad2003iterativeMethod}
+Saad, Y. (2003).
+\newblock {\em Iterative Methods for Sparse Linear Systems}.
+\newblock Society for Industrial and Applied Mathematic, 2nd edition.
 
-\bibitem[Sirca and Horvat(2012)]{sirca2012computational}
-S~Sirca and M~Horvat.
-\newblock \emph{Computational Methods for Physicistsl: Compendium for
-  Students}.
-\newblock Springer, 2012.
+\bibitem[Sirca and Horvat, 2012]{sirca2012computational}
+Sirca, S. and Horvat, M. (2012).
+\newblock {\em Computational Methods for Physicistsl: Compendium for Students}.
+\newblock Springer.
 
-\bibitem[Wang et~al.(2011)Wang, Lee, Elkins, and
-  Morrell-Falvey]{wang2011spatial}
-Z-W Wang, S-H Lee, JG~Elkins, and JL~Morrell-Falvey.
+\bibitem[Varga, 2004]{varga2004gersgorin}
+Varga, R. (2004).
+\newblock {\em Ger{\v s}gorin and His Circles}.
+\newblock Berlin: Springer-Verlag.
+
+\bibitem[Wang et~al., 2011]{wang2011spatial}
+Wang, Z.-W., Lee, S.-H., Elkins, J., and Morrell-Falvey, J. (2011).
 \newblock Spatial and temporal dynamics of cellulose degradation and biofilm
   formation by caldicellulosiruptor obsidiansis and clostridium thermocellum.
-\newblock \emph{AMB Express}, 1:\penalty0 30, 2011.
+\newblock {\em AMB Express}, 1:30.
+
+\bibitem[Wanner et~al., 2005]{wanner2005mathematical}
+Wanner, O., Eberl, H., Morgenroth, E., Noguera, D., Picioreanu, C., Rittmann,
+  B., and van Loosdrecht, M. (2005).
+\newblock {\em Mathematical modeling of biofilms}.
+\newblock IWA Scientific and Technical Report no 18., UK: IWA Publishing.
 
 \end{thebibliography}

@@ -1,46 +1,51 @@
 This is BibTeX, Version 0.99d (TeX Live 2013/Debian)
 Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
 The top-level auxiliary file: MainFile.aux
-The style file: plainnat.bst
+The style file: apalike.bst
 Database file #1: ThesisReferences.bib
-You've used 11 entries,
-            2773 wiz_defined-function locations,
-            658 strings with 6857 characters,
-and the built_in function-call counts, 5114 in all, are:
-= -- 441
-> -- 304
-< -- 10
-+ -- 104
-- -- 93
-* -- 380
-:= -- 793
-add.period$ -- 33
-call.type$ -- 11
-change.case$ -- 62
-chr.to.int$ -- 11
-cite$ -- 22
-duplicate$ -- 253
-empty$ -- 399
-format.name$ -- 110
-if$ -- 1085
-int.to.chr$ -- 1
-int.to.str$ -- 1
-missing$ -- 14
-newline$ -- 63
-num.names$ -- 44
-pop$ -- 133
+Name 2 in "Efendiev, M.A. and Eberl, H.J, and Zelik, S.V" has a comma at the end for entry efendiev2002existencelongtime
+while executing---line 1023 of file apalike.bst
+Name 2 in "Efendiev, M.A. and Eberl, H.J, and Zelik, S.V" has a comma at the end for entry efendiev2002existencelongtime
+while executing---line 1098 of file apalike.bst
+You've used 27 entries,
+            1935 wiz_defined-function locations,
+            645 strings with 9157 characters,
+and the built_in function-call counts, 10615 in all, are:
+= -- 996
+> -- 501
+< -- 12
++ -- 187
+- -- 170
+* -- 921
+:= -- 1906
+add.period$ -- 81
+call.type$ -- 27
+change.case$ -- 216
+chr.to.int$ -- 26
+cite$ -- 27
+duplicate$ -- 376
+empty$ -- 710
+format.name$ -- 211
+if$ -- 2045
+int.to.chr$ -- 2
+int.to.str$ -- 0
+missing$ -- 33
+newline$ -- 138
+num.names$ -- 81
+pop$ -- 185
 preamble$ -- 1
-purify$ -- 53
+purify$ -- 220
 quote$ -- 0
-skip$ -- 208
+skip$ -- 274
 stack$ -- 0
-substring$ -- 146
-swap$ -- 45
-text.length$ -- 3
+substring$ -- 670
+swap$ -- 27
+text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 101
+type$ -- 148
 warning$ -- 0
-while$ -- 41
+while$ -- 73
 width$ -- 0
-write$ -- 149
+write$ -- 351
+(There were 2 error messages)

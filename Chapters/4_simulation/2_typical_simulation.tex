@@ -1,85 +1,135 @@
 \section{Typical Simulation}
 
-THe main point here is to show the results, visually, of a typical simulation.
-This means there will be a number of points to discuss here:
+A typical simulation refers to the parameter values and the choice of initial condition.
+It will show the behaviour of the system under normal circumstances and help reveal the interesting characteristics.
+
+The typical initial condition attempts to emulate the biological situation of biomass growing inwards on a sheet of cellulose.
+This will show how the biomass moves and how two separate masses interact in a collision.
+The initial condition used will initialize a number of random spherical innoculation points near the $y=0$ and $y=1$ axis.
+We let $(x_r, y_r)$ be the random point used as the center for innoculation.
+To seperate the innoculation points we have $x_r \in [0,1]$ and $y_r \in [0, 0.1] \cup [0.9, 1]$.
+The number of innoculation points are the same for both the $y=0$ region and $y=1$ region.
+Multiple innoculation points combine additively.
+Each spherical innoculation point is computed as,
+\begin{equation} \label{equ:typical_initial_cond}
+  M(0,x,y) = \frac{-h}{d^2} \left( (x-x_r)^2 + (y - y_r)^2 \right) + h, \quad M \ge 0.
+\end{equation}
+Note that $M(0,x,y)$ is for points within circles of radius $d$ centered at $(x_r, y_r)$, otherwise $M(0,x,y) = 0$.
+For the substratum we have $C(0,x,y) = 1$ everywhere.
+
+The choice of parameter value is based on the default values given in Table \ref{tab:default-parameters}.
+There are $40$ innoculation points of both sides, totalling $80$.
+The fully-implicit method is used here with $tol = 10^{-8}$.
+
+\subsection{Biomass Ratio}
+
+\begin{figure}[h!tb]
+  \centering
+  \begin{tabular}{c c}
+      \includegraphics[scale=0.55]{typical_t0.eps} &
+      \includegraphics[scale=0.55]{typical_t2.eps} \\
+      $t = 0$ & $t = 2$ \\
+      \includegraphics[scale=0.55]{typical_t3_67.eps} &
+      \includegraphics[scale=0.55]{typical_t5_33.eps} \\
+      $t = 3.67$ & $t = 5.33$ \\
+      \includegraphics[scale=0.55]{typical_t7.eps} &
+      \includegraphics[scale=0.55]{typical_t9.eps} \\
+      $t = 7$ & $t = 9$
+   \end{tabular}
+  \caption{A graph showing the $M$ solution of a typical simulation at different time steps.
+    The initial condition is $80$ random spherical innoculation points evenly divided between each of the $y=0$ and $y=1$ sides.
+    A $513 \times 513$ grid was used.  }
+  \label{fig:typical_sim}
+\end{figure}
+
+Figure \ref{fig:typical_sim} shows the time evolution of $M$ for the simulation.
+Here, the random innoculations on both sides of region propegate towards each other and eventually combine at the center.
+By looking at $t=2$, $t=3.67$, and $t = 5.33$ it appears as though the wave front is moving with a constant shape and at a constant speed.
+This suggest that there may be the existence of a travelling wave solution.
+
+One important feature to notice is that the time evolution in Figure \ref{fig:typical_sim} matches the conceptual model proposed in \cite{dumitrache2015mathematicalModeling}.
+This model can be seen in Figure \ref{fig:alex_schema}.
+The different stages of the conceptual model can be observed in our simulation results: 
+%!% Change this to be a list of the type :Stage I , ...Stage V with the use of the fancy enumerate package thing. (just want to get rid of the dashes here
 \begin{itemize}
-  \item Describe the initial conditions and region
-  \item Give a verbal description of what the simulation will be.
-  \item Show the parameter values
-  \item Show the results.
+  \item Stage I: $t = 2$ and $t = 3.67$ show the biomass growing towards the center of the sheet, which is the center white area.
+  \item Stage II/III: $t = 5.33$ shows the consumed substate region as the outer white.
+  \item Stage IV: Not shown. Only occurs at the moment when the two band first collide and the biomass concetration at that point still remains at the actual carrying capacity.
+  \item Stage V: $t = 7$ and $t = 9$ show the combined center band, now at a biomass concentration lower then the actual carrying capacity.
 \end{itemize}
 
-%
-%
-%This will be a short section describing what the region/xgridsize/parameters etc. will be for the following simulations.
-%The main idea here is so that the results can be appropiatly reproduced. 
-%Also include a section on the machine run (so this will be reckoning2 I think....)
-%
-%This will list, in depth, the programs that I use, ie. R, python, Fortran, BASH, and what versions of each.
-%Should probably also list hat each parameters that isn't method specific ($\alpha, \beta ,\gamma, \delta, \nu, \mu, \kappa$), so mainly the region, gridsize, and t stuff.
+\begin{figure}[h!tb]
+  \centering
+  \includegraphics[scale=0.6]{alex_ode_results.eps}
+  \caption{A typical model simulation from the simple ODE model.
+    Shown are substrate concentration $C$ (top left, normalised), effective sessile biomass $M$ (top right, relative to the ideal carrying capacity $M_{\infty}$), and $CO_2$ product $P$ (bottom left, in moles) as functions of time $t$;.
+    Also shown is the product $P$ vs sessile biomass $M$ (bottom right, in moles).
+    Figure originally from \cite{dumitrache2015mathematicalModeling}.
+  }
+  \label{fig:alex_ode_results}
+\end{figure}
 
-%!% Actually, describe CO2 prod after typical simulation
-%
-%\subsection{$CO_2$ Production}
-%
-%I think describing what the CO2 production equation stuff is here would be best. The idea would be to source the origins of this idea (Alex paper?) and then have the equations and calcuations to figuring it out listed here. Finishing this off with the actual third equation:
-%\begin{equation}
-% \mathcal{P}(t) = \int^t_0 \mathcal{R}(s) dt
-%\end{equation}
-%\begin{equation}
-% \mathcal{R}(t) = \int_\Omega p_t dx = \int_\Omega G(C) M dx
-%\end{equation}
-%
-%A few things that would needed to be added would be to firstly, reverse the order of the introduction of that. Ie. $p_t = G(C) M$ first, then $\mathcal{R}(t) = \ldots$, lastly $\mathcal{P}(t) =\ldots$. Also should have a quick blerb that mentions that $\mathcal{R}(t)$ is the rate of CO2 being produced at the point in time and $\mathcal{P}(t)$ is the cumulative amount of CO2 produced.
-%The system
-%\begin{align}
-%    M_t &= \nabla_x \left( D(M) \nabla_x M \right) + f(C) M \\
-%    C_t &= - g(C) M 
-%\end{align}
-%where
-%\begin{align}
-%    D(M) &= \delta \frac{M^\alpha}{(1 - M)^\beta} \\
-%    f(C) &= g(C) - \nu  \\
-%    g(C) &= \frac{\gamma C}{\kappa +C}
-%\end{align}
-%is solved on a rectangular region with length $L$ and width $\lambda L$ with the following parameter values,
-%\begin{equation}
-%\begin{aligned}
-%    \alpha &= 4 \\
-%    \beta &= 4 \\
-%    \nu &= 0.1 \\      
-%\end{aligned}
-%\qquad
-%\begin{aligned}
-%    \delta &= 10^{-8} \\
-%    \kappa &= 0.01 \\
-%    \gamma &= 0.81 \\
-%\end{aligned}
-%\end{equation}
-%and with initial conditions of $C = 1$ everywhere and $i$ random innoculation points centered at $(x_i, y_i)$ defined by, 
-%\begin{equation}
-%  M(x,y) = \max \left\{ -\frac{h}{d^2} \left((x-x_i)^2 + (y-y_i)^2\right) + h, \quad 0 \right\}
-%\end{equation}  
-%where $h = 0.1/i, d=\frac{5}{128}$ , representing the height and depth of the inoculation site.
-%
-%Using simulation code version $139e63e$ a typical simultation with $i = 4$ random innoculation points was run. The following results were found using a finite difference method to solve $M$ and trapizedral rule to solve $C$ with $\Delta x = \frac{1}{512}$ and $\Delta t = 10^-2$.
-%
-%\begin{figure}[h!tb]
-%\begin{center}
-%  \begin{tabular}{c c}
-%%      \includegraphics[scale=0.15]{3d_sim_t0.png} &
-%%      \includegraphics[scale=0.15]{3d_sim_t8.png} \\
-%      (a) & (b) \\
-%%      \includegraphics[scale=0.15]{3d_sim_t16.png} &
-%%      \includegraphics[scale=0.15]{3d_sim_t24.png} \\
-%      (c) & (d) \\
-%%      \includegraphics[scale=0.15]{3d_sim_t32.png} &
-%%      \includegraphics[scale=0.15]{3d_sim_t40.png} \\
-%      (e) & (f)
-%   \end{tabular}
-%  \caption{Solutions of $M$ at (a) t = 0, (b) t =8, (c) t = 16, (d) t = 24, (e) t = 32, (f) t = 40. } 
-%  \label{fig:solution42}
-%\end{center}
-%\end{figure}
-%
-%
+\subsection{$CO_2$ Production}
+
+Some important quantities to track are the total amount of biomass, $M$, and substrate, $C$. 
+These values will be called $T_M(t)$ and $T_C(t)$ to represent the total biomass and total substrate, respectively.
+The computation for these values can be done by integrating over the region, $\Omega$:
+\begin{equation}
+  T_M(t) = \int_{\Omega} M dA, \quad T_C(t) = \int_{\Omega} C dA
+\end{equation}
+These values can be seen in Figure \ref{fig:typical_total} (bd) for $T_M(t)$ and (c) for $T_C(t)$.
+
+\begin{figure}[h!tb]
+  \centering
+  \begin{tabular}{c c}
+    \includegraphics[scale=0.6]{typical_CO2.eps} &
+    \includegraphics[scale=0.6]{typical_total_M.eps} \\
+    (a) & (b) \\
+    \includegraphics[scale=0.6]{typical_total_C.eps} &
+    \includegraphics[scale=0.6]{typical_total_M_zoomed.eps} \\
+    (c) & (d) \\
+    \includegraphics[scale=0.6]{typical_CO2_total.eps} & 
+    \includegraphics[scale=0.6]{typical_total_PvM.eps} \\
+    (e) & (f)
+  \end{tabular}
+  \caption{Total value of certain qualities from the typical simulation.
+    %!% Sometime get this (abcedf) list as an enumerate within the caption... forgot how to do this so look it up later
+    Here we have:
+    (a) $\mathcal{R}(t)$, the rate of $CO_2$ production,
+    (b) total $M$ as a function of time,
+    (c) total $C$ as a function of time, 
+    (d) total $M$ as a function of time zoomed in from $t = 0$ to $t = 3$,
+    (e) $\mathcal{P}(t)$, the total $CO_2$ produced, 
+    (f) $\mathcal{P}(t)$ as a function of total $M$.
+    All the graphs are from the same simulation with initial condition of $40$ random spherical innoculation points along the $y=0$ side of the region and another $40$ on $y = 1$. 
+    A grid of $257 \times 257$ was used for this graph.
+    Default parameter set (Appendix A) was used except for $\delta = 10^{-8}$.
+  }
+  \label{fig:typical_total}
+\end{figure}
+
+Since \textit{C. Thermocellum} produces $CO_2$ as the substrate is consumed, we can track the production of $CO_2$.
+Following the idea from \cite{dumitrache2014understanding}, we can equate the change in production of $CO_2$ as time changes by the following equation:
+\begin{equation} \label{equ:rho}
+p_t = \rho G(C) M.
+\end{equation}
+
+To get the amount of $CO_2$ produced at a specific time we get,
+\begin{equation}
+  \mathcal{R}(t) = \int_\Omega p_t dA = \int_\Omega \rho G(C) M dA.
+\end{equation}
+From this we can get the more useful value, the total $CO_2$ produced until this point.
+\begin{equation}
+  \mathcal{P}(t) = \int^t_0 \mathcal{R}(s) ds.
+\end{equation}
+
+The $CO_2$ amount is calculated by letting $\rho = 1$ and using the numericaly computed values for $G(C)M$ as a measure.
+For the same simulation as Figure \ref{fig:typical_sim}, the $CO_2$ information can be seen in Figure \ref{fig:typical_total} (a e).
+
+The results from Figure \ref{fig:typical_total} (c d e f) seems to match the results from the oridinary differential equation model proposed in \cite{dumitrache2014understanding}.
+Their results can be seen in Figure \ref{fig:alex_ode_results}.
+It is important to note that in our system $T_M = 1 $ means that $\Omega$ is completely filled with biomass.
+However, in \cite{dumitrache2015mathematicalModeling} they scaled the biomass to the ideal carrying capacity of biomass, i.e. they have $T_M = 1$ when all the biomass is in stage II or III.
+The overall result from this experiment is that the spatial two dimension model confirms the conceptual model from \cite{dumitrache2015mathematicalModeling} based on which the reactor-scale model was formulated.
+The reactor-scale model consolidated the spatial effects into the carrying capacity of the growth and yet still managed to agree with the results of the actual spatial model.
+

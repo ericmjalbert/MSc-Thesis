@@ -1,25 +1,26 @@
 \section{Discretization}
 
-In order to find the solution for (\ref{equ:model_system}) spatial and temporal discretizations must be made.
+In order to approximate the solution for (\ref{equ:model_system}) spatial and temporal discretizations must be made.
 First the equations are discretizied in time, 
 \begin{equation} \label{equ:M_time_discret}
   \frac{M^{k+1} - M^{k}}{\Delta t} = \nabla_x (D(M^{k+1}) \nabla_x M^{k+1}) + F(C^{k+1}) M^{k+1},
 \end{equation}
 \begin{equation} \label{equ:C_time_discret}
-  \frac{C^{k+1} - C^{k}}{\Delta t} = \frac{h}{2} ( G(C^{k+1}) M^{k+1} + G(C^{k}) M^{k} ).
+  \frac{C^{k+1} - C^{k}}{\Delta t} = \frac{1}{2} ( G(C^{k+1}) M^{k+1} + G(C^{k}) M^{k} ).
 \end{equation}
-Here, (\ref{equ:M_time_discret}) follows the ideas of the Backwards Euler Method; (\ref{equ:C_time_discret}) follows Trapezoidal Rule. 
-The index variable $k$ has also been introduced in (\ref{equ:M_time_discret} - \ref{equ:C_time_discret}) such that $M^{k}(x) \approx M(t^{k}, x)$, allowing an approximation at a certain time, $t^{k}$, to be used; this reduces the dimensionality of the problem. 
+Here, (\ref{equ:M_time_discret}) follows the ideas of the Backwards Euler Method; (\ref{equ:C_time_discret}) follows Trapezoidal Rule \citep{burden2010numerical}. 
+The index variable $k$ has been introduced in (\ref{equ:M_time_discret}) - (\ref{equ:C_time_discret}) such that $M^{k}(x) \approx M(t^{k}, x)$, allowing an approximation at a certain time, $t^{k}$, to be used; this changes the spatial-temporal continuum model into a spatial continuum model with discrete temporal timesteps. 
 
-For this system, the region of consideration will be a rectangular region, $\Omega$.
-This region has Neumann boundary conditions, $\frac{\partial M}{\partial x} = \frac{\partial C}{\partial x} = 0, \forall x \in \partial \Omega$.
-Now, only (\ref{equ:M_time_discret}) requires spatial considerations since, according to the biology of our system, the substrate does not diffuse across the region.
+For this system, we let the nondimensional spatial region of consideration, $\Omega = [0,1]\times [0,1]$, be square.
+Now, only (\ref{equ:M_time_discret}) requires spatial considerations since the substrate does not diffuse across the region.
 The spatial discretization will be through the Finite Difference Method as described in \cite{saad2003iterativeMethod}.
 Here, a uniform $n \times m$ grid is used to discretize $\Omega$.
 Since all the calculations will be done on the grid intersections the discretization will be grid-point based.
 This means that a $n \times m$ grid implies there are $(n-1) \times (m-1)$ grid boxes.
-The distance between grid points is the same in both $x_1$ and $x_2$ dimensions; we have $\Delta x_1 = \Delta x_2$.
+The distance between grid points is the same in both $x_1$ and $x_2$ dimensions; we have $\Delta x_1 = \Delta x_2 = \Delta x$.
+Since we work on a nondimensionalized domain, and we known the number of grid boxes in our region, we have that $\Delta x = \frac{1}{n-1}$.
 A five-point stencil is used to approximate the solution of (\ref{equ:M_time_discret}) at each grid point.
+This spatial discritization allows the use of $i$ and $j$ to index across the region such that $x_{1_i} = i * \Delta x$ for $i \in \{ 0, 1, \ldots, n-1 \}$ and $x_{2_j} = j * \Delta x$ for $j \in \{ 0, 1, \ldots, m-1 \}$
 To index the grid point, $i$ and $j$ are used such that $M^{k}_{i,j} \approx M(t^{k}, x_{1_i}, x_{2_j})$.
 To account for the dependency on neighbouring grid points, we introduce $\sigma$ as the index pair from the set 
 \begin{equation}\label{equ:neighbour}
@@ -47,16 +48,47 @@ where,
 \end{equation}
 With $\mathcal{N}_{ij}$ and $\sigma$ we can account for the difference in boundary points and interior points.
 
+%!%  I am afraid for somebody who does not know this already it is very difficult to undertsand what you want to say here.  I think the issue is that you give (3.5) without explaining how it is derived or where it comes from.
 The equation for (\ref{equ:M_time_discret}), after spatial discretization, is
-\begin{equation} \label{equ:M_space_discret}
+\begin{equation} \label{equ:M_space_discret_tmp}
   \frac{M^{k+1}_{i,j} - M^{k}_{i,j}}{\Delta t} =
     \frac{1}{\Delta x^2} \sum_{\sigma \in \mathcal{N}_{ij}}
     \left( \frac{D(M^{k+1}_{\sigma}) + D(M^{k+1}_{i,j})}{2} \right)
     \cdot \left( M^{k+1}_{\sigma} - M^{k+1}_{i,j} \right)
     + F(C^{k+1}_{i,j}) M^{k+1}_{i,j}
 \end{equation}
+For completeness, we spatially discretize (\ref{equ:C_time_discret}) as
+\begin{equation} \label{equ:C_space_discret_tmp}
+  \frac{C^{k+1}_{i,j} - C^{k}_{i,j}}{\Delta t} = \frac{1}{2} ( G(C^{k+1}_{i,j}) M^{k+1}_{i,j} + G(C^{k}_{i,j}) M^{k}_{i,j} ).
+\end{equation}
 
-For (\ref{equ:M_space_discret}), the arithmetic mean of the diffusion function, $D$, is taken because of the steep gradiant at the interface.
-The alternative would be to use $D(M^{k+1}_{i+\frac{s}{2}, j +\frac{r}{2}})$, however this may result in a value of zero and thus nullify the effect of the spatial diffusion.
+Notice that for (\ref{equ:M_space_discret_tmp}), the arithmetic mean of the diffusion function, $D$, is taken because of the steep gradient at the interface.
+The alternative would be to use $D(M^{k+1}_{i+\frac{s}{2}, j +\frac{r}{2}})$, however in some cases we have $M^{k+1}_{i+\frac{s}{2}, j +\frac{r}{2}} = 0$ which would result in $D(0) = 0$ and thus nullify the effect of the spatial diffusion.
+Taking the arithmetic mean eliminates this result because the average value of $D$ would not be zero at the interface.
 
+%!%\begin{figure}
+%!% This is just going to be a tikz pic that shows how the values of M may fall between two i indexs so that using i+0.5 => M=0 => D(0)=0 and no diffusion exists VS. using arithmetic mean and M_i+M)i+1 => M = 0.5?? => D(0.5) != 0
+%!%\end{figure}
+
+To simplify the spatial indexing, the matrix system is converted into a vector by use of a bijective mapping defined as:
+\begin{equation}
+\begin{array}{c c c c}
+  %!% Make sure this actually maps to {1, \ldots, nm} instead of 1.... (n+1)(m+1)
+  \pi :& \{ 0, \ldots, n\} \times \{0, \ldots, m\} & \to & \{0, \ldots, nm \} \\
+       & (i,j)                                     & \to & \pi(i,j)
+\end{array}
+\end{equation}
+%!% I have a figure for this?!?!?!?
+Now, a single index can be used to iterate over the vector, $l$. 
+This gives the system,
+\begin{equation} \label{equ:M_space_discret}
+  \frac{M^{k+1}_{l} - M^{k}_{l}}{\Delta t} =
+    \frac{1}{\Delta x^2} \sum_{\sigma \in \mathcal{N}_{ij}}
+    \left( \frac{D(M^{k+1}_{\sigma}) + D(M^{k+1}_{l})}{2} \right)
+    \cdot \left( M^{k+1}_{\sigma} - M^{k+1}_{l} \right)
+    + F(C^{k+1}_{l}) M^{k+1}_{l}
+\end{equation}
+\begin{equation} \label{equ:C_space_discret}
+  \frac{C^{k+1}_{l} - C^{k}_{l}}{\Delta t} = \frac{1}{2} ( G(C^{k+1}_{l}) M^{k+1}_{l} + G(C^{k}_{l}) M^{k}_{l} ).
+\end{equation}
 

@@ -20,6 +20,7 @@
 % \usepackage{minitoc}  Was not compatible with anything
 \usepackage{array}
 \usepackage{tikz}
+\usepackage{listings}
 \usepackage{enumerate}  % for enumerating with a), b) etc...
 \usepackage{caption}    % for having enumertion in a caption 
 \usepackage{cleveref}   % So multiple references will auto format themself
@@ -38,8 +39,8 @@
 \linenumbers
 
 %% Supress annoying warnings
-%\usepackage{silence}
-%\WarningFilter{latex}{Text page}
+\usepackage{silence}
+\WarningFilter{latex}{Text page}
 
 \makeatletter
 % Make a copy of macros responsible for entering display math mode
@@ -62,7 +63,6 @@
   {./}
   {Chapters/3_numerics/Figures/}
   {Chapters/4_simulation/Figures/}
-  {Chapters/4_simulation/Show1DFigures/}
 }
 
 % PDF hyper-linking (set colors to black for printing)
@@ -79,8 +79,8 @@
 
 \pdfinfo{
 /Author (Eric M. Jalbert, 2015)
-/Title (Comparison of Semi-Implicit and Fully-Implicit Methods for a Highly Degenerate Diffusion-Reaction Equation Coupled with an ODE)
-/Subject (Comparison of Semi-Implicit and Fully-Implicit Methods for a Highly Degenerate Diffusion-Reaction Equation Coupled with an ODE)
+/Title (Comparison of Semi-Implicit and Fully-Implicit Time Integration Methods for a Highly Degenerate Diffusion-Reaction Equation Coupled with an ODE)
+/Subject (Comparison of Semi-Implicit and Fully-Implicit Time Integration Methods for a Highly Degenerate Diffusion-Reaction Equation Coupled with an ODE)
 }
 
 %Paragraph symmetries...
@@ -101,7 +101,7 @@
 
 \fancypagestyle{custom}{
 \lhead{\textit{E.Jalbert, 2014}}
-\rhead{\textit{COMPARISON SEMI-FULLY-IMPLICIT METHODS}}
+\rhead{\textit{COMPARISON SEMI- FULLY-IMPLICIT METHODS}}
 }
 
 \fancypagestyle{References}{
@@ -151,7 +151,6 @@
 %\input{Chapters/2_model/1_history}
 \input{Chapters/2_model/2_model_description}
 \input{Chapters/2_model/3_non_dimension}
-\input{Chapters/2_model/4_parameters}
 \chapter{Numerical Methods}
 \input{Chapters/3_numerics/1_discretization}
 \input{Chapters/3_numerics/2_solving_method}
@@ -170,7 +169,7 @@
 \newpage
 \pagestyle{References}
 \chapter*{References}
-\addcontentsline{toc}{chapter}{\hspace{16pt} Complete Bibliography}
+\addcontentsline{toc}{chapter}{\hspace{16pt} Bibliography}
 \titlespacing{\section}{0pt}{*0}{*0}
 \renewcommand{\bibname}{}
 \renewcommand\bibsection{}
@@ -179,20 +178,19 @@
 \setlength{\parskip}{0pt}
 \setlength{\parsep}{0pt}
 \nocite*
-\bibliographystyle{plainnat}
+\bibliographystyle{apalike}
 \bibliography{ThesisReferences}
 
+%\newpage
+%\pagestyle{fancy}
+
+\appendix
+\input{Appendix/parameter_choice}
+%!%\input{Appendix/pretty_code}
 
 
-\newpage
-\pagestyle{fancy}
-
-%%Appendix A Behavioural Plots Simulation Study
-%\input{BackMatter/AppendixA}
-
-
-\newpage
-\thispagestyle{custom}
-\mbox{}
+%\newpage
+%\thispagestyle{custom}
+%\mbox{}
 
 \end{document}

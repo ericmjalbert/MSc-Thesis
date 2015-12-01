@@ -1,9 +1,22 @@
 \section{Objectives}
 
-This will be one to two paragraphs for each objective.
 
+There are three main objectives of this thesis:
 \begin{enumerate}
-  \item Numerical development, implementation and validation of a fully implicit method
-  \item The comparison fo the fully implciit method with the semi-implicit methods
-  \item Simulation work; see if we can better understand the mechanisms of the bacteria by extracting some interesting observations from our simulations.
+  \item The numerical development, implementation and validation of the proposed fully-implicit method.
+    This includes both the theoretical and computational verification of its solutions.
+    Theoretically the method must be shown to converge to a single true solution.
+    Computationally there are a number of issues that could arise from the implementation: sinks or sources of biomass could be introduced, certain characteristics could be lost, and mass may no longer be conserved.
+    These each were investigated for their existance in our implementation.
+    Also, a spatial discretization convergence analysis was conducted to verify that the given solutions agree with selection of grid size.
+  
+  \item The comparison of the fully-implicit method and the semi-implicit method.
+    This is for taking inventory of the changes that the newly developed fully-implicit method has against the semi-implicit method for which it is based upon.
+    Multiple aspects of the solutions are compared to verify the added computational effort needed.
+    A recommendation on the use for this method is established only after the comparison is made.
+  
+  \item Numerous simulations are conducted to further the understanding of the mechanisms of \textit{C. Thermocellum}.
+    The normal behaviour of the system is observed from running a typical simulation.
+    Some interesting observations are made from further simulations: travelling wave solution existance and different spatial effect from the choice of intial condition.
 \end{enumerate}
+
