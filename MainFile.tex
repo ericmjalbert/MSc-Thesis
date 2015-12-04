@@ -1,5 +1,6 @@
 \documentclass[12pt]{report}
 \usepackage[top=23mm,bottom=23mm,left=23mm,right=23mm]{geometry}
+\usepackage[dvipsnames]{xcolor}
 \usepackage{fancyhdr, lastpage}
 \usepackage{times}
 \usepackage{chapterbib}
@@ -20,6 +21,7 @@
 % \usepackage{minitoc}  Was not compatible with anything
 \usepackage{array}
 \usepackage{tikz}
+\usetikzlibrary{matrix}
 \usepackage{listings}
 \usepackage{enumerate}  % for enumerating with a), b) etc...
 \usepackage{caption}    % for having enumertion in a caption 
@@ -39,8 +41,8 @@
 \linenumbers
 
 %% Supress annoying warnings
-\usepackage{silence}
-\WarningFilter{latex}{Text page}
+%\usepackage{silence}
+%\WarningFilter{latex}{Text page}
 
 \makeatletter
 % Make a copy of macros responsible for entering display math mode
@@ -61,10 +63,12 @@
 %Folder paths that contain graphics
 \graphicspath{
   {./}
+  {Chapters/1_introduction/Figures/}
   {Chapters/3_numerics/Figures/}
   {Chapters/4_simulation/Figures/}
 }
 
+%\usepackage[colorlinks=true,linkcolor=blue]{hyperref}
 % PDF hyper-linking (set colors to black for printing)
 %\usepackage[ps2pdf=true,colorlinks]{hyperref}
 %\usepackage[figure,table]{hypcap}
@@ -104,6 +108,16 @@
 \rhead{\textit{COMPARISON SEMI- FULLY-IMPLICIT METHODS}}
 }
 
+\fancypagestyle{normal}{
+\lhead{\textit{\rightmark}}
+\rhead{\textit{\leftmark}}
+}
+
+\fancypagestyle{chp3-5}{
+\lhead{\textit{3.5. COMPARE OF SEMI-FULLY-IMPLICIT METHODS}}
+\rhead{\textit{CHAPTER 3. NUMERICAL METHODS}}
+}
+
 \fancypagestyle{References}{
 \lhead{}
 \rhead{\textit{REFERENCES}}
@@ -121,7 +135,7 @@
 %PreliminarySections
 \pagenumbering{roman}
 \input{Prelims/titlePage}
-%\input{Prelims/Abstract}
+\input{Prelims/Abstract}
 
 \setcounter{page}{3}
 %\input{Prelims/Dedication}
@@ -138,7 +152,7 @@
 
 %%%Main Texts
 \pagebreak
-\pagestyle{fancy}
+\pagestyle{normal}
 \pagenumbering{arabic}
 \doublespacing
 %\onehalfspacing
@@ -156,7 +170,9 @@
 \input{Chapters/3_numerics/2_solving_method}
 \input{Chapters/3_numerics/3_implementation}
 \input{Chapters/3_numerics/4_method_validation}
+\pagestyle{chp3-5}
 \input{Chapters/3_numerics/5_comparison}
+\pagestyle{normal}
 \chapter{Simulation Results}
 \input{Chapters/4_simulation/2_typical_simulation}
 \input{Chapters/4_simulation/3_travelling_wave}
@@ -182,11 +198,11 @@
 \bibliography{ThesisReferences}
 
 %\newpage
-%\pagestyle{fancy}
+%\pagestyle{normal}
 
 \appendix
 \input{Appendix/parameter_choice}
-%!%\input{Appendix/pretty_code}
+\input{Appendix/pretty_code}
 
 
 %\newpage

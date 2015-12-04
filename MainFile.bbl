@@ -1,5 +1,10 @@
 \begin{thebibliography}{}
 
+\bibitem[{Alternative Fuel Data Center}, 2014]{afdc2007emission}
+{Alternative Fuel Data Center} (2014).
+\newblock Ethanol vehicle emissions.
+\newblock Online; accessed 1-December-2015.
+
 \bibitem[Barrett et~al., 1987]{barret1987templates}
 Barrett, R., Berry, M., T.F., C., Demmel, J., Donato, J., Dongarra, J.,
   Eijkhout, V., Pozo, R., Romine, C., and van~der Vorst, H. (1987).
@@ -16,13 +21,6 @@ Burden, R. and Faires, J. (2010).
 Butcher, J. (2008).
 \newblock {\em Numerical Methods for Ordinary Differential Equations}.
 \newblock Wiley, 2nd edition.
-
-\bibitem[Duddu et~al., 2008]{duddu2008combined}
-Duddu, R., Bordas, S., Chopp, D., and Moran, B. (2008).
-\newblock A combined extended finite element and level set method for biofilm
-  growth.
-\newblock {\em International Journal for Numerical Methods in Engineering},
-  74:848--870.
 
 \bibitem[Dumitrache, 2014]{dumitrache2014understanding}
 Dumitrache, A. (2014).
@@ -54,10 +52,11 @@ Eberl, H. and Demaret, L. (2007).
   diffusion–reaction equation arising in microbial ecology.
 \newblock {\em Electronic Journal of Differential Equations}, CS15:77--95.
 
-\bibitem[Eberl et~al., 2010]{eberl2009mixedCultureModel}
+\bibitem[Eberl et~al., 2010]{eberl2010mixedCulture}
 Eberl, H., Khassehkhan, H., and Demaret, L. (2010).
 \newblock A mixed-culture model of a probiotic biofilm control system.
-\newblock {\em Computation and Mathematical Methods in Medicine}, 11:99--118.
+\newblock {\em Computational and Mathematical Methods in Medicine},
+  11(2):99--118.
 
 \bibitem[Eberl et~al., 2001]{eberl2001deterministic}
 Eberl, H., Parker, D., and van Loosdrecht, M. (2001).
@@ -70,13 +69,6 @@ Efendiev, M., Eberl, H., and Zelik, S. (2002).
 \newblock Existence and longtime behaviour of solutions of a nonlinear
   reaction-diffusion system arising in the modeling of biofilms.
 \newblock {\em RIMS Kokyuroko}, 1258:49--71.
-
-\bibitem[Gallo and Manzini, 2003]{gallo2003finiteVolume}
-Gallo, C. and Manzini, G. (2003).
-\newblock Finite volume/mixed finite element analysis of pollutant transport
-  and bioremediation in heterogenous saturated aquifers.
-\newblock {\em International Journal for Numerical Methods in Fluids},
-  42:1--21.
 
 \bibitem[Gurtin, 1977]{gurtin1977diffusion}
 Gurtin, M.E., M. (1977).
@@ -102,18 +94,22 @@ Khassehkhan, H., Hillen, T., and Eberl, H. (2009).
   biofilm growth.
 \newblock {\em Lecture Notes in Computer Science}, 5544:735--744.
 
+\bibitem[Kreft et~al., 2001]{kreft2001individual}
+Kreft, J.-U., Picioreanu, C., Wimpenny, J., and van Loosdrecht, M. (2001).
+\newblock Individual-based modelling of biofilms.
+\newblock {\em Microbiology}, 147(11):2897--2912.
+
+\bibitem[Lynd, 2008]{lynd2008energy}
+Lynd, L. (2008).
+\newblock Energy biotechnology.
+\newblock {\em Current Opinion in Biotechnology}, 19(3):199--201.
+
 \bibitem[Mac\'ias-D\'iaz et~al., 2013]{macias-diaz2013efficientNonlinear}
 Mac\'ias-D\'iaz, J., Mac\'ias, S., and Medina-Ram\'iez, I. (2013).
 \newblock An efficient nonlinear finite-difference approach in the
   computational modeling of the dynamics of a nonlinear diffusion-reaction
   equation in microbial ecology.
 \newblock {\em Computational Biology and Chemistry}, 47:24--30.
-
-\bibitem[McCollum et~al., 2006]{mccollum2006sorting}
-McCollum, J., Peterson, G., Cox, C., Simpson, M., and Samatova, N. (2006).
-\newblock The sorting direct method for stochastic simulation of biochemical
-  systems with varying reaction execution behavior.
-\newblock {\em Computational Biology and Chemistry}, 30(1):39--49.
 
 \bibitem[Noguera et~al., 1999]{noguera1999simulation}
 Noguera, D., Pizarro, G., Stahl, D., and Rittmann, B. (1999).
@@ -128,8 +124,8 @@ Picioreanu, C., van Loosedrecht, M., and Heijnen, J. (1998).
 
 \bibitem[Rittmann and McCarty, 1980]{rittmann1980model}
 Rittmann, B. and McCarty, P. (1980).
-\newblock Model of steady-state biofilm kinetics.
-\newblock {\em Biotechnology and Bioengineering}, 22:2343--2357.
+\newblock Model of steady-state-biofilm kinetics.
+\newblock {\em Biotechnology and Bioengineering}, 22(11):2343--2357.
 
 \bibitem[Saad, 2003]{saad2003iterativeMethod}
 Saad, Y. (2003).

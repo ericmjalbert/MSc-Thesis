@@ -1,20 +1,18 @@
 \section{Thesis Outline}
 
-\begin{itemize}
-  \item Background (1.1): Describes the placement of this problem in the existing literature.
-  \item Objectives (1.2): Describes the three main objectives of this thesis.
-  \item Outline (1.3): Outlines the sequencial format of the thesis.
-  \item Model Description (2.1): Formulates the mathematical model that is used for the rest of the study.
-  \item Nondimensionalization (2.2): The system described in the previous section is reduced to unitless parameters and variables for simplicity.
-  \item Discretization (3.1): Spatial and temporal discritzations are applied to the system.
-  \item Solving Technique (3.2): Using a fixed-point iteration, solutions for the system are found by use of finite difference method with the Bi-Conjugate Gradiant Method and the quadratic equation.
-  \item Computational Setup (3.3): The work stations and compiler settings are recorded.
-  \item Method Validation (3.4): Multiple test are run to check if the handling of the spatial discritization generated any sources or sinks in the solution. A measure to compare two the solution of two different simulations is esstablished so that a grid convergence analysis can be done.
-  \item Comparison of Semi-Implicit and Fully-Implicit Methods (3.5): Using the previously established measure, the semi-implicit method and fully-implicit method are compared against varying quantities and at different tolerances.
-  \item Typical Simulation (4.1): A generic simulation is run to reveal the general behaviour of the system.
-  \item Travelling Wave Analysis (4.2): A travelling wave solution is suggested to exist, this is tested against different simulations to reinforce the idea.
-  \item Spatial Effects (4.3): The effect of ignoring the spatial diffusion is investigated by comparing two vastly different simulations; one with evenly distributed initial condition, the other with clumped initial condition.
-  \item Lessons Learned (5.1): The general findings of each section are summerized.
-  \item Future Work (5.2): Possible changes and extensions are discussed.
-\end{itemize}
+In Chapter 1 of the thesis, a brief background for the research project is provided.
+The objectives of the thesis and the outline of how each objective will be addressed is also presented here.
 
+In Chapter 2, the underlying model of \textit{C.thermocellum} biofilm growth on cellulose sheets is stated and transformed into a non-dimensional model.
+This model is a coupled system comprised of a highly-degenerate partial differential equations for bacterial biomass and a ordinary differential equation for the growth limiting substrate.
+
+In Chapter 3, a fully-implicit time-integration scheme is introduced that generalizes an earlier semi-implicit method.
+The implementation of the method is discussed and validated by testing it against typical settings and running a grid convergence test.
+Finally a comparison between the fully-implicit method and the earlier semi-implicit method is conducted.
+
+In Chapter 4, the fully-implicit method of Chapter 3 is used to simulation \textit{C.thermocellum} biofilm formation on cellulose fibers. 
+The numerical solution suggests that the model permits travelling wave solutions that describe the spatio-temporal breakdown of the cellulose fibers.
+The results of the two dimensional simulations are compared qualitatively against a conceptual model of fiber breakdown and against lumped experimental data from the literature.
+
+In Chapter 5, the general findings of chapter 3 and 4 are listed for.
+A number of potential extensions are discussed for future works.

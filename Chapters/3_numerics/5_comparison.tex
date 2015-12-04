@@ -1,12 +1,11 @@
 \section{Comparison of Semi-implicit and Fully-implicit Method}
-   We are now in a position to compare the fully-implicit time-integration scheme that we introduced here with the semi-impliciti time-integration that has been used for problems with a diffusive substrate in the literature. %!% Reference
+   We are now in a position to compare the fully-implicit time-integration scheme that we introduced here with the semi-implicit time-integration that has been used for problems with a diffusive substrate in the literature. %!% Reference
    Recall that the semi-implicit method is a special case of the fully-implicit method if the non-linear iteration is stopped after one step.
    This can be forcibly achieved, for example, by choosing a very large tolerance threshold for the non-linear iteration.
 %  Here the main comparison that analyses the effects of using Algorithm \ref{alg:iterateCM} with different tolerances. 
 %  Recall that the main observation is for $tol. = 1$, which correlates to the semi-implicit method since it will allow only a single iteration of the algorithm. 
 
-  %!% State which time I used for the calculations
-  The simulation used is the same as described in (\ref{fig:basic_trav}).
+  The simulation used is the same as described in (\ref{fig:basic_trav}) and is stopped at $t = 40$.
   The comparison will be on multiple metrics: the average number of iterations of Algorithm \ref{alg:iterateCM}, the value of $\epsilon_1$ and $\epsilon_2$, the computation time of the simulation, and the height of the wave peak.
 
   %!% The reason for including this measre is that it relates how close (in some sense) the semi-implicit method is to the fully-implicit for this specifi case. 
@@ -14,17 +13,27 @@
     % Perhaps include number of CG method iterations as another measure.
   %!% describe what I mean by average number of iterations. Average taken over what? Should I not just get a single iteration count? Explain why I don't and what I actually do here.
   %!% Maybe get a graph that shows the average nuber of iterations as a function of time?
+  
+%!%  \begin{figure}[!htp]
+%    \centering
+%    \includegraphics[scale=0.9]{averageIterations.eps}
+%    \caption{The average number of iterations for the fully-implicit method as a function of time.
+%      This average is from $t=0$ to the current $t$. 
+%    \label{fig:averageIterations}
+%  \end{figure}
+
   The average number of iterations are tracked so that an idea of the extra work can be formed.
   This average is based on the average number of iteration of the fully-implicit method from $t=0$ to the current $t$.
-  This value is used since it represents the number of interations in a way that is easy to read and understand.
+  This value is used since it represents the number of iterations in a way that is easy to read and understand.
   As the tolerance decreases the amount of iterations the algorithm must perform will increase, the degree of increase will help relate the amount of work.
+%!%  The average number of iterations is not constant, the fluctations as a function of time can be seen in Figure \ref{fig:averageIterations}.
 
   The value of $\epsilon_1$ and $\epsilon_2$ act as a measure of accuracy.
   Here, these values correspond to the difference between a pair of solutions, $u_1$ and $u_2$.
   The choice of $u_2$ here is the semi-implicit methods solution.
   This results in a relative difference from the semi-implicit method and would show the change in solution as the tolerance decreases.
   Each row of Table \ref{tab:tolerance_comparison} refers to the $u_1$ values used in the comparison.
-  Each difference was taken at the last timestep.
+  Each difference was taken at the last time step.
 
   Along with accuracy, the simulation time is tracked.
   This is because it represents another metric for which the viability of the fully-implicit method can be verified.
@@ -32,7 +41,7 @@
   Therefore, this needs to be weighted against the cost of computational intensity and the increase of the simulation time.
 
   The location of the wave peak is a tracked quality of the solution that reveals how consistent the results are.
-  The wave peak is described here as the maximum value of the solution at the final timestep calculated.
+  The wave peak is described here as the maximum value of the solution at the final time step calculated.
   The ultimate goal is that the simulation solutions be converging towards the exact solution.
   To see this here the $x$-coordinate of the wave peak is tracked as well as the height of the wave peak.
 
@@ -40,17 +49,15 @@
 
   \input{./Chapters/3_numerics/Figures/results_table}
 
-  %!% Finish this off with a recommendation.
-    % Basically, I get 4 digits accuracy with a single iteration, a 4th digit is gained by goin to a second iteration, which increases compute time by 50%.
-    % To get a 5th digit, I need 36 iterations at a cost of increasing compute time 9-fold.
-    % Is this actually a benifit? Pretty much only if you really need the increased accuracy 
   There are a number of observations that can be made from these results.
   \begin{itemize}
     \item A positive relationship between computation time and average number of iterations exists.
-    \item There is no significant difference between solutions unless the tolerance is set high enough to force multipl iterations. 
+    \item There is no significant difference between solutions unless the tolerance is set high enough to force multiple iterations. 
           So the semi-implicit method results in a tolerance between $10^{-4}$ and $10^{-5}$ since any tolerance forced below that does not require addition iterations.
     \item The differences in Wave Height are a result of addition iterations and monotonically approach a specific value as the tolerance becomes smaller.
     \item The greatest gain in accuracy while weighing the increased computation time is from a tolerance around $10^{-5}$ at which point only one extra iteration is completed.
+    \item The main takeaway is that the semi-implicit method results in 4 digits of accuracy and when a second iteration is forced (from additional tolerance) a $5^{th}$ digit is gained for the $50\%$ increase in compute time.
+    \item After $36$ iterations a $6^{th}$ digit of accuracy is gained for a $900\%$ increase in compute time.
   \end{itemize}
   
   %!% add relationship graphs of each column vs. other columns?

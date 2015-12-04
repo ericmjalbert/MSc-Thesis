@@ -1,6 +1,6 @@
 \section{Model Description}
 The model used for simulations is based on the deterministic biofilm model developed in \cite{eberl2001deterministic}, which was designed for modelling the development of spatially heterogenous biofilm structures.
-Since \textit{C.Thermocellum} grows as a monolayered biofilm and consumes a solid carbon fiberous substrate, there are mechanical differences between the two systems.
+Since \textit{C.Thermocellum} grows as a monolayered biofilm and consumes a solid carbon fibrous substrate, there are mechanical differences between the two systems.
 Our model is based on the following assumptions:
 \begin{enumerate}
   \item The growth of sessile biomass is limited locally by the availability of nutrients and by the availability of colonizable space.
@@ -11,7 +11,7 @@ Our model is based on the following assumptions:
     Near the physical limit it expands spatially into neighbouring regions.
     Because of this, the physical limit of biomass density is never attained.
     \label{assump:diffusion}
-  \item The carbon fiberous substrate consumed as nutrition for biomass growth is the substratum to which the biofilm attachs.
+  \item The carbon fibrous substrate consumed as nutrition for biomass growth is the substratum to which the biofilm attaches.
     Carbon is bound in the fibers of the substratum and does not diffuse.
     The propagation of biofilm is based on the lack of available substrate locally, not the physical degradation of the substratum.
     \label{assump:substratum}
@@ -19,9 +19,9 @@ Our model is based on the following assumptions:
 %  \item Since \textit{C.Thermocellum} behaves as a monolayer, the area of substrate covered by sessile biomass determines the maximum production of biomass. Further growth of sessile biomass results in greater coverage.
 %  \item Since \textit{C.Thermocellum} behaves as a monolayer, the growth of biomass is directly propotional to the area of substrate covered by sessil biomass. 
 %  \item The substrate is sessile.
-  \item Cell death and cell loss into the aqueous environment is assumed to be proprotional to cell density.
+  \item Cell death and cell loss into the aqueous environment is assumed to be proportional to cell density.
     \label{assump:bio_death}
-  \item Biomass growth is proprotional to substrate consumption.
+  \item Biomass growth is to substrate consumption.
     \label{assump:sub_consumption}
 \end{enumerate}
 
@@ -33,7 +33,7 @@ Instead our biofilm grows across the substratum making this a two dimensional se
 
 The model is formulated in a spatial domain $\Omega$. 
 The independent variables $t > 0$ denote time and $x \in \Omega$ denotes the location within the physical domain.
-The depependent variables are the local fraction of the surface occupied by biomass $M(t,x)$ and the substrate density $C(t,x)$.
+The dependent variables are the local fraction of the surface occupied by biomass $M(t,x)$ and the substrate density $C(t,x)$.
 The net growth rate of biomass, in dependence of available substrate we denote by $f(C)$, the substrate consumption rate by $g(C)$.
 The diffusion coefficient that describes spatial expansion of biomass is given by the function $d(M)$.
 
@@ -53,21 +53,21 @@ where
   g(C) = y \frac{C}{k + C}
 \end{equation}
 with all parameters non-negative.
-Here we have a pair of equations, (\ref{equ:model_M}) and (\ref{equ:model_C}), that represent the biomass density and substrate concentration respectivly.
+Here we have a pair of equations, (\ref{equ:model_M}) and (\ref{equ:model_C}), that represent the biomass density and substrate concentration respectively.
 This is a model for the spatial spreading of biomass.
 For $0 < M << 1$ the spreading effect is negligible but when $0 << M \approx 1$ we have considerable spreading.
 The work done by \cite{khassehkhan2009nonlinearMaster} shows this to be an ideal choice for modelling the spreading of biofilms.
-By assumption \ref{assump:growth_inhib}, the only factors effecting the biomass density is growth from nutrient convertion and diffusion from local spatially-full colonized space.
+By assumption \ref{assump:growth_inhib}, the only factors effecting the biomass density is growth from nutrient conversion and diffusion from local spatially-full colonized space.
 For the density-dependent diffusion equation (\ref{equ:model_d}), $\delta$ is the diffusion coefficient, which controls the magnitude of this term, and the parameters $\alpha$ and $\beta$ are selected to control the strength of the diffusion.
 This agrees with assumption \ref{assump:diffusion} since (\ref{equ:model_d}) has a near-zero value until when $M \to 1$, which leads to $d(M) \to \infty$ as seen in Figure \ref{fig:show_d}. 
 The production rate is the difference between simple Monod kinetic growth term, with growth rate $u$, and a constant death rate term, $n$, to agree with assumption \ref{assump:growth_inhib} and \ref{assump:bio_death}.
 Monod kinetic growth was selected, with half-saturation carbon concentration $k$, since it matches the growth of bacteria when limited by available nutrients. %!% citation here?
 
-Equation (\ref{equ:model_C}) describdes the consumption of cabon substrate due to biomass growth.
-Parameter $y$ is the maxmimum consumption rate, measured in mass carbon per unit time.
+Equation (\ref{equ:model_C}) describes the consumption of carbon substrate due to biomass growth.
+Parameter $y$ is the consumption rate, measured in mass carbon per unit time.
 Substrate consumption is proportional to the local biomass density $M$. 
 Parameter $k$, same as in the growth term for (\ref{equ:model_M}) is again the half-saturation carbon concentration.
-Here assumption \ref{assump:substratum} and \ref{assump:sub_consumption} are satisified since there exist no diffusion term for the substrate and its growth is a scalar multiple of the biomass growth rate.
+Here assumption \ref{assump:substratum} and \ref{assump:sub_consumption} are satisfied since there exist no diffusion term for the substrate and its growth is a scalar multiple of the biomass growth rate.
 
 
 \begin{figure}
@@ -120,7 +120,7 @@ Note that since we have a two dimensional problem, due to the lack of complex bi
   \end{table}
 
 The model (\ref{equ:model_M}), (\ref{equ:model_C}) is completed by boundary conditions for the biomass density, $M$, and initial conditions for both $M$ and substrate concentration $C$.
-For $M$ we pose homogenouse Neumann boundary conditions such that,
+For $M$ we pose homogeneous Neumann boundary conditions such that,
 \begin{equation} 
   \partial_n M = 0, \quad x \in \partial \Omega.
 \end{equation}
@@ -129,7 +129,7 @@ The initial conditions for the biomass density is,
   M(0,x) = M_0(x), \quad x \in \Omega,
 \end{equation}
 where $0 \le M_0(x) < 1$ and $M_0(x)$ non-zero in specific pockets on the substratum. 
-These are specified below for each indivdual simulation experiments.
+These are specified below for each individual, simulation experiments.
 The initial conditions for the substrate concentration is,
 \begin{equation}
   C(0,x) = C_{\infty}, \quad x \in \Omega,

@@ -1,20 +1,18 @@
 \section{Lessons Learned}
 
-From completing each of the main objectives, some meaningful lessons can be taken from the results:
-
 \begin{itemize}
 %  \item What is the main idea of the lesson? From method formulation/validation
 %    Where did we learn this from?
 %    How does this help things?
   \item From the numerics chapter of the thesis, the validity and usefulness of a newly developed fully-implicit method was investigated.
-    By comparing it to the standard semi-implicit method for which it is an extension of it was determined that a significant accuracy gain results from a single extra iteration of the fully-implicit method.
-    Multiple iterations increase this gain since the increase in accuracy is positivly correlated to the number of iterations performed.
-    However, the computational effort required from the fully-implicit method grows exponentially with higher tolerance.
-    The best ratio for solution accuracy when weighed against heavier computation times suggests that two iterations of the fully-implicit method is best (one extra from the semi-implicit method).
-    This resulted in an extra digit of accuracy at the cost of approximatly $150\%$ the computational effort.
+    By comparing it to the standard semi-implicit method, of which it extends, it was determined that a significant accuracy gain results from a single extra iteration of the fully-implicit method.
+    Multiple iterations increase this gain since the increase in accuracy is positively correlated to the number of iterations performed.
+    However, the computational effort required from the fully-implicit method grows exponentially with lower tolerance.
+    The ratio for solution accuracy when weighed against heavier computation times suggests that two iterations of the fully-implicit method is best (one extra from the semi-implicit method).
+    This resulted in an extra digit of accuracy at the cost of approximately $150\%$ the computational effort.
   \item From the simulation chapter of the thesis, a number of useful characteristics were observed in the system.
-    The existance of travelling wave solutions was strongly suggested from all the evidence gathered.
-    The stabilty of this wave suggests that it always exists, but this cannot be verified due to the analyitic complexity of the problem.
-    Testing two spatially different simulations and measuring the $CO_2$ production showed a large difference between the two solutions at a reactor-scale.
-    This suggests that two dimensional models are better for accurately mimicing the behaviour of the system.
+    The existence of travelling wave solutions was strongly suggested from all the evidence gathered.
+    The stability of this wave suggests that it always exists, but this cannot be verified due to the analytic complexity of the problem.
+    Testing two sets of initial conditions, chosen at opposing extremes of spatial spreading (all biomass in one location versus equally distributed across one boundary), and measuring the $CO_2$ production showed a large difference between the two solutions at a reactor-scale.
+    This suggests that two dimensional models are better for accurately mimicking the behaviour of the system.
 \end{itemize}

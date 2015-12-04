@@ -3,7 +3,7 @@
   With a defined method and computational setup we assess the behavior and accuracy of the method in a variety of simulations.
   An examination of a typical simulation will show if the expected behaviour is observed.
   A convergence analysis for the method can be done to confirm that solutions from different grid sizes approach a single solution as they become more precise.
-  This convergence test will also show the thresholds for an accurate simulation result, to help reduce the computiation times.
+  This convergence test will also show the thresholds for an accurate simulation result, to help reduce the computation times.
   Once the fully-implicit method has been tested, it can be compared against the semi-implicit method.
 
 \subsection{Basic Simulations}
@@ -32,19 +32,19 @@
 
   A simple test would be to check if the spatial discretization can preserve specific characteristics of the solutions.
   One example of this would be seeing if a 1D initial condition could be preserved as time progresses.
-  Having all of the biomass on one boundary of $\Omega$, for example across the $y$-axis, would qualify as a 1D intial condition.
+  Having all of the biomass on one boundary of $\Omega$, for example across the $y$-axis, would qualify as a 1D initial condition.
   These initial conditions will be defined as:
   \begin{equation} \label{equ:basic_init_trav_wave}
     \begin{aligned}
-    M &= \begin{cases}
+    M(0,x,y) &= \begin{cases}
       -\left( \frac{h}{d^4} \right) x^4 + h & \text{, if } y \le d \\
       0 & \text{, otherwise}
     \end{cases} \\
-    C &= 1
+    C(0,x,y) &= 1
     \end{aligned}
   \end{equation}
   where $h = 0.1$ and $d = \frac{5}{128}$.
-  Here, $h$ and $d$ represent the height and depth of the innoculation site. 
+  Here, $h$ and $d$ represent the height and depth of the inoculation site. 
 
   The solution shown in Figure \ref{fig:basic_trav} shows that the 1D characteristic of the biomass stays at a later time. 
 
@@ -58,19 +58,20 @@
       \includegraphics[scale = 0.7]{basic_trav_wave_C_t40}\\
       (c) & (d)
     \end{tabular}
-    \caption{Solutions for (ac) $M$ and (bd) $C$ with 1D initial conditions defined in (\ref{equ:basic_init_trav_wave}) at (ab) $t = 0$ and (cd) $t = 40$. Computed with a $1025 \times 1025$ grid and a timestep of $\Delta t = 10^{-3}$.}
+    \caption{Solutions for (ac) $M$ and (bd) $C$ with 1D initial conditions defined in (\ref{equ:basic_init_trav_wave}) at (ab) $t = 0$ and (cd) $t = 40$. Computed with a $1025 \times 1025$ grid and a time step of $\Delta t = 10^{-3}$.}
     \label{fig:basic_trav}
   \end{figure}
 
   Another characteristic to observe would be if a spherical initial condition remains spherical.
-  Using intial conditions for the biomass,
+  Using initial conditions for the biomass,
   \begin{equation} \label{equ:basic_spherical}
-    M = \begin{cases}
+    M(0,x,y) = \begin{cases}
       - \frac{h}{d^2} \left( x - 0.5)^2 + (y - 0.5)^2 \right) + h  & \text{, if } (x - 0.5)^2 + (y - 0.5)^2 < d^2 \\
       0 & \text{, otherwise}
     \end{cases},
   \end{equation}
   a test can be tried to see if the spherical nature of the solution is kept as time progresses.
+  We still have $C(0,x,y) = 0$ here.
   The solution shown in Figure \ref{fig:basic_spherical} shows that the spherical shape of the solution is maintained at later times.
 
   \begin{figure}
@@ -80,52 +81,40 @@
       \includegraphics[scale = 0.7]{basic_spherical_M_t40} \\
       (a) & (b)
     \end{tabular}
-    \caption{Solutions for $M$ with spherical initial conditions defined by (\ref{equ:basic_spherical}) at (a) $t = 0$ and (b) $t = 40$. Computed with a $1025 \times 1025$ grid and a timestep of $\Delta t = 10^{-3}$.}
+    \caption{Solutions for $M$ with spherical initial conditions defined by (\ref{equ:basic_spherical}) at (a) $t = 0$ and (b) $t = 40$. Computed with a $1025 \times 1025$ grid and a time step of $\Delta t = 10^{-3}$.}
     \label{fig:basic_spherical}
   \end{figure}
   
   Both Figure \ref{fig:basic_trav} and Figure \ref{fig:basic_spherical} increase the confidence that the spatial discretization did not introduce any loss of characteristics for the solutions.
     
 
-  %!% Descibe the simulation that you carry out here in more detail, so the reader can follow.
-  %!% Give the equations that I solve
- % \begin{equation}
- %   M_t = \nabla (D(M)\nable M) + aM
- % \end{equation}
- % also show the exct derivation (through the use of Divergence theorem and intergrating over \Omega with reference to the boundary conditions neumann) of:
- % \begin{equation}
- %   T_{M}(t) = T_M(0) e^{at}
- % \end{equation}
- % Also make FIG 3.4 a two-panel figure. One is the current plot and the other is the exact T_M and the numerical T_M, in logscaale.
- % Also should probably set the xr for the current plot so that it is only in the region of good numbers.
- % This time can be computed exactly, since I can a priori estimate from T_M(t), since I know that the maximum T_M can be is the total value of Omega??(namely M=1 everywhere)
 
   Given the boundary conditions and spatial discretization, there could be a possible source or sink of biomass when it must diffuse along the boundary of the region.
   To ensure this is not the case, the total amount of biomass can be used to compare the simulated amount against the theoretical amount. 
   However, the total biomass cannot be exactly determined with the given growth rate function.
   This means that there will not be anything to measure the validity of the simulation solution against.
-  If we let the growth rate be some constant called $a$, the exact total biomass can be calculated.
+  If we let the growth rate be some constant, $a$, the exact total biomass can be calculated.
 
-  The expected total biomass would be of the form $y_0 e^{at}$.
-  This can be checked by tracking the total biomass, now called $T_{M}(t)$, with the changed growth rate function, $F(C) = a$.
-  The calculation of $T_{M}(t)$ can be done by,
+  The expected total biomass, $T_M(t)$, can be found by using the divergence theorem and integrating the biomass over the region,
   \begin{equation} \label{equ:total_biomass}
-    T_{M}(t) = \int_{\Omega} M(t) dx.
+  \begin{aligned}
+    T_M = & \int_{\Omega} \left(  \nabla_x (D(M) \nabla_x M) + aM \ dA \right) \\
+    = & \int_{\Omega} \nabla_x (D(M) \nabla_x M) \ dA + \int_{\Omega} aM \ dA \\
+    = & \int_{\partial \Omega} D(M) \nabla_n M \cdot n \ dn + \int_{\Omega} aM \ dA \\
+    = & \int_{\partial \Omega} D(M) (0) \cdot n \ dn + \int_{\Omega} aM \ dA \\
+    = & \int_{\Omega} aM \ dA\\
+    = & T_M(0) e^{at}
+  \end{aligned}
   \end{equation}
   Numerically, this is computed by grid-wise summation,
   \begin{equation}
     T_{M}(t^k) \approx T_{M}^{k} = \frac{ \sum^n_i \sum^m_j M^{k}_{i,j} }{nm}.
   \end{equation}
 
-  The simulation setup used will be analogous to that used for Figure \ref{fig:basic_spherical}.
-  The one difference will be that the simulation here is ran for a longer time to allow the biomass to diffuse along the boundary, showing the boundary effects.
- 
-  From Figure \ref{fig:basic_growth} we can see that the total biomass only differs between the computed value and the theoretical value by a relative error less then $0.003$.
-  The cases where the error becomes significant are from the region being completely filled with biomass, at which point diffusion is no longer possible.
-  The error fluctuates violently here because of this.
-  This suggests that the method does not introduce any significant sources or sinks of biomass at the boundary of the region.
-
-  \begin{figure}
+ %!% Also make FIG 3.4 a two-panel figure. One is the current plot and the other is the exact T_M and the numerical T_M, in logscaale.
+ % Also should probably set the xr for the current plot so that it is only in the region of good numbers.
+ % This time can be computed exactly, since I can a priori estimate from T_M(t), since I know that the maximum T_M can be is the total value of Omega??(namely M=1 everywhere)
+  \begin{figure}[!htp]
     \centering
     \includegraphics[scale = 0.9]{basic_growth}
     \caption{Plot of the relative error, $\frac{|f_1 - f_2|}{|f_2|}$, between the computed total biomass, $f_1 = T_{M}(t)$, and the theoretical total biomass, $f_2 = y_0 e^x$. 
@@ -133,7 +122,15 @@
       This means that there is no physical space for the biomass to occupy and thus the growth slows down to a stop.}
     \label{fig:basic_growth}
   \end{figure}
-  
+
+  The simulation setup used will be analogous to that used for Figure \ref{fig:basic_spherical}.
+  The one difference will be that the simulation here is ran for a longer time to allow the biomass to diffuse along the boundary, showing the boundary effects.
+
+  From Figure \ref{fig:basic_growth} we can see that the total biomass only differs between the computed value and the theoretical value by a relative error less then $0.003$.
+  The cases where the error becomes significant are from the region being completely filled with biomass, at which point diffusion is no longer possible.
+  The error fluctuates violently here because of this.
+  This suggests that the method does not introduce any significant sources or sinks of biomass at the boundary of the region.
+
   %!% add mass -conseration between M and C by checking that $M' + \gamma C' = 0$; ie total mass is constant
     % Show here the pre-work of integrating over the domain and that the spatial term dissapers and all thats left is the growth terms in both M and C.
     % If its interesting, show a graph of M'+gama C vs. t, and try to explain/justify the changes it makes (unless its 0, then just report that its zero and say DATA NOT SHOWN.
@@ -145,7 +142,7 @@
   First, a metric must be formed to enable consistent comparisons between different simulation solutions. 
   This metric will be referred to as the normed difference. 
   Only $M$ will be considered for the normed difference calculations.
-  This is because $C$ depends on $M$ and including it does not qualitativly change the results.
+  This is because $C$ depends on $M$ and including it does not qualitatively change the results.
 
 \subsubsection{Normed Difference Computations}
 
@@ -173,14 +170,13 @@
   \end{equation}
   These different norms will all be used to create a broader understanding of the normed difference.
   This creates three distinct values for $\epsilon_{sol}$, named $\epsilon_{\ell_1}$, $\epsilon_{\ell_2}$, and $\epsilon_{\ell_\infty}$; each named for the norm used during the computation.
-  Note that these norms are for the vector for of the solution, throught the use of the grid-ordering $\pi(i,j)$.
+  Note that these norms are for the vector for of the solution, through the use of the grid-ordering $\pi(i,j)$.
   
  %!% \item What program did I use? (R probably....)
- %!% \item Maybe run though a trivial Fisher equation problem to confirm that it works ?
-  % Also mention the Accuracy of the solutions by using the norm of each solution compared to the  most accurate one.... (Maybe take a solution at a higher grid resolution?, not sure what to do here)
+  %!% Also mention the Accuracy of the solutions by using the norm of each solution compared to the  most accurate one.... (Maybe take a solution at a higher grid resolution?, not sure what to do here)
 
 \subsubsection{Grid Size Convergence}
-  To observe the validity of the method, a test on the convergence of solutions based on the spatial discritization is done.
+  To observe the validity of the method, a test on the convergence of solutions based on the spatial discretization is done.
   This will involve using the same simulation described in (\ref{equ:basic_init_trav_wave}) due to the simplicity. 
  
   The convergence will be tracked with only two forms of $\epsilon_{sol}$; $\epsilon_1$ and $\epsilon_2$.
@@ -249,99 +245,6 @@
       Here is can be seen that successive grid size selections using $s(n)$ line up on certain grid points and when using $2^n$ no grid points are equivalent.}
     \label{fig:grid_point_lineup}
   \end{figure}
-
-  %!% This figure has the 2^n lineup also
-  %\begin{figure}
-    % \centering
-    % \begin{tabular}{| c | c | c |}
-    %   \hline
-    %   &  $s(n) = 2^{n}+1 $ & $2^n$ \\
-    %   \hline
-    %   $n=2$ 
-    %   & 
-    %   \begin{tikzpicture}
-    %     \draw [thick] (0.0, 1.0) -- (4.0, 1.0);
-    %     \draw [thick] (0.0, 0.8) -- (0.0, 1.2);
-    %     \draw [thick] (1.0, 0.8) -- (1.0, 1.2);
-    %     \draw [thick] (2.0, 0.8) -- (2.0, 1.2);
-    %     \draw [thick] (3.0, 0.8) -- (3.0, 1.2);
-    %     \draw [thick] (4.0, 0.8) -- (4.0, 1.2);
-
-    %     \node [above] at (0.0, 1.2) {1};
-    %     \node [above] at (1.0, 1.2) {2};
-    %     \node [above] at (2.0, 1.2) {3};
-    %     \node [above] at (3.0, 1.2) {4};
-    %     \node [above] at (4.0, 1.2) {5};
-    %   \end{tikzpicture} 
-    %   &
-    %   \begin{tikzpicture}
-    %     \draw [thick] (0,1) -- (4,1);
-    %     \draw [thick] (0.0, 0.8) -- (0.0, 1.2);
-    %     \draw [thick] (1.333, 0.8) -- (1.333, 1.2);
-    %     \draw [thick] (2.667, 0.8) -- (2.667, 1.2);
-    %     \draw [thick] (4.0, 0.8) -- (4.0, 1.2);
-
-    %     \node [above] at (0.0, 1.2) {1};
-    %     \node [above] at (1.333, 1.2) {2};
-    %     \node [above] at (2.667, 1.2) {3};
-    %     \node [above] at (4.0, 1.2) {4};
-    %   \end{tikzpicture}
-    %   \\
-    %   \hline
-    %   $ n = 3 $
-    %   &
-    %   \begin{tikzpicture}
-    %     \draw [thick] (0,1) -- (4,1);
-    %     \draw [thick] (0.0, 0.8) -- (0.0, 1.2);
-    %     \draw [thick] (0.5, 0.8) -- (0.5, 1.2);
-    %     \draw [thick] (1.0, 0.8) -- (1.0, 1.2);
-    %     \draw [thick] (1.5, 0.8) -- (1.5, 1.2);
-    %     \draw [thick] (2.0, 0.8) -- (2.0, 1.2);
-    %     \draw [thick] (2.5, 0.8) -- (2.5, 1.2);
-    %     \draw [thick] (3.0, 0.8) -- (3.0, 1.2);
-    %     \draw [thick] (3.5, 0.8) -- (3.5, 1.2);
-    %     \draw [thick] (4.0, 0.8) -- (4.0, 1.2);
-
-    %     \node [above] at (0.0, 1.2) {1};
-    %     \node [above] at (0.5, 1.2) {2};
-    %     \node [above] at (1.0, 1.2) {3};
-    %     \node [above] at (1.5, 1.2) {4};
-    %     \node [above] at (2.0, 1.2) {5};
-    %     \node [above] at (2.5, 1.2) {6};
-    %     \node [above] at (3.0, 1.2) {7};
-    %     \node [above] at (3.5, 1.2) {8};
-    %     \node [above] at (4.0, 1.2) {9};
-    %   \end{tikzpicture}
-    %   &
-    %   \begin{tikzpicture}
-    %     \draw [thick] (0,1) -- (4,1);
-    %     \draw [thick] (0.000, 0.8) -- (0.000, 1.2);
-    %     \draw [thick] (0.571, 0.8) -- (0.571, 1.2);
-    %     \draw [thick] (1.143, 0.8) -- (1.143, 1.2);
-    %     \draw [thick] (1.714, 0.8) -- (1.714, 1.2);
-    %     \draw [thick] (2.286, 0.8) -- (2.286, 1.2);
-    %     \draw [thick] (2.857, 0.8) -- (2.857, 1.2);
-    %     \draw [thick] (3.429, 0.8) -- (3.429, 1.2);
-    %     \draw [thick] (4.000, 0.8) -- (4.000, 1.2);
-
-    %     \node [above] at (0.000, 1.2) {1}; 
-    %     \node [above] at (0.571, 1.2) {2};
-    %     \node [above] at (1.143, 1.2) {3};
-    %     \node [above] at (1.714, 1.2) {4};
-    %     \node [above] at (2.286, 1.2) {5};
-    %     \node [above] at (2.857, 1.2) {6};
-    %     \node [above] at (3.429, 1.2) {7};
-    %     \node [above] at (4.000, 1.2) {8};
-
-    %   \end{tikzpicture}
-    %   \\
-    %   \hline
-    % \end{tabular}
-    % \caption{Visualization in 1D to illustrate the choice of $s(n) = 2^{n} + 1 $ instead of $2^{n}$ for the grid size selection.
-    %   Here is can be seen that successive grid size selections using $s(n)$ line up on certain grid points and when using $2^n$ no grid points are equivalent.}
-    % \label{fig:grid_point_lineup}
-  %\end{figure}
-
   
   %!% Makes this use log graph and maybe its a stragith line.
   %!% Also have graphs of how the quatilites of interest change with grid-size (and with t?)
@@ -349,14 +252,14 @@
   %     to the above graph, can later add computation time to it to justify the choice in \delta t and \delta x for the later simulations
 
   Using the same simulation setup as was done in Figure (\ref{fig:basic_trav}), solutions resulting from different grid sizes based on $s(n)$ are computed for $n = 5, 6, \ldots, 12$.
-  In this case, when calculating $\epsilon_{sol} = \frac{| u_1 - u_2 |}{|u_2|}$, we let $u_1$ be the grid size under investigation and $u_2$ be the solutions of the most refined gridsize, $n = 12$.
+  In this case, when calculating $\epsilon_{sol} = \frac{| u_1 - u_2 |}{|u_2|}$, we let $u_1$ be the grid size under investigation and $u_2$ be the solutions of the most refined grid size, $n = 12$.
   This would show the converging solutions for smaller grid sizes because the change to the finest grid size will be monotonically decreasing.
 
   \begin{figure}
     \centering
     \includegraphics{converge_spatial}
     %!% State here the final t for which these calculations were made.
-    \caption{Plot showing the convergence of solutions based on changes in $\Delta x$. The computions are of $\epsilon_{\ell_1}$ and $\epsilon_{\ell_2}$ with grid-size following $s(n) = 2^{n}+1$.}
+    \caption{Plot showing the convergence of solutions based on changes in $\Delta x$. The computations are of $\epsilon_{\ell_1}$ and $\epsilon_{\ell_2}$ with grid-size following $s(n) = 2^{n}+1$.}
     \label{fig:converge_spatial}
   \end{figure}
   %!% Describe that the hickup at n=6 is because n=5 is too coarse to fit with the initial condition
@@ -365,7 +268,7 @@
   %!% Also state out here the final t for which the normed difference calculations were made.
 
   The results from Figure \ref{fig:converge_spatial} show that the solutions converge as the grid size become refined with the grid size.
-  The nonmonotonicity for $n = 5$ is because the grid has become too large for predictable calculations, which is an acceptible error since such a coarse grid would never be used for computational simulations.
+  The non-monotonicity for $n = 5$ is because the grid has become too large for predictable calculations, which is an acceptable error since such a coarse grid would never be used for computational simulations.
 
 %!% Also, check the results with a larger and smaller $\Delta t$ to see if they change.
 

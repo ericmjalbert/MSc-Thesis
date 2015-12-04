@@ -9,43 +9,43 @@ Name 2 in "Efendiev, M.A. and Eberl, H.J, and Zelik, S.V" has a comma at the end
 while executing---line 1098 of file apalike.bst
 You've used 27 entries,
             1935 wiz_defined-function locations,
-            645 strings with 9157 characters,
-and the built_in function-call counts, 10615 in all, are:
-= -- 996
-> -- 501
-< -- 12
-+ -- 187
-- -- 170
-* -- 921
-:= -- 1906
+            643 strings with 8864 characters,
+and the built_in function-call counts, 10413 in all, are:
+= -- 981
+> -- 474
+< -- 13
++ -- 173
+- -- 160
+* -- 901
+:= -- 1871
 add.period$ -- 81
 call.type$ -- 27
-change.case$ -- 216
+change.case$ -- 211
 chr.to.int$ -- 26
 cite$ -- 27
-duplicate$ -- 376
-empty$ -- 710
-format.name$ -- 211
-if$ -- 2045
+duplicate$ -- 372
+empty$ -- 706
+format.name$ -- 199
+if$ -- 2008
 int.to.chr$ -- 2
 int.to.str$ -- 0
-missing$ -- 33
+missing$ -- 32
 newline$ -- 138
 num.names$ -- 81
-pop$ -- 185
+pop$ -- 179
 preamble$ -- 1
-purify$ -- 220
+purify$ -- 215
 quote$ -- 0
-skip$ -- 274
+skip$ -- 273
 stack$ -- 0
-substring$ -- 670
-swap$ -- 27
+substring$ -- 666
+swap$ -- 26
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
 type$ -- 148
 warning$ -- 0
-while$ -- 73
+while$ -- 72
 width$ -- 0
-write$ -- 351
+write$ -- 350
 (There were 2 error messages)

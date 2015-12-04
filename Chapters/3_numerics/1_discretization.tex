@@ -1,7 +1,7 @@
 \section{Discretization}
 
 In order to approximate the solution for (\ref{equ:model_system}) spatial and temporal discretizations must be made.
-First the equations are discretizied in time, 
+First the equations are discretized in time,
 \begin{equation} \label{equ:M_time_discret}
   \frac{M^{k+1} - M^{k}}{\Delta t} = \nabla_x (D(M^{k+1}) \nabla_x M^{k+1}) + F(C^{k+1}) M^{k+1},
 \end{equation}
@@ -9,7 +9,7 @@ First the equations are discretizied in time,
   \frac{C^{k+1} - C^{k}}{\Delta t} = \frac{1}{2} ( G(C^{k+1}) M^{k+1} + G(C^{k}) M^{k} ).
 \end{equation}
 Here, (\ref{equ:M_time_discret}) follows the ideas of the Backwards Euler Method; (\ref{equ:C_time_discret}) follows Trapezoidal Rule \citep{burden2010numerical}. 
-The index variable $k$ has been introduced in (\ref{equ:M_time_discret}) - (\ref{equ:C_time_discret}) such that $M^{k}(x) \approx M(t^{k}, x)$, allowing an approximation at a certain time, $t^{k}$, to be used; this changes the spatial-temporal continuum model into a spatial continuum model with discrete temporal timesteps. 
+The index variable $k$ has been introduced in (\ref{equ:M_time_discret}) - (\ref{equ:C_time_discret}) such that $M^{k}(x) \approx M(t^{k}, x)$, allowing an approximation at a certain time, $t^{k}$, to be used; this changes the spatial-temporal continuum model into a spatial continuum model with discrete temporal time steps. 
 
 For this system, we let the nondimensional spatial region of consideration, $\Omega = [0,1]\times [0,1]$, be square.
 Now, only (\ref{equ:M_time_discret}) requires spatial considerations since the substrate does not diffuse across the region.
@@ -20,7 +20,7 @@ This means that a $n \times m$ grid implies there are $(n-1) \times (m-1)$ grid 
 The distance between grid points is the same in both $x_1$ and $x_2$ dimensions; we have $\Delta x_1 = \Delta x_2 = \Delta x$.
 Since we work on a nondimensionalized domain, and we known the number of grid boxes in our region, we have that $\Delta x = \frac{1}{n-1}$.
 A five-point stencil is used to approximate the solution of (\ref{equ:M_time_discret}) at each grid point.
-This spatial discritization allows the use of $i$ and $j$ to index across the region such that $x_{1_i} = i * \Delta x$ for $i \in \{ 0, 1, \ldots, n-1 \}$ and $x_{2_j} = j * \Delta x$ for $j \in \{ 0, 1, \ldots, m-1 \}$
+This spatial discretization allows the use of $i$ and $j$ to index across the region such that $x_{1_i} = i * \Delta x$ for $i \in \{ 0, 1, \ldots, n-1 \}$ and $x_{2_j} = j * \Delta x$ for $j \in \{ 0, 1, \ldots, m-1 \}$
 To index the grid point, $i$ and $j$ are used such that $M^{k}_{i,j} \approx M(t^{k}, x_{1_i}, x_{2_j})$.
 To account for the dependency on neighbouring grid points, we introduce $\sigma$ as the index pair from the set 
 \begin{equation}\label{equ:neighbour}
@@ -48,8 +48,7 @@ where,
 \end{equation}
 With $\mathcal{N}_{ij}$ and $\sigma$ we can account for the difference in boundary points and interior points.
 
-%!%  I am afraid for somebody who does not know this already it is very difficult to undertsand what you want to say here.  I think the issue is that you give (3.5) without explaining how it is derived or where it comes from.
-The equation for (\ref{equ:M_time_discret}), after spatial discretization, is
+The equation for (\ref{equ:M_time_discret}), after following the spatial discretization for finite-difference method listed in \cite{saad2003iterativeMethod}, is
 \begin{equation} \label{equ:M_space_discret_tmp}
   \frac{M^{k+1}_{i,j} - M^{k}_{i,j}}{\Delta t} =
     \frac{1}{\Delta x^2} \sum_{\sigma \in \mathcal{N}_{ij}}
@@ -62,15 +61,46 @@ For completeness, we spatially discretize (\ref{equ:C_time_discret}) as
   \frac{C^{k+1}_{i,j} - C^{k}_{i,j}}{\Delta t} = \frac{1}{2} ( G(C^{k+1}_{i,j}) M^{k+1}_{i,j} + G(C^{k}_{i,j}) M^{k}_{i,j} ).
 \end{equation}
 
+%!%  I am afraid for somebody who does not know this already it is very difficult to understand what you want to say here.  I think the issue is that you give (3.5) without explaining how it is derived or where it comes from.
 Notice that for (\ref{equ:M_space_discret_tmp}), the arithmetic mean of the diffusion function, $D$, is taken because of the steep gradient at the interface.
-The alternative would be to use $D(M^{k+1}_{i+\frac{s}{2}, j +\frac{r}{2}})$, however in some cases we have $M^{k+1}_{i+\frac{s}{2}, j +\frac{r}{2}} = 0$ which would result in $D(0) = 0$ and thus nullify the effect of the spatial diffusion.
+Since this discretization requires $D(M)$ to be evaluated at points that lie in between the existing grid points, which do not exist, an approximation is made.
+Between the three common choices for approximating a point (arithmetic mean, geometric mean, and interpolation) arithmetic mean is the best suited for this situation.
+This is illustrated in Figure \ref{fig:arithmeticMean}, where the geometric mean and interpolation approximation are shown to result in a zero diffusion term, thus stopping the spreading of the biomass.
 Taking the arithmetic mean eliminates this result because the average value of $D$ would not be zero at the interface.
 
-%!%\begin{figure}
-%!% This is just going to be a tikz pic that shows how the values of M may fall between two i indexs so that using i+0.5 => M=0 => D(0)=0 and no diffusion exists VS. using arithmetic mean and M_i+M)i+1 => M = 0.5?? => D(0.5) != 0
-%!%\end{figure}
+\begin{figure}
+  \centering
+  \begin{tikzpicture}[scale = 4]
+    \draw[<->, thick] (1.1,0) -- (0,0) -- (0,1);
+    \node[left] at (0,0.9) {$0.9$};
+    \node[left] at (0,0) {$0$};
+    \node[above] at (0,1.1) {$M$};
 
-To simplify the spatial indexing, the matrix system is converted into a vector by use of a bijective mapping defined as:
+    \draw[thick] (0,0.9) -- (0.3,0.9) to [out=0,in=90] (0.5,0.45) to [out=270,in=180] (0.7,0.0);
+    
+    \draw[dashed] (0.35,1) -- (0.35, 0);
+    \draw[dashed] (0.65,1) -- (0.65, 0);
+    \draw[dashed] (0.05,1) -- (0.05, 0);
+    \draw[dashed] (0.95,1) -- (0.95, 0);
+    \node[below] at (0.05,0) {$i$};
+    \node[below] at (0.35,0) {$i+1$};
+    \node[below] at (0.65,0) {$i+2$};
+    \node[below] at (0.95,0) {$i+3$};
+
+    \draw[fill=black] (0.35,0.89) circle [radius=0.02];
+    \draw[fill=black] (0.65,0.01) circle [radius=0.02];
+
+    \node[right] at (1.2,1) {Geometric:$\sqrt{D(0.9)*D(0)}=0$};
+    \node[right] at (1.2,0.67) {Interpolation:$D\left(\frac{0.9+0}{2}\right)=0$};
+    \node[right] at (1.2,0.33) {Arithmetic:$\frac{D(0.9) + D(0)}{2} = \frac{D(0.9)}{2} \ne 0$};
+  \end{tikzpicture}
+  \caption{An illustration of the three methods for approximating the value of $D(M)$ at ghost points located in between the existing grid points.
+    The two black circles represent the two points inconsideration for the calculations of geometric mean, arithmetic mean, and interpolation values.
+    }
+  \label{fig:arithmeticMean}
+\end{figure}
+
+To simplify the spatial indexing, the grid functions are converted into vector functions by use of a bijective mapping defined as:
 \begin{equation}
 \begin{array}{c c c c}
   %!% Make sure this actually maps to {1, \ldots, nm} instead of 1.... (n+1)(m+1)
@@ -80,12 +110,13 @@ To simplify the spatial indexing, the matrix system is converted into a vector b
 \end{equation}
 %!% I have a figure for this?!?!?!?
 Now, a single index can be used to iterate over the vector, $l$. 
+Lexigraphical ordering is used here resulting in a bijective function $\pi(i,j) = j+ (i-1)m$.
 This gives the system,
 \begin{equation} \label{equ:M_space_discret}
   \frac{M^{k+1}_{l} - M^{k}_{l}}{\Delta t} =
-    \frac{1}{\Delta x^2} \sum_{\sigma \in \mathcal{N}_{ij}}
-    \left( \frac{D(M^{k+1}_{\sigma}) + D(M^{k+1}_{l})}{2} \right)
-    \cdot \left( M^{k+1}_{\sigma} - M^{k+1}_{l} \right)
+    \frac{1}{\Delta x^2} \sum_{\sigma \in \mathcal{N}_{ij}} \left(
+    \left( \frac{D(M^{k+1}_{\pi(\sigma)}) + D(M^{k+1}_{l})}{2} \right)
+    \cdot \left( M^{k+1}_{\pi(\sigma)} - M^{k+1}_{l} \right) \right)
     + F(C^{k+1}_{l}) M^{k+1}_{l}
 \end{equation}
 \begin{equation} \label{equ:C_space_discret}
