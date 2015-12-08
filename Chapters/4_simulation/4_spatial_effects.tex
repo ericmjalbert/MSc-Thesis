@@ -1,6 +1,6 @@
 \section{Spatial Effects}
 
-There are many spatial effect that can exist here because of the diffusion term in the biomass.
+There are many spatial effects that can exist here because of the diffusion term in the biomass.
 We now try observing any differences in the behaviour of the system based on spatially different initial conditions.
 This will show if there is any noticeable differences in the behaviour of the system based solely on the placement of initial biomass.
 %!% At some time I should do the same 6-panel plot I made in the typical simulation here, it'll probably be pretty good...
@@ -84,7 +84,7 @@ The value of $num$ is to represent the number of inoculation points in the evenl
   \label{fig:spatial_clump}
 \end{figure}
 
-Figure \ref{fig:spatial_clump}-\ref{fig:spatial_even} shows the time evolution of both initial conditions.
+Figure \ref{fig:spatial_even} - \ref{fig:spatial_clump} shows the time evolution of both initial conditions.
 Here we arbitrarily select $num = 6$.
 
 \begin{figure}
@@ -95,16 +95,15 @@ Here we arbitrarily select $num = 6$.
     \includegraphics[scale=0.9]{spatial_CO2_total.eps} \\
     (b)
   \end{tabular}
-  \caption{A plot of (a) $\mathcal{R}(t)$ and (b) $\mathcal{P}(t)$.
+  \caption{A plot of (a) the rate of $CO_2$ production, $\mathcal{R}(t)$, and (b) the total amount of $CO_2$ produced until time $t$, $\mathcal{P}(t)$.
     These are extracted from the same simulation done in the two previous figures.
   }
   \label{fig:spatial_CO2}
 \end{figure}
 
-It becomes easier to see the difference between the two spatially difference problems when $CO_2$ production is taken into account.
+It becomes easier to see the difference between the two spatially different problems when $CO_2$ production is taken into account.
 In Figure \ref{fig:spatial_CO2} it is clear that there is a substantial difference between the $CO_2$ production of both cases.
-This shows that the initial distribution of biomass can affect a lumped, global measurement and change the reactor-scale behaviour.
-From this, two dimensional models that take spatial consideration at a meso-scale can lead to different results.
+This shows that the initial distribution of biomass can affect a lumped, global measurement and change the reactor-scale behaviour when compared to a meso-scaled system.
 
 
 

@@ -1,10 +1,10 @@
 \section{Typical Simulation}
 
 A typical simulation refers to the parameter values and the choice of initial condition.
-It will show the behaviour of the system under normal circumstances and help reveal the interesting characteristics.
+It will show the behaviour of the system under normal circumstances and help reveal interesting characteristics.
 
 The typical initial condition attempts to emulate the biological situation of biomass growing inwards on a sheet of cellulose.
-This will show how the biomass moves and how two separate masses interact in a collision.
+This will show how the biomass moves and how two separate masses interact when merging.
 The initial condition used will initialize a number of random spherical inoculation points near the $y=0$ and $y=1$ axis.
 We let $(x_r, y_r)$ be the random point used as the center for inoculation.
 To separate the inoculation points we have $x_r \in [0,1]$ and $y_r \in [0, 0.1] \cup [0.9, 1]$.
@@ -18,7 +18,7 @@ Note that $M(0,x,y)$ is for points within circles of radius $d$ centered at $(x_
 For the substratum we have $C(0,x,y) = 1$ everywhere.
 
 The choice of parameter value is based on the default values given in Table \ref{tab:default-parameters}.
-There are $40$ inoculation points of both sides, totalling $80$.
+There are $40$ inoculation points on each side, totalling $80$.
 The fully-implicit method is used here with $tol = 10^{-8}$.
 
 \subsection{Biomass Ratio}
@@ -43,9 +43,9 @@ The fully-implicit method is used here with $tol = 10^{-8}$.
 \end{figure}
 
 Figure \ref{fig:typical_sim} shows the time evolution of $M$ for the simulation.
-Here, the random inoculations on both sides of region propagate towards each other and eventually combine at the center.
+Here, the random inoculations on both sides of the region propagate towards each other and eventually combine at the center.
 By looking at $t=2$, $t=3.67$, and $t = 5.33$ it appears as though the wave front is moving with a constant shape and at a constant speed.
-This suggest that there may be the existence of a travelling wave solution.
+This suggest that there may be the existence of a travelling wave solution which will be explored in the next section.
 
 One important feature to notice is that the time evolution in Figure \ref{fig:typical_sim} matches the conceptual model proposed in \cite{dumitrache2015mathematicalModeling}.
 This model can be seen in Figure \ref{fig:alex_schema}.
@@ -53,7 +53,7 @@ The different stages of the conceptual model can be observed in our simulation r
 \begin{itemize}
   \item Stage I: $t = 2$ and $t = 3.67$ show the biomass growing towards the center of the sheet, which is the center white area.
   \item Stage II/III: $t = 5.33$ shows the consumed substrate region as the outer white.
-  \item Stage IV: Not shown. Only occurs at the moment when the two band first collide and the biomass concentration at that point still remains at the actual carrying capacity.
+  \item Stage IV: Not shown. Only occurs at the moment when the two bands first collide and the biomass concentration at that point still remains at the actual carrying capacity.
   \item Stage V: $t = 7$ and $t = 9$ show the combined center band, now at a biomass concentration lower then the actual carrying capacity.
 \end{itemize}
 
@@ -71,7 +71,8 @@ The different stages of the conceptual model can be observed in our simulation r
 \subsection{$CO_2$ Production}
 
 Some important quantities to track are the total amount of biomass, $M$, and substrate, $C$. 
-These values will be called $T_M(t)$ and $T_C(t)$ to represent the total biomass and total substrate, respectively.
+%!% HERB: _T_h_e_s_e__v_a_l_u_e_s_ <- Approximations via discretization??
+These approximations across the discretization will be called $T_M(t)$ and $T_C(t)$ to represent the total biomass and total substrate, respectively.
 The computation for these values can be done by integrating over the region, $\Omega$:
 \begin{equation}
   T_M(t) = \int_{\Omega} M dA, \quad T_C(t) = \int_{\Omega} C dA
@@ -107,8 +108,8 @@ These values can be seen in Figure \ref{fig:typical_total} (bd) for $T_M(t)$ and
   \label{fig:typical_total}
 \end{figure}
 
-Since \textit{C. Thermocellum} produces $CO_2$ as the substrate is consumed, we can track the production of $CO_2$.
-Following the idea from \cite{dumitrache2014understanding}, we can equate the change in production of $CO_2$ as time changes by the following equation:
+Since \textit{C. thermocellum} produces $CO_2$ as the substrate is consumed, we can track the production of $CO_2$.
+Following the idea from \cite{dumitrache2015mathematicalModeling}, we can equate the change in production of $CO_2$ as time changes by the following equation:
 \begin{equation} \label{equ:rho}
 p_t = \rho G(C) M.
 \end{equation}
@@ -125,7 +126,7 @@ From this we can get the more useful value, the total $CO_2$ produced until this
 The $CO_2$ amount is calculated by letting $\rho = 1$ and using the numerically computed values for $G(C)M$ as a measure.
 For the same simulation as Figure \ref{fig:typical_sim}, the $CO_2$ information can be seen in Figure \ref{fig:typical_total} (a e).
 
-The results from Figure \ref{fig:typical_total} (c d e f) seems to match the results from the ordinary differential equation model proposed in \cite{dumitrache2014understanding}.
+The results from Figure \ref{fig:typical_total} (c d e f) seems to match the results from the ordinary differential equation model proposed in \cite{dumitrache2015mathematicalModeling}.
 Their results can be seen in Figure \ref{fig:alex_ode_results}.
 It is important to note that in our system $T_M = 1 $ means that $\Omega$ is completely filled with biomass.
 However, in \cite{dumitrache2015mathematicalModeling} they scaled the biomass to the ideal carrying capacity of biomass, i.e. they have $T_M = 1$ when all the biomass is in stage II or III.

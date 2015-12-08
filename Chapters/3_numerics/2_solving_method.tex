@@ -1,15 +1,13 @@
 \section{Solution Technique}
 
+%!% ...a coupled system of $2nm$ highly... | Makes sure 2nm is the correct amount of points based on \pi, Hermann suspects 2(n+1)(m+1)
 Assuming the values for $C$ and $M$ at time level $k$ are known, (\ref{equ:M_space_discret}) and (\ref{equ:C_space_discret}) are a coupled system of $2nm$ highly nonlinear equation for $2nm$ unknown $M^{k+1}_{l}$, $C^{k+1}_{l}$.
-To solve this coupled system, we define a fixed point iteration: 
-\begin{equation}
-  M^{(p)}_{l} := M^{k}_{l}, \quad C^{(p)}_{l} := C^{k}_{l},
-\end{equation}
-which we apply to (\ref{equ:M_space_discret}) and (\ref{equ:C_space_discret}).
+To solve this coupled system, we define a fixed point iteration which we apply to (\ref{equ:M_space_discret}) and (\ref{equ:C_space_discret}).
 In a single time step, the solutions for $M$ and $C$ can be solved using the previous time step solution in the follow manner:
+%!% HERB, describe how the selection of (p), (p+1), and k are made such that it is very clear
 \begin{equation} \label{equ:M_fixed_point}
   \frac{M^{(p+1)}_{l} - M^{k}_{l}}{\Delta t} = 
-    \frac{1}{\Delta x^2} \sum_{\sigma \in \mathcal{N}_{ij}}
+    \frac{1}{\Delta x^2} \sum_{\sigma \in \mathcal{N}_{\pi^{-1}(l)}}
     \left( \frac{D(M^{(p)}_{\pi(\sigma)}) + D(M^{(p)}_{l})}{2} \right)
     \cdot \left( M^{(p+1)}_{\pi(\sigma)} - M^{(p+1)}_{l} \right)
     + F(C^{(p)}_{l}) M^{(p+1)}_{l}
@@ -17,11 +15,17 @@ In a single time step, the solutions for $M$ and $C$ can be solved using the pre
 \begin{equation} \label{equ:C_fixed_point}
   \frac{C^{(p+1)}_{l} - C^{k}_{l}}{\Delta t} = \frac{1}{2} ( G(C^{(p+1)}_{l} ) M^{(p+1)}_{l} + G(C^{k}_{l}) M^{k}_{l} )
 \end{equation}
-where $(p) \in (0,1,2,\ldots)$
+where $(p) \in (0,1,2,\ldots)$, $(p+1)$ is the next iteration solution fo $p$, and $k$ is the solution of the previous timestep.
+An initial guess is made such that,
+\begin{equation}
+  M^{(p)}_{l} := M^{k}_{l}, \quad C^{(p)}_{l} := C^{k}_{l}.
+\end{equation}
 The fixed-point iteration is stopped when convergence is achieved.
 This is when the difference between consecutive iterations is below a selected tolerance, i.e.
-\begin{equation}
-  \sum^{n}_{l=1} \left( \left| M^{(p+1)}_{l} - M^{(p)}_{l}\right| + \left| C^{(p+1)}_{l} - C^{(p)}_{l} \right| \right) < tol.
+\begin{equation} \label{equ:iteration_convergence}
+  %!% The upper sum index might not be nm, maybe (n+1)(m+1)-1
+  \sum^{nm}_{l=1} \left( \left| M^{(p+1)}_{l} - M^{(p)}_{l}\right| + \left| C^{(p+1)}_{l} - C^{(p)}_{l} \right| \right) < tol.
+  %!% HERB, check if M^(p+1) = M^(p) and same for C for all x, such that from iteration p to p+1 we stayed fixed at the same point, is it clear that equations (3.11) - (3.12) are satisfied by these two functions? ie that they are at a fixed point, I ask because you don't just write iteration you always write "fixed-point" iteration.
 \end{equation}
 At the end of the fixed-point iteration, the number of iterations is recorded as $P$, and we define,
 \begin{equation}
@@ -31,23 +35,25 @@ In this fixed point format, given by (\ref{equ:M_fixed_point}) - (\ref{equ:C_fix
 
 In each iteration step, (\ref{equ:M_fixed_point}) is a simultaneous linear system for the $nm$ unknown $M^{(p+1)}_{l}$.
 From this a linear system of equations can be created following \cite{saad2003iterativeMethod}.
-For each grid point, $l$ a linear system is defined as:
+%!% This is not needed since this information is already in equ:M_fixed_point
+%For each grid point, $l$ a linear system is defined as:
+%\begin{equation} \label{equ:M_linear_equation}
+%\begin{aligned}
+%  \frac{1}{\Delta t}M^{k}_{l} &=
+%  -\sum_{\sigma \in \mathcal{N}_{\pi^{-1}(l)}} \left( \frac{D(M^{(p)}_{\pi(\sigma)}) + D(M^{(p)}_{l})} 
+%    {2\Delta x^2} \cdot M^{(p+1)}_{\pi(\sigma)} \right) \\
+%  & +\sum_{\sigma \in \mathcal{N}_{\pi^{-1}(l)}} \left( \left( \frac{ D(M^{(p)}_{\pi(\sigma)}) + D(M^{(p)}_{l})} 
+%    {2\Delta x^2} \right) - F(C^{(p)}_{l}) + \frac{1}{\Delta t} \right) M^{(p+1)}_{l}.
+%\end{aligned}
+%\end{equation} 
 
-\begin{equation} \label{equ:M_linear_equation}
-\begin{aligned}
-  \frac{1}{\Delta t}M^{k}_{l} &=
-  \sum_{\sigma \in \mathcal{N}_{ij}} \left( \frac{D(M^{(p)}_{\pi(\sigma)}) + D(M^{(p)}_{l})} 
-    {2\Delta x^2} \cdot M^{(p+1)}_{\pi(\sigma)} \right) \\
-  & +\sum_{\sigma \in \mathcal{N}_{ij}} \left( \left( \frac{ D(M^{(p)}_{\pi(\sigma)}) + D(M^{(p)}_{l})} 
-    {2\Delta x^2} \right) - F(C^{(p)}_{l}) + \frac{1}{\Delta t} \right) M^{(p+1)}_{l}.
-\end{aligned}
-\end{equation} 
-
-From (\ref{equ:M_linear_equation}), we get the matrix equation:
+%!% OLD From (\ref{equ:M_linear_equation}), we get the matrix equation:
+From (\ref{equ:M_fixed_point}), we get the matrix equation:
 \begin{equation}
   A^{(p)}M^{(p+1)} = \frac{1}{\Delta t} M^{k}.
 \end{equation}
 Here, $A^{(p)}$ is a five-diagonal $nm \times nm$ matrix, defined as
+%!% l.408 the range of your matrix entries is off and needs to be fixed.
 \begin{equation} \label{equ:M_matrix_form}
   A^{(p)} = 
   \begin{tikzpicture}[baseline=(current bounding box.center)]
@@ -69,39 +75,61 @@ Here, $A^{(p)}$ is a five-diagonal $nm \times nm$ matrix, defined as
     \draw[thick, loosely dotted] (m-1-4) -- (m-5-8);
   \end{tikzpicture}
 \end{equation}
-where each $a$ is the coefficients for specific grid indices based on (\ref{equ:M_linear_equation}).
+where each $a_{i,j}$ is the coefficient for specific grid indices based on (\ref{equ:M_fixed_point}). %OLD (\ref{equ:M_linear_equation}).
 
-\begin{prop}
-  The matrix $A$ is positive definite and symmetric when $ \Delta t < \left( { F(C^{(p)}_{l}) } \right)^{-1}$.
+\begin{prop} \label{prop:pos_sym}
+ If $ \Delta t < \left( { F(C^{(p)}_{l}) } \right)^{-1}$ then the matrix $A$ is positive definite and symmetric.
 \end{prop}
 \begin{proof}
   Matrix $A$ is positive definite if all the eigenvalues are positive. 
-  Using the Gershgorin Circle theorem described by \cite{varga2004gersgorin}, the eigenvalues can be shown to be positive if, independently on all rows, the sum of the off-diagonals values is less then the diagonal value.
-  This can be verified. From (\ref{equ:M_linear_equation}) it can be said that,
+%!% l.413 to make this line of argumentation cleare it would be good to point out that the diagonal elements of the matrix are all positive. Gershgorin's theorem is not a theorem on positivity of eigenvalues, but it says that the eigenv:alues are conatained in the gershgorin discs around the diagonal elements. That beeing said, you need positive diagonals to make this work.
+  Using the Gershgorin's Circle theorem described by \cite{varga2004gersgorin}, the eigenvalues can be shown to be positive.
+  Gershgorin's Circle theorem tells us that each eigenvalue must be contained in the union of all Gershgorin's discs \citep{varga2004gersgorin}.
+  There exist one disc for each row of $A$, with radius equal to the sum of the off-diagonals and center equal to the value of the main diagonal.
+  By showing that, independently on all rows, the sum of the off-diagonals values is less then the diagonal value we have that all the Gershgorin's discs must be in the positive region when the main diagonal is positive.
+  This can be shown by manipulating (\ref{equ:M_fixed_point}) for just the main diagonal element,
+  \begin{equation} \label{equ:main_diagonal}
+    \sum_{\sigma \in \mathcal{N}_{\pi^{-1}(l)}} \left( 
+      \left( \frac{D(M_{\pi(\sigma)}^{(p)}) + D(M_l^{(p)})}{2\Delta x^2} \right)
+      - F(C_l^{(p)}) + \frac{1}{\Delta t} \right) M_l^{(p+1)}
+  \end{equation}
+  and for just the off-diagonal elements,
+  \begin{equation} \label{equ:off_diagonal}
+    \sum_{\sigma \in \mathcal{N}_{\pi^{-1}(l)}} \left( 
+      \left( \frac{D(M_{\pi(\sigma)}^{(p)}) + D(M_l^{(p)})}{2\Delta x^2} \right)
+      M_{\pi(\sigma)}^{(p+1)} \right).
+  \end{equation}
+  Comparing the coefficients to the vector elements in (\ref{equ:main_diagonal}) - (\ref{equ:off_diagonal}) results in the inequality nesseccary for Gershgorin's Circle theorem.
   \begin{equation} \label{equ:diagonalGreatOffdiagonal}
-    \left| \sum_{\sigma \in \mathcal{N}_{ij}} \left( \frac{D( M^{(p)}_{\pi(\sigma)} )}{\Delta x^2} \right) \right|
-     < \left| \left( \sum_{\sigma \in \mathcal{N}_{ij}} \left( \frac{D( M^{(p)}_{\pi(\sigma)} )}{\Delta x^2} \right) 
-    - F(C^{(p)}_{l}) + \frac{1}{\Delta t} \right) \right|.
+    \left| \sum_{\sigma \in \mathcal{N}_{\pi^{-1}(l)}} 
+      \frac{D(M_{\pi(\sigma)}^{(p)}) + D(M_l^{(p)})}{2\Delta x^2} 
+      \right| 
+    <
+    \left| \sum_{\sigma \in \mathcal{N}_{\pi^{-1}(l)}} \left( 
+      \frac{D(M_{\pi(\sigma)}^{(p)}) + D(M_l^{(p)})}{2\Delta x^2} \right)
+      - F(C_l^{(p)}) + \frac{1}{\Delta t} \right|
   \end{equation}
   This simplifies to,
-  \begin{equation}
+  \begin{equation} \label{equ:proof_inequality}
     \Delta t < \left( { F(C^{(p)}_{l}) } \right)^{-1} 
   \end{equation}
+  When this inequality is true, we have that the off-diagonals are smaller then the main diagonal and the main diagonal values are positive thus Gershgorin's Circle theorem says that the eigenvalues are all positive.
+  Therefore we have positive definite when (\ref{equ:proof_inequality}) is true.
 
   The symmetry of $A$ can be trivially shown if one considers the formation of the diagonals.
   On a single row, each element corresponds to the adjacent grid points of grid $l$.
-  As the grid ordering counts along, the elements that are equi-distance from the diagonal are actually reference to the same grid point. 
+  As the grid ordering counts along, the elements that are equi-distance from the diagonal actually reference the same grid point. 
   Therefore we have symmetry. 
 \end{proof} 
 
-It is important to remark that this condition for which $A$ is positive definite and symmetric is practically not a severe constraint.
+It is important to remark that the time-step constraint in Proposition \ref{prop:pos_sym} is not a severe constraint, practically.
 The condition, $\frac{1}{F(C)} < \Delta t$, relates the growth of the biomass to the size of time step selected.
 In order to resolve any biomass growth, $\Delta t$ must obviously be chosen smaller then the characteristic time scale of growth ,$\frac{1}{F(C)}$.
 
 Given that $A$ is positive definite and symmetric, the conjugate gradient method can be used to compute the solution.
 
 \begin{prop}
-  The matrix $A$ is diagonally dominate when $\Delta t < \left( { F(C^{(p)}_{l}} \right)^{-1}$.
+  The matrix $A$ is diagonally dominant when $\Delta t < \left( { F(C^{(p)}_{l}} \right)^{-1}$.
 \end{prop}
 \begin{proof}
   This is trivially shown to be true when one considers (\ref{equ:diagonalGreatOffdiagonal}).
@@ -112,7 +140,7 @@ Given that $A$ is positive definite and symmetric, the conjugate gradient method
   This means that when the above is true the diagonal elements of $A$ will be strictly larger then the sum of off-diagonals.
   Therefore we have diagonal dominance.
 \end{proof}
-Since we have $A$ positive definite, symmetric, and diagonally dominate we know that $A$ is an M-matrix.
+Since we have $A$ positive definite, symmetric, and diagonally dominant we know that $A$ is an M-matrix.
 This is important because this ensures that if $M^k$ is non-negative we have that $M^{(p)}$ is also non-negative.
 
 For solving (\ref{equ:C_fixed_point}), the equation can be rearranged into a quadratic form, substituting in $G(C)$ from (\ref{equ:model_functions})
@@ -139,7 +167,7 @@ Here, we can show that there will always be only one positive solution.
 \end{prop}
 
 \begin{proof}
-  For the duration of this proof We let $C := C^{(p+1)}$ to make equations easier to read.
+  For the duration of this proof, we let $C := C^{(p+1)}$ to make equations easier to read.
   Rearranging (\ref{equ:quadratic_C}) so that all the $\Delta t$ terms are on the right-hand-side, we get
   \begin{equation}
     \left( C \right)^2 + \left(\kappa - C^{k}\right)C - \kappa C^{k} =  \left(\frac{\gamma C^k M^k}{2\left(\kappa + C^k\right)} - \left(\frac{\gamma M^{(p+1)}}{2} - \frac{\gamma C^k M^k}{2 \left(\kappa + C^k\right)} \right)C \right) \Delta t.
@@ -150,8 +178,8 @@ Here, we can show that there will always be only one positive solution.
   $f_l$ is a quadratic equation with positive concavity everywhere and $C$-intercept at $-\kappa C^{k} < 0$.
   $f_r$ is a line with a slope opposite to the sign of $\bar{a}$ and has $C$-intercept at $\bar{b}\Delta t > 0$.
   
-  There exist four cases here, from the combinations of $\bar{a} \ge 0, \bar{a} < 0$ and $\kappa - C^k \ge 0, \kappa -C^k < 0$.
-  These four cases are visualized in Figure \ref{fig:proof_pos_sol}
+  %!% l.457-363  this could be tidied up ... we can discuss this also after you send the thesis to the exam ctee if need be.
+  There exist four cases here, each visualized in Figure \ref{fig:proof_pos_sol}
   It is clear that since the $f_l$ is a quadratic function and $f_r$ is a linear function we have that $f_l$ will attain a larger value at some value of $C$. 
   Since $f_l$ is quadratic we know there can only exist two intersections between $f_l$ and $f_r$.
   Because we always have $f_r(0) > f_l(0)$, we can show, using the intermediate value theorem that there must exist a intersection for both $C >0$ and $C < 0$.
@@ -181,7 +209,6 @@ Here, we can show that there will always be only one positive solution.
     \draw[<->] (5, 3) -- (6, 3);
     \node[right] at (6, 3) {$f_r$};
 
-  %!%  \node[left] at (-4,-3) {$\bar{a} > 0, \kappa - C^k  < 0$};
   \end{tikzpicture}
   &
   \begin{tikzpicture}[scale=0.6]
@@ -269,26 +296,25 @@ Algorithm \ref{alg:iterateCM} shows the organization of solving (\ref{equ:C_fixe
   \KwData{$M^{k}$, $C^{k}$ are vectors with values from the previous time step and $p = 0$. }
   \Begin
   {
-    Let $M^{(0)} = M^{k}$ and $C^{(0)} = C^{k}$\;
+    Let $M^{(p=0)} = M^{k}$ and $C^{(p=0)} = C^{k}$\;
     \While{Convergence is not achieved } 
     {
         Solve $A^{(p)} M^{(p+1)} = \frac{1}{\Delta t}M^{(p)}$\;
         Solve $C^{(p+1)} = \frac{1}{2} \left( b \pm \sqrt{b^2 - 4c} \right)$\;
-        Check convergence\; 
-        Let $C^{(p)} = C^{(p+1)}$\;
-        Let $M^{(p)} = M^{(p+1)}$\;
+        Check convergence, (\ref{equ:iteration_convergence}\; 
         Let $p = p + 1 $\;
     }
+    Let $P := p$\;
     Let $M^{(k+1)} = M^{(P)}$ and $C^{(k+1)} = C^{(P)}$\;
   }
   \caption{Algorithm for the fully-implicit solving of (\ref{equ:model_system}) }
   \label{alg:iterateCM}
 \end{algorithm}
 
-Note that Algorithm \ref{alg:iterateCM} actually describes both a fully- and semi- implicit method for solving (\ref{equ:model_system}). 
-If $P = 1$ then only a single iteration of the algorithm is applied, which correlates to a semi-implicit method would behave.
-This can be produced by selecting a sufficiently large enough tolerance so that the convergence check is always resolved after the first iteration.
-The resulting semi-implicit method is effectively the same as one described in \cite{sirca2012computational}.
+Note that Algorithm \ref{alg:iterateCM} actually describes both a fully-implicit and a semi-implicit method for solving (\ref{equ:model_system}). 
+Recall that the final number of iterations is recorded as $P$, if $P = 1$ then only a single iteration of the algorithm is applied, which correlates to the behaviour of the semi-implicit method.
+This can be produced by selecting a sufficiently large enough tolerance so that the convergence check, (\ref{equ:iteration_convergence}), is always resolved after the first iteration.
+The resulting semi-implicit method is effectively the method described in \cite{sirca2012computational}, which was first introduced in \cite{eberl2007finite}.
 
 
 

@@ -11,7 +11,6 @@ First the equations are discretized in time,
 Here, (\ref{equ:M_time_discret}) follows the ideas of the Backwards Euler Method; (\ref{equ:C_time_discret}) follows Trapezoidal Rule \citep{burden2010numerical}. 
 The index variable $k$ has been introduced in (\ref{equ:M_time_discret}) - (\ref{equ:C_time_discret}) such that $M^{k}(x) \approx M(t^{k}, x)$, allowing an approximation at a certain time, $t^{k}$, to be used; this changes the spatial-temporal continuum model into a spatial continuum model with discrete temporal time steps. 
 
-For this system, we let the nondimensional spatial region of consideration, $\Omega = [0,1]\times [0,1]$, be square.
 Now, only (\ref{equ:M_time_discret}) requires spatial considerations since the substrate does not diffuse across the region.
 The spatial discretization will be through the Finite Difference Method as described in \cite{saad2003iterativeMethod}.
 Here, a uniform $n \times m$ grid is used to discretize $\Omega$.
@@ -20,14 +19,14 @@ This means that a $n \times m$ grid implies there are $(n-1) \times (m-1)$ grid 
 The distance between grid points is the same in both $x_1$ and $x_2$ dimensions; we have $\Delta x_1 = \Delta x_2 = \Delta x$.
 Since we work on a nondimensionalized domain, and we known the number of grid boxes in our region, we have that $\Delta x = \frac{1}{n-1}$.
 A five-point stencil is used to approximate the solution of (\ref{equ:M_time_discret}) at each grid point.
-This spatial discretization allows the use of $i$ and $j$ to index across the region such that $x_{1_i} = i * \Delta x$ for $i \in \{ 0, 1, \ldots, n-1 \}$ and $x_{2_j} = j * \Delta x$ for $j \in \{ 0, 1, \ldots, m-1 \}$
+This spatial discretization allows the use of $i$ and $j$ to index across the region such that $x_{1_i} = i * \Delta x$ for $i \in \{ 0, 1, \ldots, n-1 \}$ and $x_{2_j} = j * \Delta x$ for $j \in \{ 0, 1, \ldots, m-1 \}$.
 To index the grid point, $i$ and $j$ are used such that $M^{k}_{i,j} \approx M(t^{k}, x_{1_i}, x_{2_j})$.
 To account for the dependency on neighbouring grid points, we introduce $\sigma$ as the index pair from the set 
 \begin{equation}\label{equ:neighbour}
-  \mathcal{N}_{ij} = \{n_{ij}, e_{ij}, s_{ij}, w_{ij}\}.
+  \mathcal{N}_{ij} = \{n_{ij}, e_{ij}, s_{ij}, w_{ij}\}
 \end{equation}
 where, 
-\begin{equation}
+\begin{equation} \label{equ:neighbour_nesw}
   \begin{aligned}
     n_{ij} = \begin{cases} 
       (i,j+1)  & \text{ if } j < m \\
@@ -47,6 +46,7 @@ where,
   \end{aligned}
 \end{equation}
 With $\mathcal{N}_{ij}$ and $\sigma$ we can account for the difference in boundary points and interior points.
+The different branches of (\ref{equ:neighbour_nesw}) are based on the second order discretisation of the Neumann boundary conditions. 
 
 The equation for (\ref{equ:M_time_discret}), after following the spatial discretization for finite-difference method listed in \cite{saad2003iterativeMethod}, is
 \begin{equation} \label{equ:M_space_discret_tmp}
@@ -91,21 +91,25 @@ Taking the arithmetic mean eliminates this result because the average value of $
     \draw[fill=black] (0.65,0.01) circle [radius=0.02];
 
     \node[right] at (1.2,1) {Geometric:$\sqrt{D(0.9)*D(0)}=0$};
-    \node[right] at (1.2,0.67) {Interpolation:$D\left(\frac{0.9+0}{2}\right)=0$};
+    \node[right] at (1.2,0.67) {Interpolation: $1 \gg D\left(\frac{0.9+0}{2}\right) \approx 0$};
     \node[right] at (1.2,0.33) {Arithmetic:$\frac{D(0.9) + D(0)}{2} = \frac{D(0.9)}{2} \ne 0$};
   \end{tikzpicture}
   \caption{An illustration of the three methods for approximating the value of $D(M)$ at ghost points located in between the existing grid points.
-    The two black circles represent the two points inconsideration for the calculations of geometric mean, arithmetic mean, and interpolation values.
+    The two black circles represent the two points inconsideration for the calculations of geometric mean, interpolation of values, and arithmetic mean.
+    The problem with Geometric mean is that $D(0)$ evaluates to $0$, resulting in no diffusion effects.
+    With interpolation, the value of $D(0.45)$ is near-zero because $M \ll 1 \implies D(M) \approx 0$.
+    For the arithmetic mean, since $D(0.9)$ is a larger value then the other methods some spatial diffusion actually work.
     }
   \label{fig:arithmeticMean}
 \end{figure}
 
 To simplify the spatial indexing, the grid functions are converted into vector functions by use of a bijective mapping defined as:
+%!% l.378 ... your definition of \pi is not quite correct. you have {0,...,n} \times {0,...,m} i.e. you should have (n+1)*(m+1) grid points but your target sat {0,...,nm} has only n*m+1 point, so you are short m+1 grid points. ... also the function \pi as defined is not quite correct ... for example, for i=0 the second term is negative. i think what you mean is probably j+i*m
 \begin{equation}
 \begin{array}{c c c c}
   %!% Make sure this actually maps to {1, \ldots, nm} instead of 1.... (n+1)(m+1)
-  \pi :& \{ 0, \ldots, n\} \times \{0, \ldots, m\} & \to & \{0, \ldots, nm \} \\
-       & (i,j)                                     & \to & \pi(i,j)
+  \pi :& \{ 1, \ldots, n\} \times \{1, \ldots, m\} & \to & \{1, \ldots, nm \} \\
+       & (i,j)                                     & \mapsto & \pi(i,j)
 \end{array}
 \end{equation}
 %!% I have a figure for this?!?!?!?
@@ -114,7 +118,7 @@ Lexigraphical ordering is used here resulting in a bijective function $\pi(i,j) 
 This gives the system,
 \begin{equation} \label{equ:M_space_discret}
   \frac{M^{k+1}_{l} - M^{k}_{l}}{\Delta t} =
-    \frac{1}{\Delta x^2} \sum_{\sigma \in \mathcal{N}_{ij}} \left(
+    \frac{1}{\Delta x^2} \sum_{\sigma \in \mathcal{N}_{\pi^{-1}(l)}} \left(
     \left( \frac{D(M^{k+1}_{\pi(\sigma)}) + D(M^{k+1}_{l})}{2} \right)
     \cdot \left( M^{k+1}_{\pi(\sigma)} - M^{k+1}_{l} \right) \right)
     + F(C^{k+1}_{l}) M^{k+1}_{l}

@@ -335,8 +335,6 @@ INPUT /usr/share/texlive/texmf-dist/tex/latex/psnfss/ot1pcr.fd
 INPUT /usr/share/texlive/texmf-dist/fonts/tfm/adobe/courier/pcrr7t.tfm
 INPUT Chapters/3_numerics/4_method_validation.tex
 INPUT Chapters/3_numerics/4_method_validation.tex
-INPUT /usr/share/texlive/texmf-dist/fonts/vf/adobe/courier/pcrr7t.vf
-INPUT /usr/share/texlive/texmf-dist/fonts/tfm/adobe/courier/pcrr8r.tfm
 INPUT Chapters/3_numerics/Figures/basic_trav_wave_M_t0.eps
 INPUT ./Chapters/3_numerics/Figures/basic_trav_wave_M_t0.eps
 INPUT ./Chapters/3_numerics/Figures/basic_trav_wave_M_t0.eps
@@ -373,6 +371,8 @@ INPUT ./Chapters/3_numerics/Figures/basic_trav_wave_C_t40.eps
 INPUT ./Chapters/3_numerics/Figures/basic_trav_wave_C_t40-eps-converted-to.pdf
 INPUT ./Chapters/3_numerics/Figures/basic_trav_wave_C_t40-eps-converted-to.pdf
 INPUT ./Chapters/3_numerics/Figures/basic_trav_wave_C_t40-eps-converted-to.pdf
+INPUT /usr/share/texlive/texmf-dist/fonts/vf/adobe/courier/pcrr7t.vf
+INPUT /usr/share/texlive/texmf-dist/fonts/tfm/adobe/courier/pcrr8r.tfm
 INPUT Chapters/3_numerics/Figures/basic_spherical_M_t0.eps
 INPUT ./Chapters/3_numerics/Figures/basic_spherical_M_t0.eps
 INPUT ./Chapters/3_numerics/Figures/basic_spherical_M_t0.eps

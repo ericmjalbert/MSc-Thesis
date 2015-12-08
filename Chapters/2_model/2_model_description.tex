@@ -1,13 +1,13 @@
 \section{Model Description}
 The model used for simulations is based on the deterministic biofilm model developed in \cite{eberl2001deterministic}, which was designed for modelling the development of spatially heterogenous biofilm structures.
-Since \textit{C.Thermocellum} grows as a monolayered biofilm and consumes a solid carbon fibrous substrate, there are mechanical differences between the two systems.
+Since \textit{C.thermocellum} grows as a monolayered biofilm and consumes a solid carbon fibrous substrate, there are mechanical differences between the two systems.
 Our model is based on the following assumptions:
 \begin{enumerate}
   \item The growth of sessile biomass is limited locally by the availability of nutrients and by the availability of colonizable space.
     \label{assump:growth_inhib}
-  \item The number of cells per unit area of substratum is limited to a finite value because \textit{C.Thermocellum} forms only a thin monolayer. 
+  \item The number of cells per unit area of substratum is limited to a finite value because \textit{C.thermocellum} forms only a thin monolayer. 
     \label{assump:finite_density}
-  \item Biomass does not spread until its density approaches the physical limit
+  \item Biomass does not spread until its density approaches the physical limit.
     Near the physical limit it expands spatially into neighbouring regions.
     Because of this, the physical limit of biomass density is never attained.
     \label{assump:diffusion}
@@ -15,29 +15,25 @@ Our model is based on the following assumptions:
     Carbon is bound in the fibers of the substratum and does not diffuse.
     The propagation of biofilm is based on the lack of available substrate locally, not the physical degradation of the substratum.
     \label{assump:substratum}
-%  \item The model is a volume filling problem. The amount of biomass in a unit of space has a finite limit. Maybe???
-%  \item Since \textit{C.Thermocellum} behaves as a monolayer, the area of substrate covered by sessile biomass determines the maximum production of biomass. Further growth of sessile biomass results in greater coverage.
-%  \item Since \textit{C.Thermocellum} behaves as a monolayer, the growth of biomass is directly propotional to the area of substrate covered by sessil biomass. 
-%  \item The substrate is sessile.
   \item Cell death and cell loss into the aqueous environment is assumed to be proportional to cell density.
     \label{assump:bio_death}
-  \item Biomass growth is to substrate consumption.
+  \item Biomass growth is proportional to substrate consumption.
     \label{assump:sub_consumption}
 \end{enumerate}
 
 Assumption \ref{assump:growth_inhib}, \ref{assump:finite_density}, \ref{assump:diffusion}, \ref{assump:bio_death}, and \ref{assump:sub_consumption} are similar to those made in \cite{eberl2001deterministic}.
 The main difference here is \ref{assump:substratum}; our substrate is sessile.
 With a sessile substrate, there is no diffusion for the substrate concentration.
-Another difference is that \textit{C. Thermocellum} does not grow from the substratum into the aqueous phase.
+Another difference is that \textit{C. thermocellum} does not grow from the substratum into the aqueous phase.
 Instead our biofilm grows across the substratum making this a two dimensional setting.
 
-The model is formulated in a spatial domain $\Omega$. 
+The model is formulated in a spatial domain $\Omega \subset \mathbb{R}^2$.
 The independent variables $t > 0$ denote time and $x \in \Omega$ denotes the location within the physical domain.
 The dependent variables are the local fraction of the surface occupied by biomass $M(t,x)$ and the substrate density $C(t,x)$.
-The net growth rate of biomass, in dependence of available substrate we denote by $f(C)$, the substrate consumption rate by $g(C)$.
+The net growth rate of biomass is denoted by $f(C)$ and the substrate consumption rate is denoted by $g(C)$, both are dependent upon available substrate.
 The diffusion coefficient that describes spatial expansion of biomass is given by the function $d(M)$.
 
-From the above assumptions, a PDE-ODE-coupled system that models \textit{C. Thermocellum} growth on carbonous fibres can be formulated as,
+From the above assumptions, a PDE-ODE-coupled system that models \textit{C. thermocellum} growth on carbonous fibres can be formulated as,
 \begin{align} 
    M_t &= \nabla_x \left( d(M) \nabla_x M \right) + f(C) M \label{equ:model_M}\\
    C_t &= -g(C) M \label{equ:model_C}
@@ -47,27 +43,27 @@ where
   d(M) = d \frac{M^\alpha}{(1-M)^\beta}
 \end{equation}
 \begin{equation} \label{equ:model_f}
-  f(C) = u \frac{C}{k + C} - n 
+  f(C) = u \frac{C}{k_C + C} - n 
 \end{equation}
 \begin{equation} \label{equ:model_g}
-  g(C) = y \frac{C}{k + C}
+  g(C) = y \frac{C}{k_C + C}
 \end{equation}
 with all parameters non-negative.
 Here we have a pair of equations, (\ref{equ:model_M}) and (\ref{equ:model_C}), that represent the biomass density and substrate concentration respectively.
-This is a model for the spatial spreading of biomass.
-For $0 < M << 1$ the spreading effect is negligible but when $0 << M \approx 1$ we have considerable spreading.
-The work done by \cite{khassehkhan2009nonlinearMaster} shows this to be an ideal choice for modelling the spreading of biofilms.
-By assumption \ref{assump:growth_inhib}, the only factors effecting the biomass density is growth from nutrient conversion and diffusion from local spatially-full colonized space.
-For the density-dependent diffusion equation (\ref{equ:model_d}), $\delta$ is the diffusion coefficient, which controls the magnitude of this term, and the parameters $\alpha$ and $\beta$ are selected to control the strength of the diffusion.
-This agrees with assumption \ref{assump:diffusion} since (\ref{equ:model_d}) has a near-zero value until when $M \to 1$, which leads to $d(M) \to \infty$ as seen in Figure \ref{fig:show_d}. 
+This is a model for spatially explicit biomass growth.
+This agrees with assumption \ref{assump:diffusion} since for $0 < M \ll 1$ the spreading effect is negligible but when $0 \ll M \approx 1$ there is considerable spreading.
+This choice for a spatially considerate model is based on the work done in \cite{khassehkhan2009nonlinearMaster}.
+By assumption \ref{assump:growth_inhib}, the only factors affecting the biomass density is growth from nutrient conversion and diffusion from local spatially-full colonized space.
+For equation (\ref{equ:model_d}), the density-dependent diffusion equation, $d$ is the diffusion coefficient which controls the magnitude of the diffusion and the parameters $\alpha$ and $\beta$ are selected to control the strength of the diffusion.
+For equation (\ref{equ:model_d}) the diffusion term is shown to have the wanted behaviour since it has a near-zero finite value until $M \to 1$, which leads to $d(M) \to \infty$ as seen in Figure \ref{fig:show_d}. 
 The production rate is the difference between simple Monod kinetic growth term, with growth rate $u$, and a constant death rate term, $n$, to agree with assumption \ref{assump:growth_inhib} and \ref{assump:bio_death}.
-Monod kinetic growth was selected, with half-saturation carbon concentration $k$, since it matches the growth of bacteria when limited by available nutrients. %!% citation here?
+Monod kinetic growth was selected, with half-saturation carbon concentration $k_C$, since it matches the growth of bacteria when limited by available nutrients. %!% citation here?
 
 Equation (\ref{equ:model_C}) describes the consumption of carbon substrate due to biomass growth.
 Parameter $y$ is the consumption rate, measured in mass carbon per unit time.
 Substrate consumption is proportional to the local biomass density $M$. 
-Parameter $k$, same as in the growth term for (\ref{equ:model_M}) is again the half-saturation carbon concentration.
-Here assumption \ref{assump:substratum} and \ref{assump:sub_consumption} are satisfied since there exist no diffusion term for the substrate and its growth is a scalar multiple of the biomass growth rate.
+Parameter $k_C$, same as in the growth term for (\ref{equ:model_M}), is again the half-saturation carbon concentration.
+Here assumption \ref{assump:substratum} and \ref{assump:sub_consumption} are satisfied since there exists no diffusion term for the substrate and its growth is a scalar multiple of the biomass growth rate.
 
 
 \begin{figure}
@@ -82,15 +78,21 @@ Here assumption \ref{assump:substratum} and \ref{assump:sub_consumption} are sat
     \node[right] at (1.1,0) {$M$};
     \node[above] at (0,1.1) {$d(M)$};
 
-    \draw[->, domain=0:0.92] plot (\x, {0.0001*pow(\x/(1-\x+0.01), 4)});
+    \draw[->, domain=0:0.92, samples=100] plot (\x, {0.0001*pow(\x/(1-\x+0.01), 4)});
   \end{tikzpicture}
   \caption{A graph of $d(M) = d \frac{M^\alpha}{(1 - M)^\beta}$ showing the way diffusion increases asymptotically as $M \to 1$.}
   \label{fig:show_d}
 \end{figure}
+
+%!% l.307-311 this paragraph seems somewhat out of place here
+There has been shown to exist a finite speed of interface propagation for the solutions of these kinds of degenerate problems, where $d(0) = 0$ and $\alpha >1$ from (\ref{equ:model_d}) \citep{jalbert2014numerical}.
+These problems have a blow up in the biomass gradient at the interface because of the degeneracy that exists there.
+%!% HERB: This property should be stated as a theorem and proved.
+For this system, we have $M < 1$ always since the diffusion when $M \approx 1$ is great enough to always ensure this \citep{jalbert2014numerical}.
+
  
 The dimensions of the parameters and variables are in Table \ref{tab:varDimensions}.
-Note that since we have a two dimensional problem, due to the lack of complex biofilm structures from \textit{C. Thermocellum} growth, the spatial considerations are all strictly for area and not volume, as is typically done for biofilm modelling.
- %!% Also:  I wonder, since we have an entirely 2D problem, whether it would make sense to use specific concentrations/densitites throughout, i.e. mass/area, rather than mass/volume; I think I would prefer that; shouldn't change anything but here in the table, and maye text in section 2.1. DONE! :=> is this correct though?
+Note that since we have a two dimensional problem, due to the lack of complex biofilm structures from \textit{C. thermocellum} growth, the spatial considerations are all strictly for area and not volume, as is typically done for biofilm modelling.
   \begin{table}[!hbt]
     \centering
     \begin{tabular}{|l |c |l |}
@@ -101,18 +103,20 @@ Note that since we have a two dimensional problem, due to the lack of complex bi
       Spatial region & $\Omega$ &  $NA$ \\
       \hline 
       Time & $t$ & $\left[days\right]$ \\
-      Location in $\Omega$ & $x$ & $\left[meters\right]$ \\
+      %!% Should I have units as m^2 or (m,m) ?
+      Location in $\Omega$ & $x=(x_1,x_2)$ & $\left[meters^2\right]$ \\
       \hline
       Biomass fraction & $M$ & $\left[-\right]$ \\
       Substrate concentration & $C$ & $\left[\frac{grams}{meters^2}\right]$ \\
       \hline
-      Diffusion coefficient & $d$ & $\left[\frac{meters}{days}\right]$ \\
+      %!% Should this be meters^2 or meters?, I think it doesn't work unless it is meters^2 but I had Meters
+      Diffusion coefficient & $d$ & $\left[\frac{meters^2}{days}\right]$ \\
       Density-dependent exponent & $ \alpha $ & $\left[-\right]$  \\
       Density-dependent exponent & $ \beta  $ & $\left[-\right]$  \\
       Growth rate & $ u $ & $\left[days^{-1} \right]$ \\
-      Half-saturation carbon concentration & $ k $ & $\left[\frac{grams}{meters^2}\right]$ \\
+      Half-saturation carbon concentration & $ k_C $ & $\left[\frac{grams}{meters^2}\right]$ \\
       Maximum consumption rate & $y$ & $\left[\frac{grams carbon}{days}\right]$  \\
-      Death constant & $n$ & $\left[\frac{grams}{meters^2 \cdot days}\right]$ \\
+      Death constant & $n$& $\left[days^{-1} \right]$ \\
       \hline
     \end{tabular}
     \caption{List of parameters and their dimensions}
@@ -135,8 +139,4 @@ The initial conditions for the substrate concentration is,
   C(0,x) = C_{\infty}, \quad x \in \Omega,
 \end{equation}
 where $C_{\infty}$ describes the initial carbon density in the substratum.
-
-There has been shown to exist a finite speed of interface propagation for the solutions of these kinds of degenerate problems, where $d(0) = 0$ and $\alpha >1$ from (\ref{equ:model_d}) \citep{jalbert2014numerical}.
-These problems have a blow up in the biomass gradient at the interface because of the degeneracy that exists there.
-For this system, we have $M < 1$ always since the diffusion when $M \approx 1$ is great enough to always ensure this.
 

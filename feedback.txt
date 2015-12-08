@@ -1,0 +1,1 @@
+l.382 in the sum the notation is not quite clean.  you write \mathcal{N}_{i,j} but since you have now already ordered the grid and everything is w.r.t. l, this should be $\mathcal{N}_{\pi^{-1}(l)}$
