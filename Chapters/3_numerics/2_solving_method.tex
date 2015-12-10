@@ -84,24 +84,23 @@ where each $a_{i,j}$ is the coefficient for specific grid indices based on (\ref
   Matrix $A$ is positive definite if all the eigenvalues are positive. 
 %!% l.413 to make this line of argumentation cleare it would be good to point out that the diagonal elements of the matrix are all positive. Gershgorin's theorem is not a theorem on positivity of eigenvalues, but it says that the eigenv:alues are conatained in the gershgorin discs around the diagonal elements. That beeing said, you need positive diagonals to make this work.
   Using the Gershgorin's Circle theorem described by \cite{varga2004gersgorin}, the eigenvalues can be shown to be positive.
-  Gershgorin's Circle theorem tells us that each eigenvalue must be contained in the union of all Gershgorin's discs \citep{varga2004gersgorin}.
-  There exist one disc for each row of $A$, with radius equal to the sum of the off-diagonals and center equal to the value of the main diagonal.
+  Gershgorin's Circle theorem tells us that each eigenvalue must be contained in the union of all Gershgorin's discs, which exist in the complex plane, $\mathbb{C}$ \citep{varga2004gersgorin}.
+  There exist one disc for each row of $A$, with radius equal to the absolute value of the sum of off-diagonals and with center equal to the absolute value of the main diagonal.
   By showing that, independently on all rows, the sum of the off-diagonals values is less then the diagonal value we have that all the Gershgorin's discs must be in the positive region when the main diagonal is positive.
   This can be shown by manipulating (\ref{equ:M_fixed_point}) for just the main diagonal element,
   \begin{equation} \label{equ:main_diagonal}
     \sum_{\sigma \in \mathcal{N}_{\pi^{-1}(l)}} \left( 
       \left( \frac{D(M_{\pi(\sigma)}^{(p)}) + D(M_l^{(p)})}{2\Delta x^2} \right)
-      - F(C_l^{(p)}) + \frac{1}{\Delta t} \right) M_l^{(p+1)}
+      - F(C_l^{(p)}) + \frac{1}{\Delta t} \right)
   \end{equation}
   and for just the off-diagonal elements,
   \begin{equation} \label{equ:off_diagonal}
-    \sum_{\sigma \in \mathcal{N}_{\pi^{-1}(l)}} \left( 
-      \left( \frac{D(M_{\pi(\sigma)}^{(p)}) + D(M_l^{(p)})}{2\Delta x^2} \right)
-      M_{\pi(\sigma)}^{(p+1)} \right).
+    \sum_{\sigma \in \mathcal{N}_{\pi^{-1}(l)}}
+      \left( \frac{D(M_{\pi(\sigma)}^{(p)}) + D(M_l^{(p)})}{2\Delta x^2} \right).
   \end{equation}
   Comparing the coefficients to the vector elements in (\ref{equ:main_diagonal}) - (\ref{equ:off_diagonal}) results in the inequality nesseccary for Gershgorin's Circle theorem.
   \begin{equation} \label{equ:diagonalGreatOffdiagonal}
-    \left| \sum_{\sigma \in \mathcal{N}_{\pi^{-1}(l)}} 
+    \sum_{\sigma \in \mathcal{N}_{\pi^{-1}(l)}} \left|
       \frac{D(M_{\pi(\sigma)}^{(p)}) + D(M_l^{(p)})}{2\Delta x^2} 
       \right| 
     <
@@ -179,7 +178,6 @@ Here, we can show that there will always be only one positive solution.
   $f_r$ is a line with a slope opposite to the sign of $\bar{a}$ and has $C$-intercept at $\bar{b}\Delta t > 0$.
   
   %!% l.457-363  this could be tidied up ... we can discuss this also after you send the thesis to the exam ctee if need be.
-  There exist four cases here, each visualized in Figure \ref{fig:proof_pos_sol}
   It is clear that since the $f_l$ is a quadratic function and $f_r$ is a linear function we have that $f_l$ will attain a larger value at some value of $C$. 
   Since $f_l$ is quadratic we know there can only exist two intersections between $f_l$ and $f_r$.
   Because we always have $f_r(0) > f_l(0)$, we can show, using the intermediate value theorem that there must exist a intersection for both $C >0$ and $C < 0$.
@@ -284,7 +282,10 @@ Here, we can show that there will always be only one positive solution.
 }
 \label{fig:proof_pos_sol}
 \end{figure}
-  
+\begin{remark}
+  There exist four cases here, each visualized in Figure \ref{fig:proof_pos_sol}.
+\end{remark}
+
 To determine which branch of (\ref{eq:Cquad}) to use, we look at the function logically.
 If we know that one positive solution will always exist then the only branch for that to occur is the positive branch.
 This is because the square root term, $\sqrt{b^2 -4c}$ will never be negative.
@@ -292,7 +293,8 @@ The addition of two negative numbers cannot result in a positive solution theref
 
 Now that computable solutions for $M$ and $C$ at a single time step have been found, an algorithm to solve for the next time step can be established.
 Algorithm \ref{alg:iterateCM} shows the organization of solving (\ref{equ:C_fixed_point} - \ref{equ:M_fixed_point}). 
-\begin{algorithm}
+
+\begin{algorithm}[!htp]
   \KwData{$M^{k}$, $C^{k}$ are vectors with values from the previous time step and $p = 0$. }
   \Begin
   {

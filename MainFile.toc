@@ -23,12 +23,12 @@
 \contentsline {section}{\numberline {4.2}Travelling Wave Analysis}{42}
 \contentsline {subsection}{\numberline {4.2.1}Spatial Simplification}{42}
 \contentsline {subsection}{\numberline {4.2.2}Travelling Wave Solution}{44}
-\contentsline {subsection}{\numberline {4.2.3}Travelling Wave Stability}{46}
+\contentsline {subsection}{\numberline {4.2.3}Fully Two Dimensional Travelling Wave}{46}
 \contentsline {subsection}{\numberline {4.2.4}Parameter Effect on Wave Speed}{50}
 \contentsline {section}{\numberline {4.3}Spatial Effects}{52}
-\contentsline {chapter}{\numberline {5}Conclusions}{58}
-\contentsline {section}{\numberline {5.1}Lessons Learned}{58}
-\contentsline {section}{\numberline {5.2}Future Work}{59}
-\contentsline {chapter}{\hspace {16pt} Bibliography}{60}
-\contentsline {chapter}{\numberline {A}Default Parameter Values}{63}
-\contentsline {chapter}{\numberline {B}Source Code}{64}
+\contentsline {chapter}{\numberline {5}Conclusions}{57}
+\contentsline {section}{\numberline {5.1}Lessons Learned}{57}
+\contentsline {section}{\numberline {5.2}Future Work}{58}
+\contentsline {chapter}{\hspace {16pt} Bibliography}{59}
+\contentsline {chapter}{\numberline {A}Default Parameter Values}{62}
+\contentsline {chapter}{\numberline {B}Source Code}{63}

@@ -19,7 +19,7 @@ This means that a $n \times m$ grid implies there are $(n-1) \times (m-1)$ grid 
 The distance between grid points is the same in both $x_1$ and $x_2$ dimensions; we have $\Delta x_1 = \Delta x_2 = \Delta x$.
 Since we work on a nondimensionalized domain, and we known the number of grid boxes in our region, we have that $\Delta x = \frac{1}{n-1}$.
 A five-point stencil is used to approximate the solution of (\ref{equ:M_time_discret}) at each grid point.
-This spatial discretization allows the use of $i$ and $j$ to index across the region such that $x_{1_i} = i * \Delta x$ for $i \in \{ 0, 1, \ldots, n-1 \}$ and $x_{2_j} = j * \Delta x$ for $j \in \{ 0, 1, \ldots, m-1 \}$.
+This spatial discretization allows the use of $i$ and $j$ to index across the region such that $x_{1_i} = i \cdot \Delta x$ for $i \in \{ 0, 1, \ldots, n-1 \}$ and $x_{2_j} = j \cdot \Delta x$ for $j \in \{ 0, 1, \ldots, m-1 \}$.
 To index the grid point, $i$ and $j$ are used such that $M^{k}_{i,j} \approx M(t^{k}, x_{1_i}, x_{2_j})$.
 To account for the dependency on neighbouring grid points, we introduce $\sigma$ as the index pair from the set 
 \begin{equation}\label{equ:neighbour}

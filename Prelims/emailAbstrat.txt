@@ -1,0 +1,27 @@
+Comparison of a Semi-Implicit and a Fully-Implicit Time Integration Method for a Highly Degenerate Diffusion-Reaction Equation Coupled with and Ordinary Differential Equation
+
+Eric M. Jalbert
+University of Guelph,2015
+
+Advisor
+Professor Hermann J. Eberl
+
+A certain class of highly degenerate diffusion equations arises when modelling biofilm growth and propagations.
+We focus on the cellulolytic \textit{Clostridium thermocellum}, because of its potential in the field of energy biotechnology.
+From this system a spatially implicit model was proposed in the literature before.
+Here we study a spatially explicit model.
+In contrast to other biofilm systems, a special feature of this system is that the growth promoting nutrient is not diffusive but bound in the substratum on which the biofilm grows.
+As a consequence one obtains a highly degenerate diffusion-reaction equation for the bacteria that is coupled to an ordinary differential equation for nutrients.
+The degeneracy of the biomass equation introduces gradient blow-up at the interface which makes numerical treatment difficult.
+For this, a fully-implicit time integration method is formulated so that it generalises a previously used semi-implicit method to solve the problem with increased accuracy.
+The fully-implicit method uses, at each time-step, a fixed-point iteration to solve the arising nonlinear algebraic equation and can be controlled by the required tolerance for convergence.
+
+This method is validated and tested to investigate numerous issues that arise with numerical computations: mass conservations, preservation of symmetries in the initial data, and convergence with respect to grid refinement.
+Furthermore, a difference is quantified between the fully-implicit and the simpler semi-implicit methods which it generalises.
+The trade-off between improved accuracy and increased computational effort is found to be optimal for tolerances that force a single extra iteration of the fully-implicit method.
+
+The numerical method is then used to simulate \textit{C.thermocellum} biofilm formation on cellulose sheets with the main objectives of (i) understanding patterns of biofilm formation and (ii) understanding how including the spatial diffusion terms in the biomass affect the results of the simulations at a reactor-scale.
+Our simulation results strongly suggest the formation of travelling wave solutions that describe how the biofilm moves across the substratum.
+To test the effect of the spatial effects on overall biofilm performance, two extremes of initial biomass distributions were simulated.
+A quantitative difference between the behaviour in both cases is found, but not a qualitative one.
+This suggests that in applications where spatial heterogeneity is important then a two dimensional spatially explicit model that includes the spatial diffusion must be used instead of the earlier, simple spatially implicit reactor-scale ordinary differential equation model that consolidated the spatial effects with a carrying capacity on the growth term.

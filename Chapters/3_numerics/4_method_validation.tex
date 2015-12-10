@@ -191,7 +191,7 @@ Because of the difference in the number of grid points between different solutio
 This places a limitation on the selection of grid-sizes since there must be some grid points locations that are the same for two different chosen grid sizes.
 %!% l.572  i don't think you ever defined what s(n) is and what it is used for... how does the grid size depend on s(n)?
 % I think he means that I don't mention where s(n) fits into the grand scheme...
-For this purpose, we define the function $s(n) = 2^{n}+1$ for $n \in \mathbb{N}$ to be used as the grid size selection function.
+For this purpose, we define the function $s(n) = 2^{n}+1$ for $n \in \mathbb{N}$ so that the grid size is $s(n) \times s(n)$.
 Now certain grid points will match without the use of linear interpolation, as illustrated in Figure \ref{fig:grid_point_lineup}.
 
 
@@ -246,7 +246,7 @@ Now certain grid points will match without the use of linear interpolation, as i
      \\
      \hline
    \end{tabular}
-   \caption{Visualization in 1D to illustrate the choice of $s(n) = 2^{n} + 1 $ instead of $2^{n}$ for the grid size selection.
+   \caption{Visualization in one dimension to illustrate the choice of $s(n) = 2^{n} + 1 $ instead of $2^{n}$ for the grid size selection.
      Here is can be seen that successive grid size selections using $s(n)$ line up on certain grid points and when using $2^n$ no grid points are equivalent.}
    \label{fig:grid_point_lineup}
  \end{figure}
@@ -264,7 +264,7 @@ Now certain grid points will match without the use of linear interpolation, as i
    \centering
    \includegraphics{converge_spatial}
    %!% State here the final t for which these calculations were made.
-   \caption{Plot showing the convergence of solutions based on changes in $\Delta x$. The computations are of $\epsilon_{\ell_1}$ and $\epsilon_{\ell_2}$ with grid-size following $s(n) = 2^{n}+1$.}
+   \caption{Plot showing the convergence of solutions based on changes in $\Delta x$. The computations are of $\epsilon_{\ell_1}$ and $\epsilon_{\ell_2}$ with grid-size $s(n) \times s(n)$ for $n = 5,6,\ldots,12$ where $s(n) = 2^{n}+1$.}
    \label{fig:converge_spatial}
  \end{figure}
  %!% Describe that the hickup at n=6 is because n=5 is too coarse to fit with the initial condition

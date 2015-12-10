@@ -182,11 +182,11 @@
 \newlabel{equ:norm_linf@cref}{{[equation][33][3]3.33}{31}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.2.2}Grid Size Convergence}{31}}
 \citation{khassehkhan2009nonlinearMaster}
-\@writefile{lof}{\contentsline {figure}{\numberline {3.7}{\ignorespaces Visualization in 1D to illustrate the choice of $s(n) = 2^{n} + 1 $ instead of $2^{n}$ for the grid size selection. Here is can be seen that successive grid size selections using $s(n)$ line up on certain grid points and when using $2^n$ no grid points are equivalent.\relax }}{32}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.7}{\ignorespaces Visualization in one dimension to illustrate the choice of $s(n) = 2^{n} + 1 $ instead of $2^{n}$ for the grid size selection. Here is can be seen that successive grid size selections using $s(n)$ line up on certain grid points and when using $2^n$ no grid points are equivalent.\relax }}{32}}
 \newlabel{fig:grid_point_lineup}{{3.7}{32}}
 \newlabel{fig:grid_point_lineup@cref}{{[figure][7][3]3.7}{32}}
 \@writefile{toc}{\contentsline {section}{\numberline {3.5}Comparison of Semi-implicit and Fully-implicit Method}{32}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3.8}{\ignorespaces Plot showing the convergence of solutions based on changes in $\Delta x$. The computations are of $\epsilon _{\ell _1}$ and $\epsilon _{\ell _2}$ with grid-size following $s(n) = 2^{n}+1$.\relax }}{33}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.8}{\ignorespaces Plot showing the convergence of solutions based on changes in $\Delta x$. The computations are of $\epsilon _{\ell _1}$ and $\epsilon _{\ell _2}$ with grid-size $s(n) \times s(n)$ for $n = 5,6,\ldots  ,12$ where $s(n) = 2^{n}+1$.\relax }}{33}}
 \newlabel{fig:converge_spatial}{{3.8}{33}}
 \newlabel{fig:converge_spatial@cref}{{[figure][8][3]3.8}{33}}
 \@writefile{lot}{\contentsline {table}{\numberline {3.1}{\ignorespaces Results from running simulations with different Tol.\relax }}{34}}
@@ -237,16 +237,16 @@
 \@writefile{lof}{\contentsline {figure}{\numberline {4.8}{\ignorespaces The $x$ location of the wave peak as a function of $t$. The red line is the wave peak location extracted from the simulation results. The green line is the function $f(x) = cx + b$ with c as the wave speed, found by fitting the model to the second half of x values. The simulation results used here are from the solution shown in the previous Figure. \relax }}{46}}
 \newlabel{fig:trav_waveSpeed}{{4.8}{46}}
 \newlabel{fig:trav_waveSpeed@cref}{{[figure][8][4]4.8}{46}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.3}Travelling Wave Stability}{46}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.3}Fully Two Dimensional Travelling Wave}{46}}
 \@writefile{lof}{\contentsline {figure}{\numberline {4.9}{\ignorespaces Solutions of $M$ that are represented as $M(x -ct)$ \textit  {a priori}. The multiple time steps are translated on top of another by horizontal movements of $c (t_0 - t_n)$ for each time step. \relax }}{47}}
 \newlabel{fig:trav_wave_translation}{{4.9}{47}}
 \newlabel{fig:trav_wave_translation@cref}{{[figure][9][4]4.9}{47}}
 \@writefile{lof}{\contentsline {figure}{\numberline {4.10}{\ignorespaces Plots of the simulation with random spherical inoculation points centered in the region $(x,y) \in [0,0] \times [1,0.1]$. The solutions are shown at (a) $t = 0$, (b) $t = 10$, (c) $t = 20$, and (d) $t = 30$. Each solution is computed on a $513 \times 513$ grid. \relax }}{48}}
 \newlabel{fig:trav_stability}{{4.10}{48}}
 \newlabel{fig:trav_stability@cref}{{[figure][10][4]4.10}{48}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.11}{\ignorespaces The standard deviation of the wavefront interface as a function of time. The wavefront references the largest $y$ coordinate with $M > 0.001$ for each $x$ coordinate. The choice of using $M > 0.001$ is because we want to ignore the small values ($\nobreakspace  {}10^{-100}$) that arise from the diffusion right at the wave front. This simulation is the same as the previous Figure. \relax }}{49}}
-\newlabel{fig:trav_stability_stddev}{{4.11}{49}}
-\newlabel{fig:trav_stability_stddev@cref}{{[figure][11][4]4.11}{49}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.11}{\ignorespaces The standard deviation of the wavefront interface as a function of time. The wavefront references the largest $y$ coordinate with $M > 0.001$ for each $x$ coordinate. The choice of using $M > 0.001$ is because we want to ignore the small values ($\nobreakspace  {}10^{-100}$) that arise from the diffusion right at the wave front. This simulation is the same as the previous Figure. \relax }}{48}}
+\newlabel{fig:trav_stability_stddev}{{4.11}{48}}
+\newlabel{fig:trav_stability_stddev@cref}{{[figure][11][4]4.11}{48}}
 \@writefile{lof}{\contentsline {figure}{\numberline {4.12}{\ignorespaces The wavefront shape of multiple time steps. Each wavefront has a difference in time by 2, i.e. they are at $t = 4, 6, 8, \ldots  , 58, 60$. The simulation results are the same as the previous Figures, using the default parameter values with a grid size $513 \times 513$. \relax }}{49}}
 \newlabel{fig:trav_wavefront}{{4.12}{49}}
 \newlabel{fig:trav_wavefront@cref}{{[figure][12][4]4.12}{49}}
@@ -265,14 +265,14 @@
 \@writefile{lof}{\contentsline {figure}{\numberline {4.16}{\ignorespaces A plot of (a) the rate of $CO_2$ production, $\mathcal  {R}(t)$, and (b) the total amount of $CO_2$ produced until time $t$, $\mathcal  {P}(t)$. These are extracted from the same simulation done in the two previous figures. \relax }}{56}}
 \newlabel{fig:spatial_CO2}{{4.16}{56}}
 \newlabel{fig:spatial_CO2@cref}{{[figure][16][4]4.16}{56}}
-\@writefile{toc}{\contentsline {chapter}{\numberline {5}Conclusions}{58}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {5}Conclusions}{57}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
 \@writefile{loa}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {section}{\numberline {5.1}Lessons Learned}{58}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.1}Lessons Learned}{57}}
 \citation{dumitrache2015mathematicalModeling}
 \citation{dumitrache2015mathematicalModeling}
-\@writefile{toc}{\contentsline {section}{\numberline {5.2}Future Work}{59}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.2}Future Work}{58}}
 \citation{*}
 \bibstyle{apalike}
 \bibdata{ThesisReferences}
@@ -286,7 +286,7 @@
 \bibcite{dumitrache2013tracking}{{8}{2013b}{{Dumitrache et~al.}}{{}}}
 \bibcite{eberl2007finite}{{9}{2007}{{Eberl and Demaret}}{{}}}
 \bibcite{eberl2010mixedCulture}{{10}{2010}{{Eberl et~al.}}{{}}}
-\@writefile{toc}{\contentsline {chapter}{\hspace  {16pt} Bibliography}{60}}
+\@writefile{toc}{\contentsline {chapter}{\hspace  {16pt} Bibliography}{59}}
 \bibcite{eberl2001deterministic}{{11}{2001}{{Eberl et~al.}}{{}}}
 \bibcite{efendiev2002existencelongtime}{{12}{2002}{{Efendiev et~al.}}{{}}}
 \bibcite{gurtin1977diffusion}{{13}{1977}{{Gurtin}}{{}}}
@@ -304,18 +304,18 @@
 \bibcite{varga2004gersgorin}{{25}{2004}{{Varga}}{{}}}
 \bibcite{wang2011spatial}{{26}{2011}{{Wang et~al.}}{{}}}
 \bibcite{wanner2005mathematical}{{27}{2005}{{Wanner et~al.}}{{}}}
-\@writefile{toc}{\contentsline {chapter}{\numberline {A}Default Parameter Values}{63}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {A}Default Parameter Values}{62}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
 \@writefile{loa}{\addvspace {10\p@ }}
-\@writefile{lot}{\contentsline {table}{\numberline {A.1}{\ignorespaces The listing of default parameter values used for most simulations.\relax }}{63}}
-\newlabel{tab:default-parameters}{{A.1}{63}}
-\newlabel{tab:default-parameters@cref}{{[table][1][2147483647,1]A.1}{63}}
-\@writefile{toc}{\contentsline {chapter}{\numberline {B}Source Code}{64}}
+\@writefile{lot}{\contentsline {table}{\numberline {A.1}{\ignorespaces The listing of default parameter values used for most simulations.\relax }}{62}}
+\newlabel{tab:default-parameters}{{A.1}{62}}
+\newlabel{tab:default-parameters@cref}{{[table][1][2147483647,1]A.1}{62}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {B}Source Code}{63}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
 \@writefile{loa}{\addvspace {10\p@ }}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {B.1}PDE-ODEsolver.f90 main source code}{64}}
-\newlabel{LastPage}{{}{86}}
-\xdef\lastpage@lastpage{86}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {B.1}PDE-ODEsolver.f90 main source code}{63}}
+\newlabel{LastPage}{{}{85}}
+\xdef\lastpage@lastpage{85}
 \gdef\lastpage@lastpageHy{}
